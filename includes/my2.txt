@@ -1,0 +1,12 @@
+Bootstrap Plugins Ove
+T
+he components discussed in the previous chapters under Layout Compo
+otstrap comes bundled with 12 jQuery plugins that extend the features and cante. To get started with Bootstrap’s JavaScript plugins, you don’t need to be an ad utilizing Bootstrap Data API, most of the plugins can be triggered without writing
+otstrap Plugins can be included on your site in two forms: 
+Individually: Using Bootstrap's individual *.js files. Some plugins and CSS cplugins. If you include plugins individually, make sure to check for these depend
+Or compiled (all at once): Using bootstrap.js or the minified bootstrap.min.js.
+Do not attempt to include both, as both bootstrap.js and bootstrap.min.js contain all
+All plugins depend on jQuery. So jQuery must be included before the plugin fe which versions of jQuery are supported. 
+ata Attributes 
+All of the Bootstrap plugins are accessible using the included Data API. Hencsingle line of JavaScript to invoke any of the plugin features. 
+In some situations it may be desirable to turn this functionality of Data API off. IfAPI, you can unbind the attributes by adding the following line of JavaScript: 

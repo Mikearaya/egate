@@ -1,0 +1,413 @@
+<?php if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) !== 'xmlhttprequest') { ?>
+<!DOCTYPE html5 PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html lang="en-US">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="user-scalable=no,
+                                    initial-scale=1.0 ,
+                                      maximum-scale=1.0,
+                                      minimum-scale=1.0,
+                                      width=device-width" />
+
+    
+   <!-- Stylesheet -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >  
+            <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css" />
+    <style type="text/css">
+
+
+      @import url('../css/my-theme.min.css');
+      
+      
+      @import url('../css/jquery.mobile.icons-1.4.5.min.css');
+      
+      @import url('../css/custom1.css');
+      @import url('../css/bootstrap-datetimepicker.min.css');
+      
+      @import url('../css/custom1.css');
+
+    </style>
+
+   <!-- Stylesheet -->
+  <!-- <link rel="stylesheet" href="assets/css/mystyle.css"> -->
+ 
+      
+
+      
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+    <script type="text/javascript" src="../js/jquery.validate.min.js"></script> 
+    <script type="text/javascript" src="../js/eventabyss.js"> </script>
+    <script type="text/javascript" src="../js/jquery_form.js"> </script>
+<script type="text/javascript" src='http://maps.google.com/maps/api/js?slibraries=places&key=AIzaSyBm0PrQ022JkHo8wYgGuKbo18_6poj2nJM'></script>
+<!-- <script src="http://malsup.github.com/jquery.form.js"></script>     -->
+    
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script> 
+      <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+
+    <script src="../js/locationpicker.jquery.js"></script>
+    <script src="../js/jquery.sharepage.min.js"></script>
+
+    
+    
+    <script type="text/javascript" src="../js/index.js"></script>
+    <script type="text/javascript" src="../js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+  
+    
+    
+    
+    
+  </head>
+
+  <body>
+
+
+
+  <header data-role="header" data-position="fixed"  data-id="my-header"  id="main-header">
+    
+    <a href="#account-managment-panel" data-role="button" class="ui-btn-left left-option-panel-btn"  data-theme="b" class="ui-btn-left" data-icon="gear" data-iconpos="right">Settings</a>
+       <a href='#menu-panel' data-role='button'  data-theme='b' class='ui-btn-right' data-icon='refresh' id="menu-button" data-iconpos='right'   > Menu </a>   
+       <h2>Egate</h2>
+     <nav data-role='navbar' data-iconpos="top" >
+      <ul>                
+      <li  ><a  href='../index.html' class="ui-btn-active" data-icon='grid'  > Home </a> </li>
+    <li  ><a  href='../index.html#eventsList' data-ajax="false" rel="external"   data-icon='grid'   > Browse </a> </li>
+      
+      <li> <a href="#" id='event-creation-page-btn' data-icon='edit'> Create Event </a></li> 
+      </ul>          
+      </nav> 
+  
+
+</header>
+
+
+
+<div  data-theme="a" class="modal fade"  id="modal-message" tabindex="-1" role="dialog"   aria-labelledby="message-tittle" aria-hidden="true">
+   <div class="modal-dialog"> 
+
+
+   <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-enhanced="true" data-dismiss="modal" aria-hidden="true">  &times; </button>
+            <h4 class="modal-title" id="message-tittle">   </h4>
+         </div>
+         <div class="modal-body" >
+            <div id="message-body" class="ui-body ui-body-a">
+              
+            </div>
+         </div>
+         <div class="modal-footer">
+       
+
+            
+         </div>
+      </div><!-- /.modal-content -->
+</div><!-- /.modal --> 
+</div>
+
+  <div  data-theme="a" id="log-in-popup" tabindex="0" data-role="popup" >
+     
+            
+             <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right" data-theme="e">Close</a>
+            <h4 class="modal-title" id="message-title"> Log In   </h4>
+     
+        
+    <div class="ui-body ui-body-d">
+     
+    <form id="log-in-form"  name="log-in-form"  action="" method="">
+      <fieldset class="ui-field-contain">
+      <label for="log-in-mail" class="ui-hidden-accessible"> E-mail</label>
+        <input type="email" name="log-in-mail" id="log-in-mail" class="ui-mini" required="required" placeholder="E-mail" data-clear-btn="true">
+      </fieldset>
+      <fieldset class="ui-field-contain">
+      <label for="log-in-password" class="ui-hidden-accessible"> Password </label>
+        <input type="password" name="log-in-password" placeholder="Password" class="ui-mini" required="required" id="log-in-password" data-clear-btn="true" >
+      </fieldset>
+      <fieldset class="ui-field-contain" >
+      <label for="log-in-submit" class="ui-hidden-accessible"> Log in</label>
+          <input type="submit" data-role="button" name="log-in-submit" id="log-in-submit" class=" ui-btn-corner-all ui-btn-shadow" value="Log In" />
+       </fieldset>
+    </form>
+    <div id="log-in-error" ></div>
+   
+    
+        
+    <a href="#" id="forget-password" data-role="none"> Forget Password? </a>
+    </div>
+   </div>
+
+
+  <div  data-theme="d" id="subscription-options-popup" tabindex="-1" data-role="popup" >
+     
+             <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+            <h4 class="modal-title" > Subscription  </h4>
+       <form id="subscription-mail-form" name="subscription-mail-form" action="includes/systemController.php" method="POST">
+      <div class="ui-body ui-body-d">  
+              <fieldset class="ui-field-contain" >
+                <label for="subscriber-mail" class="ui-hidden-accessible" > E-mail Address </label>
+                <input  type="email" id="subscriber-mail" name="subscriber-mail" required="required"  placeholder="E-mail Address" data-clear-btn="true" class="speech-input" />
+            </fieldset>
+      </div>
+        
+    
+       <ul data-role="listview" data-inset="true" >
+          <li data-role="list-divider"> Select Action </li>
+            <li>
+        <fieldset data-role="controlgroup" data-type="vertical">
+            
+            
+            <button type="submit" id="new-subscription-btn" data-inline="true" data-mini="true" name="new-subscription-btn"  >New </button>
+            <button type="submit" id="update-subscription-btn" data-inline="true" data-mini="true" name="update-subscription-btn"  > Update </button>
+          
+          
+          
+            
+            <button type="submit" id="cancel-subscription-btn" data-inline="true" data-mini="true" name="cancel-subscription-btn"  >Remove </button>
+          
+            </fieldset>
+            </li>
+       </ul>
+    </form>
+  </div>
+
+
+
+     <div data-role="panel" id="menu-panel" data-theme="b" data-display="push" data-position-fixed="true" data-swipe-close="true"  data-position="right">
+                 <ul data-role="listview" id="menu">
+                   <li data-icon="delete" data-theme="e" ><a href="#"  data-rel="close">Close menu</a></li>
+                    <li class="active"><a href="#eventsList"> Browse Event </a></li>
+                    <li><a href="#"> Learn More </a></li>
+                    <li class="normal-panel" ><a href="#signUpForm" > Sign Up </a></li>
+                    <li class="normal-panel" ><a href="#log-in-popup" data-position-to="window" data-rel="popup"> Log in </a></li>
+                    
+                    <li id="create-event-panel"><a href="http://www.egate.site11.com/pages/eventCreationPage.html" class="btn btn-success"> Create Event </a></li>
+               </ul>
+
+        </div>
+        <div data-role="panel" id="event-categ-panel" data-theme="b" data-position="left">
+          <form class="ui-filterable">
+            
+            <input id="categ-filter-input" data-type="search">
+            </form>
+                 <ul data-role="listview" data-filter="true" id="category-menu" data-theme="b" data-input="#categ-filter-input">
+                         <li data-theme="e"> <a href="#" data-rel="close" > Close Sidebar </a></li>
+                  <li data-role="divider" data-theme="c"> Select Event Category </li>
+                  <li ><a href="includes/toPDF.php" data-ajax="false" id="charity"   > charity </a></li>
+                  <li><a href="#" id="charity" class="eventCategory"  > charity </a></li>
+                    <li><a href="#" id="concerts" class="eventCategory"  > Concerts </a></li>
+                    <li><a href="#" id="food & drink" class="eventCategory" > Food &amp; Drinks </a></li>
+                    <li><a href="#" id="art" class="eventCategory" > Art </a></li>
+                    <li><a href="#" id="exibition" class="eventCategory" > Exibitions </a></li>
+                    <li><a href="#" id="social group" class="eventCategory" > Social Groups </a></li>
+                    <li><a href="#" id="tour" class="eventCategory" > Tour &amp; Travel </a></li>
+                  
+               </ul>
+        </div>
+
+<div data-role="panel"   data-display="push" id="event-managment-panel" data-theme="b"  data-position="left">
+                  <ul data-role="listview" id="event-setting-menu">
+                    <li data-theme="e"> <a href="#" data-rel="close" > Close Sidebar </a></li>
+                    <li data-role="list-divider"> Manage Event </li>
+                    <li class="ui-btn-active"><a href="pages/eventDashboard.html" id="status_report" > Event Dashboard  </a></li>
+                    <li><a href="pages/attendeeControlPage.html" id="attendee-authentication" > Accept Attendees </a></li>  
+                    <li data-role="list-divider"> Edit Event </li>                              
+                    <li><a href="http://www.egate.site11.com/pages/eventBasicsUpdate.html"  id="edit-event-general"> General Information </a></li>
+                    <li><a href="http://www.egate.site11.com/pages/eventScheduleUpdate.html" id="edit-event-schedule" > Schedule  </a></li>
+                    <li><a href="http://www.egate.site11.com/pages/eventTicketUpdate.html"  id="edit-event-ticket"> Tickets </a></li>
+                    <li><a href="http://www.egate.site11.com/pages/eventGuestUpdate.html" id="edit-event-guest"> Guest </a></li>
+                    <li><a href="http://www.egate.site11.com/pages/eventSponsorUpdate.html" id="edit-event-sponsor"> Sponsor </a></li>
+                    
+                    <li><a href="#"  id="change-event-status"> Change Status </a></li>
+                    <li><a href="#" id="delete-event"> Delete Event </a></li>
+                  </ul>
+  </div>
+        
+<div data-role="panel"  data-display="push" data-position="left" data-theme="b" id="account-managment-panel">
+
+       <ul data-role="listview" id="account-setting-menu" >
+       <li data-theme="e"> <a href="#" data-rel="close" > Close Sidebar </a></li>
+          <li data-role="list-divider" data-divider-theme="b"> Account Setting </li>
+          
+          <li class="ui-active"><a href="http://www.egate.site11.com/pages/organizerContactInfo.html"  > Contact Info. </a></li>
+          
+          <li data-role="list-divider"> Organization Setting </li>
+          <li><a href="http://www.egate.site11.com/pages/organizationInfoSetting.html"  id="organization-info-update"> General Information </a></li>
+          
+          <li><a href="http://www.egate.site11.com/pages/organizationAddressUpdate.html"  id="address-setting"> Address Setting </a></li>
+          <li><a href="http://www.egate.site11.com/pages/mailChange.html" id="email-setting"> Change Email </a></li>
+          <li><a href="http://www.egate.site11.com/pages/passwordChange.html" id="password-setting"> Change Password </a></li>
+          <li> <a href="http://www.egate.site11.com/pages/socialSetting.html" > Social Setting  </a></li>
+          <li> <a href="http://www.egate.site11.com/pages/billingAddressSetting.html"  id="billing-address-setting"> Billing Account </a></li>
+
+      </ul>
+                              
+
+</div>
+<?php } ?>
+ <section data-role="page" id="event-basics-update-page" class="back-button" data-title="Event Basics" data-theme="d">
+           
+            <div role="main" class="ui-content" >
+
+            		  
+                          <h4 class="ui-bar ui-bar-d text-center ui-corner-all"  > Event Basic Information  </h4>
+                     
+
+                              <form  name="event-basics-update-form"  method="../includes/systemController.php" action="POST" id="event-basics-update-form" enctype="multipart/form-data" >
+                                  
+                                  <div class="ui-grid-a my-grid-breakpoint">
+                                      <div class="ui-block-a">
+                                          
+                                              <fieldset class="ui-grid-a ui-responsive ">
+                                                  <div class="ui-block-a">
+                                                      <fieldset class="ui-field-contain">
+                                                          <label for="event-title-update" class="ui-hidden-accessible" > Event Name </label>
+                                                          <input type="text" data-clear-btn="true" required="required" class="speech-input" name="event-title-update" id="event-title-update" placeholder="Event Title" speech x-webkit-speech >
+                                                      </fieldset>
+                                                    </div>    
+                                                    <div class="ui-block-b">                                        
+                                                        <fieldset class="ui-field-contain" >
+                                                            <label for="venue-name-update" class="ui-hidden-accessible" > Venue Name </label>
+                                                            <input type="text" data-clear-btn="true"  required="required" name="venue-name-update" id="venue-name-update" placeholder="Venue Name" class="speech-input" >
+                                                        </fieldset>
+                                                    </div>
+                                              </fieldset>
+                                
+                                              <div class="ui-grid-solo ">
+
+                                                  <div class="ui-block-a">
+                                                      <fieldset class="ui-field-contain" >
+                                                          <label for="event-type-update" class="ui-hidden-accessible" >Event Type: </label>
+                                                          <select id="event-type-update" data-native-menu="false" required="required" data-mini="true" name="event-type-update"  >
+                                                               <option value="" data-placeholder="true" > Select Event Type</option>
+                                                              <option value="concert" > Concert </option>
+                                                              <option value="tour" > tour </option>
+                                                              <option value="charity" > Charity </option>
+                                                              <option value="exibition" > Exibition </option>
+                                                              <option value="art" > Art </option>
+                                                            </select>
+                                                      </fieldset>
+                                                  </div>
+                                              </div>
+                                      
+                                          
+                                          
+                                              <fieldset class="ui-field-contain" >
+                                                  <label for="event-country-update" class="ui-hidden-accessible" > Country </label>
+                                                  <input  type="text" id="event-country-update" name="event-country-update" required="required" id="event-country"  placeholder="Country" data-clear-btn="true" class="speech-input" />
+                                              </fieldset>
+                                              <fieldset class="ui-field-contain" >
+                                                  <label for="event-city-update" class="ui-hidden-accessible" > City </label>
+                                                  <input type="text" data-clear-btn="true"  name="event-city-update" id="event-city-update" required="required" placeholder="City" class="speech-input">
+                                              </fieldset>
+                                              <fieldset class="ui-field-contain" >
+                                                  <label for="event-sub-city-update" class="ui-hidden-accessible"  data-ready="Habla ahora" lang="en" > Sub-City </label>
+                                                  <input type="text" data-clear-btn="true"   name="event-sub-city-update" id="event-sub-city-update" placeholder="Sub-City" class="speech-input">
+                                              </fieldset>
+                                              <fieldset class="ui-field-contain" >
+                                                  <label for="event-common-name-update" class="ui-hidden-accessible" > Common Name </label>
+                                                  <input type="text" data-clear-btn="true" required="required" name="event-common-name-update" id="event-common-name-update" placeholder="Common name like building name" class="speech-input">
+                                              </fieldset>
+                                           
+                                          <div class="ui-body ui-body-c text-center">
+                                              <a href="#event-map-popup" data-rel="popup" data-role="button" class=" ui-mini" data-icon="map" data-position-to="window" data-inline="true"> Use Map</a>
+                                          </div>
+
+                                          <div data-role="popup" id="event-map-popup" class="ui-content" data-overlay-theme="c" data-theme="b" >
+                                              <a href="#"  data-rel="back" data-role="button" data-transition="slidedown" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right" > Close</a>
+                                              <div id="event-update-map"  style="margin-top: 10px;  width: 400px; height: 200px;"> </div>
+
+                                              <div class="ui-body ui-body-b">
+                                                  <div class="ui-grid-a ">
+                                                      <div class="ui-block-a">
+                                                          <fieldset class="ui-field-contain">
+                                                              <label for="event-longitude-update" class="ui-hidden-accessible"> Longtiude </label>
+                                                              <input type="text" name="event-longitude-update" id="event-longitude-update" data-clear-btn="true" placeholder="Longitude " class="speech-input"/>
+                                                          </fieldset>
+                                                      </div>                                                
+                                                      <div class="ui-block-b">
+                                                          <fieldset class="ui-field-contain">
+                                                              <label for="event-latitude-update" class="ui-hidden-accessible"> Longtiude </label>
+                                                              <input type="text" name="event-latitude-update" id="event-latitude-update" data-clear-btn="true" placeholder="Latitude" class="speech-input"  />
+                                                          </fieldset>
+                                                      </div>
+                                                  </div>
+                                              </div>                                      
+                                          </div>
+                                    </div>
+                                    <div class="ui-block-b" >
+                                          
+                                           <a href="#" id="event-image-update-btn">
+                                                <img src="../img/pictureupload.png" id="event-image-placeholder" width="400" class="img-responsive"  >
+                                            </a>
+                                            <fieldset class="ui-field-contain ui-hidden-accessible">
+                                                  <label for="event-image" class="ui-hidden-accessible" >Upload Image </label>
+                                                  <input type="file" class="ui-hidden-accessible" accept="image/*"  name="event-image-update" id="event-image-update" >
+                                              </fieldset>
+                                              
+                                               <fieldset class="ui-field-contain">
+                                                  <label for="event-discription-update" class="ui-hidden-accessible" >Event Description </label>
+                                                  <textarea   name="event-discription-update" id="event-discription-update" required="required" placeholder="About The Event"  class="speech-input"></textarea>
+                                              </fieldset>
+                                               
+                                   </div>              
+
+                               </div>           
+                                                                                                           
+                                  <div class="ui-body ui-body-b">
+                                      <fieldset class="ui-grid-a ui-responsive ">
+                                          <div class="ui-block-a">
+                                              <fieldset class="ui-field-contain" >
+                                                  <label for="event-basics-update-submit" class="ui-hidden-accessible" > Save </label>
+                                                  <input type="submit" name="event-basics-update-submit" id="event-basics-update-submit" data-theme="g" value="Save"/>
+                                              </fieldset>
+                                          </div>
+                                          <div class="ui-block-b">
+                                              <fieldset class="ui-field-contain">
+                                                  <label for="basic-info-update-cancel" class="ui-hidden-accessible"> Cancel </label>
+                                                  <button type="button" data-rel="back" name="basic-info-update-cancel" id="basic-info-update-cancel" data-theme="e">Cancel</button>
+                                              </fieldset>
+                                          </div>
+                                      </fieldset>
+                                  </div>                                   
+                  
+                           
+                            
+                            </form>
+                        </div>
+                    </section>
+                 
+                    
+                    
+                     
+
+               
+                      
+                              
+
+<!-- <a href="../toolbar/" data-rel="back" class="ui-btn ui-btn-left ui-alt-icon ui-nodisc-icon ui-corner-all ui-btn-icon-notext ui-icon-carat-l">Back</a> -->
+<?php if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) !== 'xmlhttprequest') { ?>
+<script type="text/javascript" src="../js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+
+
+<footer data-role="footer" id="main-footer" data-id="my-footer">
+      <a href="#how-to-page"    data-role="button" id="js"   class=" ui-btn-left ui-btn-icon-right" data-icon="search" data-iconpos="right"   >How It Works </a>
+      <a href="#subscription-page"  id="jd" data-role="button" class=" ui-btn-right ui-btn-icon-right"  data-theme="b" data-iconpos="right" data-icon="refresh" > Subscribe </a>   
+      
+ </footer>
+<script type="text/javascript" src="../js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+
+
+
+</body>
+
+</html>
+
+<?php } ?>

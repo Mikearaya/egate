@@ -1,0 +1,171 @@
+/* Start with core styles outside of a media query that apply to mobile and up */
+/* Global typography and design elements, stacked containers */
+/*
+body { font-family: Helvetica, san-serif; }
+H1 { color: green; }
+a:link { color:purple; }
+
+/* Stack the two content containers */
+.main,
+.sidebar { display:block; width:100%; }
+
+/* First breakpoint at 576px */
+/* Inherits mobile styles, but floats containers to make columns */
+@media all and (min-width: 36em){
+	.main { float: left; width:60%; }
+	.sidebar { float: left; width:40%; }
+}
+
+/* Second breakpoint at 800px */
+/* Adjusts column proportions, tweaks base H1 */
+@media all and (min-width: 50em){
+	.main { width:70%; }
+	.sidebar { width:30%; }
+
+	/* You can also tweak any other styles in a breakpoint */
+	H1 { color: blue; font-size:1.2em }
+}
+
+@media ( min-width: 35em ) {
+
+	/* wrap on wide viewports once open */
+
+	.ui-panel-page-content-open.ui-panel-page-content-position-left {
+		margin-right: 17em;
+	}
+	.ui-panel-page-content-open.ui-panel-page-content-position-right {
+		margin-left: 17em;
+	}
+	.ui-panel-page-content-open {
+		width: auto;
+	}
+
+	/* disable "dismiss" on wide viewports */
+	.ui-panel-dismiss {
+		display: none;
+	}
+
+	/* same as the above but for panels with display mode "push" only */
+
+	.ui-panel-page-content-open.ui-panel-page-content-position-left.ui-panel-page-content-display-push {
+		margin-right: 17em;
+	}
+	.ui-panel-page-content-open.ui-panel-page-content-position-right.ui-panel-page-content-display-push {
+		margin-left: 17em;
+	}
+	.ui-panel-page-content-open.ui-panel-page-content-display-push {
+		width: auto;
+	}
+
+	.ui-panel-dismiss-display-push {
+		display: none;
+	}
+}
+
+
+
+
+/* Basic styles */
+		.rwd-example .ui-body {
+			text-align: left;
+			border-color: #ddd;
+		}
+		.rwd-example p {
+			color: #777;
+			line-height: 140%
+		}
+
+		/* Stack all blocks to start */
+		.rwd-example .ui-block-a,
+		.rwd-example .ui-block-b,
+		.rwd-example .ui-block-c {
+			width: 100%;
+			float: none;
+		}
+
+		/* Collapsing borders */
+		.rwd-example > div + div .ui-body {
+			border-top-width: 0;
+		}
+
+		/* 1st breakpoint - Float B and C, leave A full width on top */
+		@media all and (min-width: 42em) {
+			.rwd-example {
+				overflow: hidden; /* Use this or a "clearfix" to give the container height */
+			}
+			.rwd-example .ui-body {
+			   min-height: 14em;
+			}
+			.rwd-example .ui-block-b,
+			.rwd-example .ui-block-c {
+			  float: left;
+			  width: 49.95%;
+			}
+			.rwd-example .ui-block-b p,
+			.rwd-example .ui-block-c p {
+			  font-size: .8em;
+			}
+			.rwd-example > div + div .ui-body {
+				border-top-width: 1px;
+			}
+			.rwd-example > div:first-child .ui-body {
+				border-bottom-width: 0;
+			}
+			.rwd-example > div:last-child .ui-body {
+				border-left-width: 0;
+			}
+		}
+
+		/* 2nd breakpoint - Float all, 50/25/25 */
+		@media all and (min-width: 55em) {
+			.rwd-example .ui-body {
+			   min-height: 18em;
+			}
+			.rwd-example .ui-block-a,
+			.rwd-example .ui-block-c {
+			  float: left;
+			  width: 49.95%;
+			}
+			.rwd-example .ui-block-b,
+			.rwd-example .ui-block-c {
+			  float: left;
+			  width: 24.925%;
+			}
+			.rwd-example > div:first-child .ui-body {
+				border-bottom-width: 1px;
+			}
+			.rwd-example > div + div .ui-body {
+				border-left-width: 0;
+			}
+		}
+
+		/* 3rd breakpoint - Bump up font size at very wide screens */
+		@media all and (min-width: 75em) {
+			.rwd-example .ui-body {
+			  font-size: 125%;
+			}
+			.rwd-example .ui-block-a,
+			.rwd-example .ui-block-c {
+			  float: left;
+			  width: 49.95%;
+			}
+			.rwd-example .ui-block-b,
+			.rwd-example .ui-block-c {
+			  float: left;
+			  width: 24.925%;
+			}
+		}
+
+*/
+		
+/* stack all grids below 40em (640px) */
+@media all and (max-width: 35em) {
+	.my-breakpoint .ui-block-a,
+	.my-breakpoint .ui-block-b,
+	.my-breakpoint .ui-block-c,
+	.my-breakpoint .ui-block-d,
+	.my-breakpoint .ui-block-e {
+		width: 100%;
+		float: none;
+	}
+}

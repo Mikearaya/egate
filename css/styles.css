@@ -1,0 +1,43 @@
+.popup-share {
+  background: #fff;
+  border: 1px solid #d5d6d6;
+  padding: 0;
+  margin: 0;
+  -webkit-box-shadow: 1px 1px 5px rgba(0,0,0,.15);
+  -moz-box-shadow: 1px 1px 5px rgba(0,0,0,.15);
+  box-shadow: 1px 1px 5px rgba(0,0,0,.15);
+}
+
+.popup-share a[class^="icon-"], .popup-share a[class*=" icon-"] {
+  display: block;
+  text-decoration: none;
+  padding: 4px 10px;
+}
+
+.popup-share a[class^="icon-"]:hover, .popup-share a[class*=" icon-"]:hover {
+  background: #2095f0;
+  text-decoration: none;
+  color: #fff
+}
+
+.inline-share a[class^="icon-"], .inline-share a[class*=" icon-"] {
+  font-size: 26px;
+  text-decoration: none;
+}
+
+.inline-share a[class^="icon-"] span, .inline-share a[class*=" icon-"] span {
+  display: none;
+}
+
+.icon-facebook {
+  color: #3b5998;
+}
+.icon-linkedin {
+  color: #007bb6;
+}
+.icon-twitter {
+  color: #00aced;
+}
+.icon-googleplus {
+  color: #dd4b39;
+}
