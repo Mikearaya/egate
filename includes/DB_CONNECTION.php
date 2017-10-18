@@ -4,13 +4,13 @@
 
 
 class DB_CONNECTION	{
-			 
+
 			private $HOST  = '127.0.0.1';
 			private $DB   = 'egate_db';
-			private $USER = 'user';
-			private $PASSWORD = 'user@egate';
+			private $USER = 'root';
+			private $PASSWORD = 'Mike@localhost';
            	private $CHAR_SET = 'utf8mb4';
-       
+
 
 			private $PDO;
 			public $Statement;
@@ -28,7 +28,7 @@ class DB_CONNECTION	{
 
 				try {
 				  		 return $this->PDO = new PDO($this->DSN , $this->USER , $this->PASSWORD, $Options );
-				  				  
+
 				 } catch(PDOException $e) {
 				 	echo "ERROR Establishing Database Connecttion: ". $e->getMessage();
 				 }
@@ -57,7 +57,7 @@ class DB_CONNECTION	{
 				return($result = $statement->fetch()) ? $result : null;
 
 
-			}	
+			}
 			public static function get_event_category($request){
 
 
@@ -65,19 +65,19 @@ class DB_CONNECTION	{
 
 					$connection = new DB_CONNECTION();
 					$statement = $connection->set_query($sql);
-															
+
 				return ($events["event"] = $statement->fetchAll() >= 1 ) ? $events : null;
 
 			}
-				
-		
+
+
 			public static function get_event_booking_stat($organizer_id, $eventId){
 				$connection = new DB_CONNECTION();
 
 				$sql = "CALL getEventBookingStat(".$organizer_id.",".$eventId." ) ";
-				
+
 				$statement = $connection->set_query($sql);
-				
+
 				return ( $row = $statement->fetchAll()) ? $row : NULL;
 
 			}
@@ -85,37 +85,37 @@ class DB_CONNECTION	{
 			public function get_organizer_id($event_id){
 
 				 $sql = "CALL getEventOrganizerId(".$event_id.")";
-					
+
 					return	($row = $statement->fetch()) ? $row : null;
 
 			}
 
 			public function set_query($query) {
 				try{
-						
+
 					return $this->Statement =  $this->PDO->query($query);
-					
+
 				} catch(PDOException $e) {
 				 	echo 'Prepare Statement ERROR !!! : '.  $e->getMessage();
 				 }
-			
+
 			}
 			public function prepare_query($query) {
 				try{
-						
+
 					return $this->Statement =  $this->PDO->prepare($query);
-					
+
 				} catch(PDOException $e) {
 				 	echo 'Prepare Statement ERROR !!! : '.  $e->getMessage();
 				 }
-			
+
 			}
 
 			public function execute_query() {
 				try{
-						
+
 					 return $this->Statement->execute();
-					
+
 				} catch(PDOException $e) {
 				 	echo 'Excution of Query ERROT !!!: '.  $e->getMessage();
 				 }
@@ -137,7 +137,7 @@ class DB_CONNECTION	{
 
 
 						$row = $statement->fetchAll() ;
-					return $row;					
+					return $row;
 //					return	($row = $statement->fetchAll()) ? $row : null;
 
 			}
@@ -147,32 +147,32 @@ class DB_CONNECTION	{
 
 					 $sql = "CALL getEventByStatus('OPEN')";
 					$connection = new DB_CONNECTION();
-					$statement = $connection->set_query($sql);         
+					$statement = $connection->set_query($sql);
 	              	return	($row = $statement->fetch()) ? $row : null;
 
 			}
 
 
-		
-				
+
+
 			public static function get_event_ticket($event_id){
 					$sql = "CALL getEventTicket(".$event_id .") ";
 					$connection = new DB_CONNECTION();
 					$statement = $connection->set_query($sql);
-					
+
 					return	($row = $statement->fetchAll()) ? $row : null;
 			}
 
 
-			
+
 
 			public static function get_event_guest($event_id){
 					$sql = "CALL getEventGuest(".$event_id.")";
 						$connection = new DB_CONNECTION();
 					$statement = $connection->set_query($sql);
-					
+
 				return	($row = $statement->fetchAll()) ? $row : null;
-						
+
 			}
 
 			public static function get_event_sponsor($event_id){
@@ -189,7 +189,7 @@ class DB_CONNECTION	{
 			}
 
 			public static function get_event_details($id) {
-		       			
+
 		       			$events;
 		       			 $events['ticket'] = null;
 		       			 $events['guest'] = null;
@@ -204,7 +204,7 @@ class DB_CONNECTION	{
 						do{
 
 							$row = $statement->fetchAll();
-	
+
 							if($row && isset($row[0]['eventId']) ) {
 								 $events= $row[0];
 							}
@@ -225,49 +225,49 @@ class DB_CONNECTION	{
 
 					}while($statement->nextRowset() && $statement->columnCount());
 
-				    	
-							    				    	
-				   
+
+
+
 				    	return $events;
-			
+
 			}
 
 
-		
+
 
 
 			public static function get_event($id) {
-				 
+
 				  $sql = "CALL getEventGeneralInfo(".$id .")";
 
 				   $connection = new DB_CONNECTION();
         	        $statement = $connection->set_query($sql);
-					 	              		
+
 	             return	($row = $statement->fetch()) ? $row : null;
-		
-			
+
+
 			}
 
 			public static function get_event_schedule($id) {
-				 
+
         	      $sql = "CALL getEventSchedule(".$id.")";
         	      $connection = new DB_CONNECTION();
 
         	      $statement = $connection->set_query($sql);
-			
+
 				return	($row = $statement->fetch()) ? $row : null;
-				    					    			
+
 			}
 
 			public function query($query) {
 				try{
-						
+
 						return $this->data_set =  $this->PDO->query($query);
-					
+
 				} catch(PDOException $e) {
 				 	echo 'PDO Query Error: '.  $e->getMessage();
 				 }
-			
+
 			}
 
 			public function fetch_events() {
@@ -275,31 +275,31 @@ class DB_CONNECTION	{
 				 $sql = "CALL getEventsBasic(12)";
 				 $statement = self::set_query($sql);
 				return	($row = $statement->fetchAll()) ? $row : null;
-	
+
 			}
 
-		
 
-			
+
+
 			public static function get_event_bookings($event_id){
 				$sql = "CALL getEventBookings(".$event_id.")";
 
 				    $connection = new DB_CONNECTION();
         	        $statement = $connection->set_query($sql);
-					
+
 				return	($row = $statement->fetchAll()) ? $row : null;
 			}
 
-		
+
 
 			public static function get_organization_address($organizer_id){
-				 
+
 				 	$sql = "CALL getOrganizationAddress(".$organizer_id.")";
 				    $connection = new DB_CONNECTION();
-        	      
-        	      $statement = $connection->set_query($sql);	
-				
-				return	($row = $statement->fetchAll()) ? $row : null;	
+
+        	      $statement = $connection->set_query($sql);
+
+				return	($row = $statement->fetchAll()) ? $row : null;
 			}
 
 
@@ -309,7 +309,7 @@ class DB_CONNECTION	{
 
 					$sql = "CALL getOrganizerInformation(".$org_id.")";
 				    $connection = new DB_CONNECTION();
-        	             	      $statement = $connection->set_query($sql);	
+        	             	      $statement = $connection->set_query($sql);
 				return	($row = $statement->fetch()) ? $row : null;
 			}
 
@@ -320,34 +320,34 @@ class DB_CONNECTION	{
 			public function fetch_query( ) {
 
 				return	$this->Statement->fetch();
-    				
+
 			}
 
 
 			public static function get_check_ins($event_id){
-				
+
 					try {
 					$connection = new DB_CONNECTION();
 					$sql = "CALL getEventCheckIns(".$event_id.")";
-					
-				    
-	        	     $statement = $connection->set_query($sql);	
+
+
+	        	     $statement = $connection->set_query($sql);
 					return	($row = $statement->fetchAll()) ? $row : null;
-				
+
 				}catch(Exception $e) {
-				
+
 					echo $e->getMessage();
-				
+
 				}
-				
+
 
 			}
-				
 
 
 
 
-						
+
+
 
 
 	}
@@ -359,5 +359,3 @@ class DB_CONNECTION	{
 
 
 ?>
-
-

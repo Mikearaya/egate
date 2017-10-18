@@ -31,7 +31,7 @@ var dateOptions = {
                     minView: 2,
                     forceParse: 0
 
-                 };                
+                 };
 
 var timeOptions =   {
                       language:  "en",
@@ -44,44 +44,44 @@ var timeOptions =   {
                       maxView: 1,
                       forceParse: 0
 
-                   };                
+                   };
 
 
 
 var formOptions = {
-                    
-                    url: "../includes/systemController.php", 
+
+                    url: "../includes/systemController.php",
                     type: 'POST',
                     resetForm: false,
-                    data: "",          
-                    
-                    beforesubmit: function (formData, jqForm, options) { 
+                    data: "",
+
+                    beforesubmit: function (formData, jqForm, options) {
                        $.mobile.loading('show');
                     },
 
-                    success:    function (responseText, statusText, xhr, $form)  { 
-                         
+                    success:    function (responseText, statusText, xhr, $form)  {
+
                                        $.mobile.loading('hide');
-                         
+
                                        if(statusText === 'success'){
-                                       
+
                                               $("#message-title").append('<h5 class="alert alert-success"> Upload Completed </h5>');
-                                           
+
                                               $("#message-body").append(responseText);
                                               $("#modal-message").modal("show");
-                                       
+
                                        } else if(statusText === 'error'){
-                                       
-                                                                      
+
+
                                             $("#message-title").append('<h5 class="alert alert-danger"> Upload Completed </h5>');
                                             $("#message-body").append(responseText);
                                             $("#modal-message").modal("show");
                                        }
-                        
-                    } 
-                    
-                    
-                    
+
+                    }
+
+
+
 
                  };
 
@@ -90,138 +90,138 @@ var formOptions = {
 
 
  var ajaxFormOptions =  {
-              
-              url: "../includes/systemController.php", 
+
+              url: "../includes/systemController.php",
               type: 'POST',
               dataType : 'JSON',
               resetForm: false,
               data: '',
               context : '',
-              
-              
-              beforesubmit: function (formData, jqForm, options) { 
+
+
+              beforesubmit: function (formData, jqForm, options) {
                  $.mobile.loading('show');
 
-                 
+
               },
               beforeSend : function(formData, jqxhr,options) {
-                
+
                   $.mobile.loading('show');
-             
-                
+
+
               },
 
-              success:    function (data, statusText, xhr, $form)  { 
-                 
+              success:    function (data, statusText, xhr, $form)  {
+
                                  $.mobile.loading('hide');
                        var message = '';
-                                                                        
+
                                         $("#message-title").text('');
 
-                                 
+
                                      if(data.error.length == 0 ) {
                                       $("#message-title").text('Success!!!');
                                       message += "<div class='alert alert-success' > <b> " + data.message + " </b> </div>";
                                       } else {
                                         $("#message-title").text('Error!!!');
                                         message += "<div class='alert alert-danger' >  <b> "+ data.message + "  </b> <br/>";
-                                        
+
                                        for(i = 0 ; i < data.error.length ; i++) {
                                         message +=  data.error[i] + "<br/>";
                                        }
-                                     
-                                      message += "</div>"; 
+
+                                      message += "</div>";
                                       }
 
                                       if(data.warning.length) {
                                         message += "<div class='alert alert-warning' > <b>  WARNING!!! </b> <br/>";
                                       for(i = 0 ; i < data.warning.length ; i++) {
                                         message +=  data.warning[i] + "<br/>";
-                                        
+
                                         if(i+1 == data.warning.length) {
-                                      
+
                                         }
-                                        
+
                                       }
                                           message += "</div>";
                                     }
                                     if(data.notice.length) {
                                         message += "<div class='alert alert-info' > <b> NOTICE !!! </b> <br/>";
-                                            
+
                                             for(i = 0 ; i < data.notice.length ; i++) {
                                               message +=  data.notice[i] + "<br/>";
-                                            } 
+                                            }
                                         message += "</div>";
                                     }
-                                  
-                                
-                                
+
+
+
                                 $(this).siblings("output").append(message);
-                                
-                    } , 
+
+                    } ,
                     error: function(data, error, errorCode){
-                   
+
                    $("#message-body").empty();
                        $("#message-body").append(data.responseText);
-                                     
+
                                      $("#modal-message").modal("show");
                   }
-                   } 
+                   }
 
 $(document).on("click",".ticket-info", function(){
 
           var discription = $(this).data("Discription");
           $("#message-body").empty();
                        $("#message-body").append(discription);
-                                     
+
                                      $("#modal-message").modal("show");
 
 });
 
 function getEventDetails(data) {
 console.log(data);
-    
-    var organizer =  (data.organizationName) ? data.organizationName : data.organizerName;  
+
+    var organizer =  (data.organizationName) ? data.organizationName : data.organizerName;
 
         $("#event-name").text(data.eventName);
 
         $("#event-locat").text(data.location);
         $("#venue-name").text(data.venue);
 
-    
-        
+
+
         $("#organizer-name").text(organizer);
         $("#organizer-bio").text(data.aboutOrganizer);
-        
+
         $("#eventDiscription").text(data.aboutEvent);
         $("#event-startdate").attr("datatime", data.startDate + 'T' + data.startTime );
         $("#event-enddate").attr("datatime", data.endDate + 'T' + data.endTime );
         $("#event-startdate").text(data.startDate + ' at ' +  data.startTime );
         $("#event-enddate").text(data.endDate+ ' at ' +  data.endTime );
 
-    
-        
+
+
         var eventImage = (data.eventImage!= null) ? POSTER_LOCATION+data.eventImage : eventImagePlaceholder;
-        
 
-   
+
+
         $("#event-image-container").attr("src" , eventImage);
-        
-     
-        
 
-        
+
+
+
+
         if(!data.ticket){
-      
+
           $("#ticket-area").hide();
         } else {
         ticket="";
         $("#ticket-area").show();
         total_created = data.ticket.length;
         sold_out = 0;
-         $("#tickets-table-body").empty(); 
+         $("#tickets-table-body").empty();
         for(x = 0; x < data.ticket.length ; x++ ){
-        
+
 
             var ticketRecord = $("<tr/>");
 
@@ -232,61 +232,61 @@ console.log(data);
             infoButton.data("Discription" , data.ticket[x].aboutTicket );
             infoButton.data("enhanced" , true);
             infoButton.attr("class" , "btn btn-link ticket-info");
-            
+
             infoButton.append("<span class='glyphicon glyphicon-cloud'> </span>" );
             ticketDiscription.append(infoButton);
-          
-            var ticketAvailable = $("<td/>", { 
-                                                text : (data.ticket[x].availableTicket >= 1 ) ? 
+
+            var ticketAvailable = $("<td/>", {
+                                                text : (data.ticket[x].availableTicket >= 1 ) ?
                                                         data.ticket[x].availableTicket :
-                                                        "SOLD OUT"  
+                                                        "SOLD OUT"
                                                 });
 
               var ticketPrice = $("<td/>", { text : (data.ticket[x].ticketPrice > 0 ) ?
                                                       data.ticket[x].ticketPrice :
-                                                      "FREE"  
+                                                      "FREE"
                                             });
-                
+
 
                 $(ticketRecord).append(ticketName)
                                 .append(ticketType)
-                                .append(ticketAvailable) 
+                                .append(ticketAvailable)
                                 .append(ticketPrice)
                                 .append(ticketDiscription);
-                                
-              $("#tickets-table-body").append(ticketRecord);    
+
+              $("#tickets-table-body").append(ticketRecord);
         }
         if(sold_out == total_created){
-          
+
         }
-          
-       
-        
+
+
+
         }
 
 
       guest="";
 
- 
-    $("#guests-container").empty(); 
+
+    $("#guests-container").empty();
 
       if(data.guest == undefined ){
               $("#guest-area").hide();
 
       } else {
-   
+
 
             $("#guest-area").show();
-            
+
             for(x = 0; x < data.guest.length; x++ ){
-                
+
                 var guestDiv = $("<div/>", { "class" :"col-sm-4 col-md-6" } );
                 $(guestDiv).attr("style" , "{text-align : center}");
 
-                
+
           //      thumbnailDiv.attr({"width" : "100px", "height": "100px" , "position": "relative"});
             //    thumbnailDiv.append($("<div/>", {"class" : "loading-gif"} ));
-                
+
                 var guestImage = $("<img/>", {
                                                 src : (data.guest[x].guestImage) ?
                                                       GUESTS_LOCATION + data.guest[x].guestImage :
@@ -294,31 +294,31 @@ console.log(data);
                                                alt : "Error Loading Image",
                                                class : "img-circle",
                                                width : "100"
-                                            
-                                                    
+
+
                                             }
                                   );
 
-              
+
               var AKA = $("<em/>" ,  { text : data.guest[x].akaName });
               var guestName = $("<h3/>" , { text : data.guest[x].guestName});
 
-              
+
                 guestDiv.append(guestImage)
                         .append(guestName)
                         .append(AKA);
 
 
-              $("#guests-container").append(guestDiv); 
-    
+              $("#guests-container").append(guestDiv);
+
             }
 
-          
-          
+
+
         }
 
 
-         
+
       $("#sponsors-container").empty();
 
 
@@ -328,59 +328,59 @@ console.log(data);
       $("#sponsors-area").show();
       sponsors = '';
 
-              for(x = 0; x < data.sponsor.length; x++ ){ 
+              for(x = 0; x < data.sponsor.length; x++ ){
 
 
                       var sponsorLI =  $("<li/>")
                                         .append($("<img/>", {
-                                                      src : (data.sponsor[x].sponsorImage) ? 
-                                                              SPONSORS_LOCATION + data.sponsor[x].sponsorImage : 
+                                                      src : (data.sponsor[x].sponsorImage) ?
+                                                              SPONSORS_LOCATION + data.sponsor[x].sponsorImage :
                                                               sponsorImagePlaceholder,
                                                       alt : "Error Loading Image",
                                                       width : "100px",
                                                       class : "img-thumbnail img-responsive",
                                                       load : function() {
-                                                       
+
                                                       }
 
                                                     }
                                           ))
 
                                         .append($("<h5/>" , {text : data.sponsor[x].sponsorName }) );
-                    
-                    $("#sponsors-container").append(sponsorLI);      
+
+                    $("#sponsors-container").append(sponsorLI);
               }
-              
+
               $("#sponsors-container").listview("refresh");
-              
-           
+
+
           }
 
 
        comments = "";
        $("#comments-container").empty();
          if(data.comment == undefined){
-      
+
         }else {
-       
-              for(x = 0; x < data.comment.length; x++ ){ 
-       
+
+              for(x = 0; x < data.comment.length; x++ ){
+
                 var commentLi = $("<li/>")
                                .append($("<h3/>", { text : data.comment[x].commenter } ) )
                                .append($("<p/>" , { text : data.comment[x].comment }))
-                                .append($("<p/>" , { 
+                                .append($("<p/>" , {
                                                   text : data.comment[x].commentedOn,
                                                   class : "ui-li-aside"
                                                 }));
-                
-                    
+
+
 
                   $("#comments-container").append(commentLi);
               }
 
 
-        $("#comments-container").listview('refresh');        
-         
+        $("#comments-container").listview('refresh');
+
       }
         $("#available-tickets").table("refresh");
 
@@ -393,7 +393,7 @@ console.log(data);
 
 function display_events(events, container) {
 
-      
+
 
        $.each(events,function(i,trending) {
 
@@ -408,7 +408,7 @@ function display_events(events, container) {
 
         var image = (trending.eventImage) ? EVENT_PICTURE_LOCATION+trending.eventImage : eventImagePlaceholder;
         var location = trending.location+', '+ trending.address;
-                                            
+
         var event = $("<li/>")
 
                       .append($("<a/>" , {
@@ -433,14 +433,14 @@ function display_events(events, container) {
                                             "text" : priceRange
                                           }))
                        .append($("<p/>", {
-                                                              "text" : trending.startDate + " @ " + trending.startTime 
+                                                              "text" : trending.startDate + " @ " + trending.startTime
                                                             }
                                                       )
                                                   )
 
                       .append($("<div/>", {"class" : "loading-gif" }))
 
-                      
+
                       .end()
                       .append($("<a/>" , {
                                             "href" : "#",
@@ -489,13 +489,13 @@ function new_ticket_slot(){
                                                 "text" : "Free"
                            }))
                            .append($("<option/>", {
-                                                "value" : "paid",                                              
+                                                "value" : "paid",
                                                 "text" : "Pree"
                            }))
                            .end()
                            .end();
-                     
-              var NAME = $("<td/>")  
+
+              var NAME = $("<td/>")
                             .append($("<fieldset/>", {"class" : "ui-field-contain"} ))
                             .find("fieldset")
                             .append($("<label/>" , {
@@ -503,7 +503,7 @@ function new_ticket_slot(){
                                                     "class" : "ui-hidden-accessible",
                                                     "text" : "Ticket Name"
                                                  }
-                                    ))       
+                                    ))
                             .append($("<input/>" , {
                                                     "type" : "text",
                                                     "required" : "required",
@@ -515,7 +515,7 @@ function new_ticket_slot(){
                                       )
                                     )
                             .end();
-              var QUANTITY = $("<td/>")  
+              var QUANTITY = $("<td/>")
                             .append($("<fieldset/>", {"class" : "ui-field-contain"} ))
                             .find("fieldset")
                             .append($("<label/>", {
@@ -523,7 +523,7 @@ function new_ticket_slot(){
                                                     "class" : "ui-hidden-accessible",
                                                     "text" : "Ticket Quantity"
                                                  }
-                                    ))       
+                                    ))
                             .append($("<input/>" , {
                                                     "type" : "number",
                                                     "required" : "required",
@@ -536,7 +536,7 @@ function new_ticket_slot(){
                                       )
                                     )
                             .end();
-              var PRICE = $("<td/>")  
+              var PRICE = $("<td/>")
                             .append($("<fieldset/>", {"class" : "ui-field-contain"} ))
                             .find("fieldset")
                             .append($("<label/>" , {
@@ -544,7 +544,7 @@ function new_ticket_slot(){
                                                     "class" : "ui-hidden-accessible",
                                                     "text" : "Ticket Price"
                                                  }
-                                    ))       
+                                    ))
                             .append($("<input/>" , {
                                                     "type" : "number",
                                                     "required" : "required",
@@ -557,7 +557,7 @@ function new_ticket_slot(){
                                       )
                                     )
                             .end();
-              var DISCRIPTION = $("<td/>")  
+              var DISCRIPTION = $("<td/>")
                             .append($("<fieldset/>" , {"class" : "ui-field-contain"} ))
                             .find("fieldset")
                             .append($("<label/>" , {
@@ -565,9 +565,9 @@ function new_ticket_slot(){
                                                     "class" : "ui-hidden-accessible",
                                                     "text" : "Ticket Discription"
                                                  }
-                                    ))       
+                                    ))
                             .append($("<textarea/>" , {
-                                                    "required" : "required",                                                  
+                                                    "required" : "required",
                                                     "placeholder" : "Ticket Discription",
                                                     "name" : "ticket-discription[]",
                                                     "id" : "ticket-discription"+total_ticket,
@@ -593,10 +593,10 @@ function new_ticket_slot(){
                           .append(PRICE)
                           .append(DISCRIPTION)
                           .append(deleteButton);
-                            
-                              
-            
-                            
+
+
+
+
                   return ticket_ROW;
 }
 
@@ -651,7 +651,7 @@ function get_sponsor_field(total_sponsors){
                           .end()
                           .append($("<input/>", {
                                                     "type" : "file",
-                                                    "name" : "sponsor-image[]",                                                   
+                                                    "name" : "sponsor-image[]",
                                                     "accept" : "image/*",
                                                     "data-enhanced" : "true",
                                                     "class" : "ui-hidden-accessible"
@@ -671,7 +671,7 @@ function get_sponsor_field(total_sponsors){
                                           )
                                         );
 
-                                        
+
                       sponsor_field.append(NAME)
                                   .append(IMAGE)
                                   .append(deleteButton);
@@ -690,7 +690,7 @@ function get_guest_field(total_guests){
       var firstName = $("<td/>")
                       .append("<fieldset/>" , {"class" : "ui-field-contain" })
                       .find("fieldset")
-                      .append($("<label/>", { 
+                      .append($("<label/>", {
                                             "for" : "guest-first-name"+total_guests,
                                             "class" : "ui-field-contain",
                                             "text" : "First Name (required) "
@@ -708,11 +708,11 @@ function get_guest_field(total_guests){
                                 )
                               )
                       .end();
-        
+
         var lastName = $("<td/>")
                       .append("<fieldset/>" , {"class" : "ui-field-contain" })
                       .find("fieldset")
-                      .append($("<label/>", { 
+                      .append($("<label/>", {
                                             "for" : "guest-last-name"+total_guests,
                                             "class" : "ui-field-contain",
                                             "text" : "Last Name (required) "
@@ -730,11 +730,11 @@ function get_guest_field(total_guests){
                                 )
                               )
                       .end();
-        
+
         var akaName = $("<td/>")
                       .append("<fieldset/>" , {"class" : "ui-field-contain" })
                       .find("fieldset")
-                      .append($("<label/>", { 
+                      .append($("<label/>", {
                                             "for" : "guest-aka-name"+total_guests,
                                             "class" : "ui-field-contain",
                                             "text" : "Stage/Nick Name (Optional)"
@@ -753,12 +753,12 @@ function get_guest_field(total_guests){
                       .end();
 
       var guestImage = $("<td/>")
-                          .append($("<a/>" , { 
+                          .append($("<a/>" , {
                                               "data-enhanced" : "true",
                                               "class" : "add-image",
                                               "href" : "#"
                                             }
-                                    ) 
+                                    )
                                   )
                           .find("a")
                           .append($("<img/>" , {
@@ -781,8 +781,8 @@ function get_guest_field(total_guests){
                                                 }
                                       )
                                     );
-                          
-          
+
+
           var deleteButton = $("<td/>", { "class" : "guest-remove"})
                             .append($("<a/>", {
                                                   "class" : "delete-record ui-shadow ui-corner-all",
@@ -800,32 +800,32 @@ function get_guest_field(total_guests){
                     .append(lastName)
                     .append(akaName)
                     .append(guestImage)
-                    .append(deleteButton);                        
-        
+                    .append(deleteButton);
+
 
           return GUEST_FIELD;
 }
 
-  
 
-     
+
+
 
 
 function initialize_guest_fields(data, total_guests){
   var image = imagePlaceholder;
-  
+
 
       if(data.guestImage) {
         image = GUESTS_LOCATION+data.guestImage;
       }
-      
+
       var GUEST_FIELD = $("<tr/>" , { "class" : "guest-field" } );
 
 
       var firstName = $("<td/>")
                       .append("<fieldset/>" , {"class" : "ui-field-contain" })
                       .find("fieldset")
-                      .append($("<label/>", { 
+                      .append($("<label/>", {
                                             "for" : "guest-first-name-update"+total_guests,
                                             "class" : "ui-field-contain",
                                             "text" : "First Name (required) "
@@ -844,11 +844,11 @@ function initialize_guest_fields(data, total_guests){
                                 )
                               )
                       .end();
-        
+
         var lastName = $("<td/>")
                       .append("<fieldset/>" , {"class" : "ui-field-contain" })
                       .find("fieldset")
-                      .append($("<label/>", { 
+                      .append($("<label/>", {
                                             "for" : "guest-last-name-update"+total_guests,
                                             "class" : "ui-field-contain",
                                             "text" : "Last Name (required) "
@@ -867,11 +867,11 @@ function initialize_guest_fields(data, total_guests){
                                 )
                               )
                       .end();
-        
+
         var akaName = $("<td/>")
                       .append("<fieldset/>" , {"class" : "ui-field-contain" })
                       .find("fieldset")
-                      .append($("<label/>", { 
+                      .append($("<label/>", {
                                             "for" : "guest-aka-name-update"+total_guests,
                                             "class" : "ui-field-contain",
                                             "text" : "Stage/Nick Name (Optional)"
@@ -891,12 +891,12 @@ function initialize_guest_fields(data, total_guests){
                       .end();
 
             var guestImage = $("<td/>", {"class" : "selected-file" })
-                          .append($("<a/>" , { 
+                          .append($("<a/>" , {
                                                 "data-enhanced" : "true",
                                                 "class" : "add-image",
                                                 "href" : "#"
                                               }
-                                    ) 
+                                    )
                                   )
                           .find("a")
                           .append($("<img/>" , {
@@ -918,8 +918,8 @@ function initialize_guest_fields(data, total_guests){
                                                 }
                                       )
                                     );
-                          
-          
+
+
           var deleteButton = $("<td/>", { "class" : "guest-remove"})
                             .append($("<a/>", {
                                                   "class" : "delete-record ui-shadow ui-corner-all",
@@ -946,15 +946,15 @@ function initialize_guest_fields(data, total_guests){
                     .append(akaName)
                     .append(guestImage)
                     .append(deleteButton);
-                                                                   
-                                      
-                            
-                             
-        
+
+
+
+
+
 
         $("#guest-preview").append(GUEST_FIELD).enhanceWithin();
-        $("#guest-preview").closest('table').table('refresh');             
-                                                                        
+        $("#guest-preview").closest('table').table('refresh');
+
 }
 
 
@@ -962,7 +962,7 @@ function initialize_guest_fields(data, total_guests){
 function initialize_sponsor_fields(data, total_sponsors){
 
   var image = imagePlaceholder;
-  
+
       if(data.sponsorImage) {
         image = SPONSORS_LOCATION+data.sponsorImage;
       }
@@ -1014,7 +1014,7 @@ function initialize_sponsor_fields(data, total_sponsors){
                           .end()
                           .append($("<input/>", {
                                                     "type" : "file",
-                                                    "name" : "sponsor-image-update[]",                                                   
+                                                    "name" : "sponsor-image-update[]",
                                                     "accept" : "image/*",
                                                     "data-enhanced" : "true",
                                                     "class" : "ui-hidden-accessible"
@@ -1045,43 +1045,43 @@ function initialize_sponsor_fields(data, total_sponsors){
                                           )
                                         );
 
-                                        
+
                       sponsor_field.append(NAME)
                                   .append(IMAGE)
                                   .append(deleteButton);
 
-                             
-                       
-     
+
+
+
 
         $("#sponsor-box").append(sponsor_field).enhanceWithin();
         $("#sponsor-box").closest("table").table("refresh");
 
-        
+
 }
 
 
 var CONFIRMATION =  "<h4 class='alert alert-warning ' > Are You Sure You Want To Delete This Item ??? </h4>";
-                 
+
   CONFIRMATION += "<button type='button' class='answer' data-theme='e' id='yes' > Yes </button> ";
-             
+
   CONFIRMATION += "<button type='button' class='answer'  id='cancel' data-theme='b' > Cancel </button> ";
-                
-                    
+
+
 function initialize_ticket(data) {
 
     var event_tickets = '';
 
     for(i=0 ; i < data.length ; i++) {
-    
+
     $("#ticket-box").empty();
-      
+
         event_tickets = $("<tr/>")
 
         TYPE = $("<td/>")
                           .append($("<fieldset/>", { "class" : "ui-field-contain" } ))
                           .find("fieldset")
-                          .append($("<label/>", { 
+                          .append($("<label/>", {
                                                   "for" : "ticket-type-update"+i,
                                                   "class" : "ui-hidden-accessible",
                                                   "text" : "Ticket Type"
@@ -1120,10 +1120,10 @@ function initialize_ticket(data) {
                                                         "for" : "ticket-name-update",
                                                         "class" : "ui-hidden-accessible",
                                                         "text" : "Name"
-                                                        } 
+                                                        }
                                           )
                                         )
-                                .append($("<input/>", { 
+                                .append($("<input/>", {
                                                         "type" : "text",
                                                         "required" : "required",
                                                         "placeholder" : "Name eg. Normal, VIP ... ",
@@ -1141,13 +1141,13 @@ function initialize_ticket(data) {
                  var QUANTITY = $("<td/>")
                                   .append($("<fieldset/>", { "class" : "ui-field-contain" }))
                                   .find("fieldset")
-                                  .append($("<label/>", { 
+                                  .append($("<label/>", {
                                                           "for" : "ticket-quantity-update"+i,
                                                           "class" : "ui-hidden-accessible",
                                                           "text" : "Quantity"
                                                         }
                                             )
-                                          )                 
+                                          )
                                   .append($("<input/>" , {
                                                             "type" : "number",
                                                             "id" : "ticket-quantity-update"+i,
@@ -1164,7 +1164,7 @@ function initialize_ticket(data) {
                     var PRICE = $("<td/>")
                                   .append($("<fieldset/>", {"class" : "ui-field-contain" }))
                                   .find("fieldset")
-                                  .append($("<label/>", { 
+                                  .append($("<label/>", {
                                                           "for" : "ticket-price-update"+i ,
                                                           "class" : "ui-hidden-accessible",
                                                           "text" : "Price"
@@ -1184,12 +1184,12 @@ function initialize_ticket(data) {
                                   .end();
 
             (data[i].ticketPrice == 0  || data[i].ticketPrice == 'FREE') ? PRICE.find("input[type=number]").prop("disabled" , true) : PRICE.find("input[type=number]").prop("disabled" , false);
-                    
+
 
                     var DISCRIPTION = $("<td/>")
                                         .append($("<fieldset/>", {"class" : "ui-field-contain"}) )
                                         .find("fieldset")
-                                        .append($("<label/>", { 
+                                        .append($("<label/>", {
                                                                 "for" : "ticket-discription-update"+i,
                                                                 "class" : "ui-hidden-accessible",
                                                                 "value" : "Discription"
@@ -1232,7 +1232,7 @@ function initialize_ticket(data) {
                                                           }
                                               )
                                             );
-                                    
+
 
 
         event_tickets.append(TYPE)
@@ -1248,21 +1248,21 @@ function initialize_ticket(data) {
 
 
             }
-                            
-                            
-      
-     
+
+
+
+
                       table = $("#ticket-box").closest("table");
                       table.table("refresh");
-        
-       
-                  
+
+
+
 }
 
 
 $(document).on("change", ".change-status", function(e) {
 var CHANGE = null;
-        
+
         if(this.val() === "ON" ) {
           CHANGE = "ACTIVE";
         } else {
@@ -1279,12 +1279,12 @@ var CHANGE = null;
                   cache : false,
                   success : function(data, resultText, jqxhr ) {
 
-                       
+
                             $("#message-body").empty();
                             $("#message-body").append( data.message);
                             $("#modal-message").modal('show');
-                          
-                  }, 
+
+                  },
                   error: function(data, error, errorCode){
                     alert(error +' '+errorCode);
                   }
@@ -1301,20 +1301,20 @@ function display_event_summary(data, statusText, jqxhr) {
 
   $("#change-status").empty();
         $("#change-status").append(status_change).enhanceWithin();
-                              
+
           if(statusText === "success") {
-            
+
              $("#selected-event-image").empty();
-            
+
             if(data.eventImage != null){
-                            
+
                   $("#selected-event-image").attr( "src", EVENT_PICTURE_LOCATION+data.eventImage);
-                  
+
             } else {
                 $("#selected-event-image").attr( "src", eventImagePlaceholder);
             }
-           
-            
+
+
              $("#selected-event").text(data.eventName);
 
             $("#selected-event-venue").text(data.venue);
@@ -1324,31 +1324,31 @@ function display_event_summary(data, statusText, jqxhr) {
             $("#selected-event-about").text(data.aboutEvent);
             $("#selected-event-status").text(data.eventStatus);
             console.log(data);
-            
+
             var ticket = '';
-        
-              if(data.ticket) { 
+
+              if(data.ticket) {
               for(i = 0; i < data.ticket.length; i++) {
                 ticket += "<tr>"+
 
                               "<td><strong>"+data.ticket[i].ticktetName+" </strong> </td>"+
-                                  "<td>"+data.ticket[i].ticketType+"</td>"+                                      
+                                  "<td>"+data.ticket[i].ticketType+"</td>"+
                                           "<td>"+data.ticket[i].ticketPrice+"</td>"+
-                                          
+
                                           "<td>"+data.ticket[i].confirmedBooking   +"</td>"+
-                                          
-                                        
+
+
                                   "</tr>";
               }
 
                $("#selected-event-ticket").empty();
               $("#selected-event-ticket").append(ticket);
-              
+
             }
 
 
-             
-              
+
+
 var sponsor_field = "<li data-role='list-divider'> Event Sponsors  </li>";
              if(data.sponsor) {
 
@@ -1359,7 +1359,7 @@ var sponsor_field = "<li data-role='list-divider'> Event Sponsors  </li>";
                     } else {
                      sponsor_field += "<img src='"+sponsorImagePlaceholder+"' width='80' class='iimg-thumbnail'  />  ";
                     }
-                    sponsor_field +=  "<h3 >"+ data.sponsor[i].sponsorName +"</h3>  "; 
+                    sponsor_field +=  "<h3 >"+ data.sponsor[i].sponsorName +"</h3>  ";
                     sponsor_field += "</li>";
                   }
 
@@ -1377,10 +1377,10 @@ var guest_field = "  <li data-role='list-divider'> Event Guest  </li>";
                     } else {
                      guest_field += "<img src='"+sponsorImagePlaceholder+"' width='80' class='img-thumbnail'  />  ";
                     }
-                    guest_field +=  "<h3 >"+  data.guest[i].guestName +"</h3>  "; 
-                    guest_field +=  "<em >"+ data.guest[i].akaName  +"</em>  "; 
+                    guest_field +=  "<h3 >"+  data.guest[i].guestName +"</h3>  ";
+                    guest_field +=  "<em >"+ data.guest[i].akaName  +"</em>  ";
                     guest_field += "</li>";
-                  
+
                   }
 
                   $("#selected-event-guest").empty();
@@ -1389,17 +1389,17 @@ var guest_field = "  <li data-role='list-divider'> Event Guest  </li>";
               }
           }
 
-          
+
 }
 
 function initialize_address_form(data){
-var address_form = ""; 
+var address_form = "";
 
 $("#address-container").empty();
       for(i=0; i < data.length; i++){
 
          var  address_form = $("<tr/>", { "class" : "address-field" } )
-              
+
     var  COUNTRY =  $("<td/>")
                       .append($("<fieldset/>", {"class" : "ui-field-contain"} ))
                       .find("fieldset")
@@ -1488,7 +1488,7 @@ $("#address-container").empty();
 
 
       MAP  = "<td>";
-      MAP += " <a href='#event-map-popup"+total_address+"' data-transition='slideup' data-rel='popup' class='ui-btn ui-btn-c  ui-alt-icon ui-nodisc-icon ui-corner-all ui-btn-icon-notext ui-icon-plus'  data-position-to='window' > Use Map</a> ";                       
+      MAP += " <a href='#event-map-popup"+total_address+"' data-transition='slideup' data-rel='popup' class='ui-btn ui-btn-c  ui-alt-icon ui-nodisc-icon ui-corner-all ui-btn-icon-notext ui-icon-plus'  data-position-to='window' > Use Map</a> ";
       MAP +=  " <div data-role='popup' id='event-map-popup"+total_address+"' class='ui-content' data-overlay-theme='c' data-theme='b' >";
       MAP +=       "<a href='#'  data-rel='back' data-role='button' data-transition='slidedown' data-theme='a' data-icon='delete' data-iconpos='notext' class='ui-btn-right' > Close</a>";
       MAP +=           "<div id='organization-map"+total_address+"'  class='ui-body-b' style='margin-top: 10px;  width: 300px; height: 150px;'> </div>";
@@ -1502,8 +1502,8 @@ $("#address-container").empty();
       MAP +=              "</fieldset>";
       MAP +=          "</div>"
       MAP += "</td>";
-      
-      
+
+
 
        var deleteButton = $("<td/>")
                         .append($("<a/>" , {
@@ -1526,7 +1526,7 @@ $("#address-container").empty();
                                   )
                                 );
 
-                        
+
       address_form.append(COUNTRY)
                   .append(CITY)
                   .append(SUB_CITY)
@@ -1535,7 +1535,7 @@ $("#address-container").empty();
                   .append(deleteButton);
 
         $("#address-container").append(address_form);
-                  $("#address-container").enhanceWithin();   
+                  $("#address-container").enhanceWithin();
                      $("#address-table").table("refresh");
                      $("#organization-map"+total_address).locationpicker({
                             location: {latitude: data[i].latitude  , longitude:   data[i].longitude},
@@ -1545,7 +1545,7 @@ $("#address-container").empty();
                                               latitudeInput: $('#organization-latitude'+total_address),
                                               longitudeInput: $('#organization-longitude'+total_address),
 
-                                             
+
                                             },
                                 onchanged: function(currentLocation, radius, isMarkerDropped) {
                               //  alert("Location changed. New location (" + currentLocation.latitude + ", " + currentLocation.longitude +", "+ currentLocation.locationNameInput +" )");
@@ -1558,22 +1558,22 @@ $("#address-container").empty();
                                               }
                               });
 
-               
 
-        total_address = total_address + 1;            
+
+        total_address = total_address + 1;
       }
-      
 
-      
-                     
+
+
+
 }
 
 
 function create_address_form(){
-  
+
 
     var  address_form = $("<tr/>", { "class" : "address-field" } )
-              
+
     var  COUNTRY =  $("<td/>")
                       .append($("<fieldset/>", {"class" : "ui-field-contain"} ))
                       .find("fieldset")
@@ -1655,7 +1655,7 @@ function create_address_form(){
 
 
       MAP = "<td>";
-      MAP += " <a href='#event-map-popup"+total_address+"' data-transition='slideup' data-rel='popup' class='ui-btn ui-btn-c  ui-alt-icon ui-nodisc-icon ui-corner-all ui-btn-icon-notext ui-icon-plus'  data-position-to='window' > Use Map</a> ";                       
+      MAP += " <a href='#event-map-popup"+total_address+"' data-transition='slideup' data-rel='popup' class='ui-btn ui-btn-c  ui-alt-icon ui-nodisc-icon ui-corner-all ui-btn-icon-notext ui-icon-plus'  data-position-to='window' > Use Map</a> ";
       MAP +=  " <div data-role='popup' id='event-map-popup"+total_address+"' class='ui-content' data-overlay-theme='c' data-theme='b' >";
       MAP +=       "<a href='#'  data-rel='back' data-role='button' data-transition='slidedown' data-theme='a' data-icon='delete' data-iconpos='notext' class='ui-btn-right' > Close</a>";
       MAP +=           "<div id='organization-map"+total_address+"'  class='ui-body-b' style='margin-top: 10px;  width: 300px; height: 150px;'> </div>";
@@ -1675,8 +1675,8 @@ function create_address_form(){
       MAP +=           "</div> ";
       MAP +=          "</div>"
       MAP += "</td>";
-      
-      
+
+
       var deleteButton = $("<td/>")
                         .append($("<a/>" , {
                                             "data-role" : "button",
@@ -1687,7 +1687,7 @@ function create_address_form(){
                                 )
                               );
 
-      
+
 address_form.append(COUNTRY)
             .append(CITY)
             .append(SUB_CITY)
@@ -1696,7 +1696,7 @@ address_form.append(COUNTRY)
             .append(deleteButton);
 
                 $("#address-container").append(address_form)
-                  $("#address-container").enhanceWithin();   
+                  $("#address-container").enhanceWithin();
                      $("#address-table").table("refresh");
                      $("#organization-map"+total_address).locationpicker({
                             location: {latitude: 9.005401  , longitude:   38.763611},
@@ -1706,7 +1706,7 @@ address_form.append(COUNTRY)
                                               latitudeInput: $("#organization-latitude"+total_address),
                                               longitudeInput: $("#organization-longitude"+total_address),
 
-                                             
+
                                             },
                                 onchanged: function(currentLocation, radius, isMarkerDropped) {
                               //  alert("Location changed. New location (" + currentLocation.latitude + ", " + currentLocation.longitude +", "+ currentLocation.locationNameInput +" )");
@@ -1715,18 +1715,18 @@ address_form.append(COUNTRY)
                                    $("#organization-country"+total_address).val(addressComponents.country);
                               },
                                oninitialized: function(component){
-                                                   
+
                                               }
                               });
-                            
-                          
 
-        total_address = total_address + 1;            
+
+
+        total_address = total_address + 1;
 }
 
 
 $(document).on("mobileinit", function() {
-      
+
       $.extend(  $.mobile , {
                               pageLoadErrorMessage: "Sorry Error Loading Page...",
                               defaultPageTransition: "slide",
@@ -1734,7 +1734,7 @@ $(document).on("mobileinit", function() {
                               loadingMessage: "Loading Request...",
                               loadingMessageTextVisible: true,
                               loadingMessageTheme: "b",
-                              pageLoadErrorMessageTheme: "e",                     
+                              pageLoadErrorMessageTheme: "e",
                               hashListeningEnabled: true
                         //   subPageUrlKey: "E-gate",
                             }
@@ -1746,7 +1746,7 @@ $(document).on("mobileinit", function() {
       $.mobile.loader.prototype.options.disabled = false;
       $.mobile.loader.prototype.options.theme = "a";
       $.mobile.loader.prototype.options.html = "";
-      
+
      $.mobile.ajaxEnabled = true;
      $.mobile.linkBindingEnabled = true; //external Page ajax load
   //    $.mobile.ajaxEnabled = false;
@@ -1754,7 +1754,7 @@ $(document).on("mobileinit", function() {
 //$.mobile.hashListeningEnabled = false;
 //$.mobile.pushStateEnabled = false;
 //$.mobile.changePage.defaults.changeHash = false;
-      
+
     //LISTVIEW WIDGET SETTING
       $.mobile.listview.prototype.options.splitIcon = "gear";
       $.mobile.listview.prototype.options.splitTheme = "b";
@@ -1769,7 +1769,7 @@ $(document).on("mobileinit", function() {
     //$.mobile.page.prototype.options.keepNative = "button";
    $.mobile.toolbar.prototype.options.addBackBtn = true;
    //   $.mobile.dialog.prototype.options.addBackBtn = true;
-      $.mobile.page.prototype.options.domCache =  false; 
+      $.mobile.page.prototype.options.domCache =  false;
      $.mobile.dialog.prototype.options.backBtnText = "Back";
       $.mobile.textinput.prototype.options.clearBtnText = "Remove";
       $.mobile.textinput.prototype.options.mini = true;
@@ -1777,11 +1777,11 @@ $(document).on("mobileinit", function() {
 
 //$.mobile.dialog.prototype.options.theme = "d";
       $.mobile.dialog.prototype.options.overlayTheme = "a";
-      
-  
+
+
    //  $.mobile.ignoreContentEnabled = true;
       $.mobile.orientationChangeEnabled = false;
-    
+
 
 
 });
@@ -1791,14 +1791,14 @@ $(document).on("mobileinit", function() {
 
 
 $(function(){
-      
+
       $( window ).orientationchange();
       $( window ).on( "orientationchange", function( event ) {
 
           if(event.orientation === "landscape"){
-            
+
             } else if (event.orientation === "portrait"){
-                
+
             }
       });
 
@@ -1813,12 +1813,12 @@ $.ajaxSetup({
       url: "http://localhost/Egate/www/includes/systemController.php",
       cache: false,
       ifModifid: true,
- 
+
 });
 
 
 $( document ).ajaxSend(function( event, jqxhr, settings ) {
-      
+
       $.mobile.loading("show");
 
 });
@@ -1828,8 +1828,9 @@ $( document ).ajaxError(function( error, request, settings ) {
 
          $("#message-body").empty();
          console.log(error);
-        $("#message-body").text(settings);
-     
+        $("#message-body").text(request);
+        console.log(settings);
+
           $("#modal-message").modal("show");
 });
 
@@ -1854,15 +1855,15 @@ $(window).unload(function(){
 
 
 $(document).on("click", ".delete-record" ,function(){
-  
+
           item = $(this);
-          
+
           var    itemId = ($(this).data("id")) ? $(this).data("id") : null ;
 
-                          
-                  
-                  if( item.closest("tbody").hasClass("one-required") && 
-                      item.closest("tbody").find("tr").length == 1 ) 
+
+
+                  if( item.closest("tbody").hasClass("one-required") &&
+                      item.closest("tbody").find("tr").length == 1 )
                   {
                      message = "<div class='alert alert-warning' >  You Cannot have an event without atleast 1 Ticket  </div> ";
 
@@ -1870,7 +1871,7 @@ $(document).on("click", ".delete-record" ,function(){
                      $("#message-body").empty();
                      $("#message-body").append(message);
                      $("#modal-message").modal("show");
-                      return;   
+                      return;
                   } else {
                       $("#message-body").empty();
                       $("#message-body").append(CONFIRMATION);
@@ -1879,86 +1880,86 @@ $(document).on("click", ".delete-record" ,function(){
                   }
 
         var itemType = ($(this).data("item")) ? $(this).data("item") : null ;;
-        
 
-        
-               
+
+
+
         $(document).on("click", ".answer", function() {
-                  
+
               answer = $(this).attr("id");
-              
+
               if(answer == "yes"){
-              
+
                   if(itemId) {
                     var deletedItem = null;
 
 
                       switch (itemType) {
 
-                        case "sponsor": 
+                        case "sponsor":
                                         deletedItem = {get: "delete_sponsor" , sponsor_id : itemId, organizer_id: localStorage.organizer_id, event_id: localStorage.selected_event };
                                         break;
-                        case "guest" : 
+                        case "guest" :
                                         deletedItem = {get: "delete_guest" , guest_id : itemId, organizer_id: localStorage.organizer_id, event_id: localStorage.selected_event };
                                         break;
-                        case "event" : 
+                        case "event" :
                                         deletedItem = "delete_event";
                                         break;
-                        case "ticket" : 
-                                      deletedItem = {get: "delete_ticket" , ticket_id : itemId, organizer_id: localStorage.organizer_id, event_id: localStorage.selected_event };                          
+                        case "ticket" :
+                                      deletedItem = {get: "delete_ticket" , ticket_id : itemId, organizer_id: localStorage.organizer_id, event_id: localStorage.selected_event };
                                       break;
-                        case "address" : 
+                        case "address" :
                                       deletedItem = {get: "delete_address", address_id : itemId, organizer_id: localStorage.organizer_id };
                                       break;
                       }
-                        
-                        
+
+
 
                         $.ajax({
-                                  
+
                                   data: deletedItem,
                                   type : "GET",
-                                  
+
                                   success: function(data, result, jqxhr ){
 
                                       if(result == "success"){
-                                         
+
                                           $("#message-body").empty();
                                           $("#message-body").append(data);
-                                                                                 
+
                                         } else {
-                                       
+
                                           alert("error deleting");
-                                       
+
                                         }
-                                   
+
                                     }
                         });
 
                     } else {
-                      
+
                       $("#modal-message").modal("hide");
-                             
-                    }  
-                      
-              item.closest("tr").remove(); 
-                                         
+
+                    }
+
+              item.closest("tr").remove();
+
               } else {
-                  
+
                   $("#modal-message").modal("hide");
-              
+
               }
 
           });
 
-                
+
 });
 
 
 
  $(document).on("click","#log-off-button", function(e) {
-              
-                 
+
+
 
                   $.ajax({
 
@@ -1972,29 +1973,29 @@ $(document).on("click", ".delete-record" ,function(){
                                  update_navigation_to("normal");
 
                                   $("#menu-button").text("Menu");
-                                      
+
                                       $( "body").pagecontainer( "change", "#homePage", { transition: "slide" });
-                                                                   
-                                 
+
+
                               } else {
 
                                     alert("error login out");
                               }
                           }
                   });
-                    
-                  
+
+
 
 
         });
 
 
 
-$(document).on("pagecreate", "#signUpForm", function(){  
-      
+$(document).on("pagecreate", "#signUpForm", function(){
+
 
         $("#registeration-form").validate({
-        
+
           rules : {
             "organizer-re-password": {
               required: true,
@@ -2006,7 +2007,7 @@ $(document).on("pagecreate", "#signUpForm", function(){
               "organizer-first-name": "Please Provide Your First Name",
               "organizer-last-name": "Please Provide Your Last Name",
               "organizer-password": "Please Provide Password",
-              
+
               "organizer-email" : "Please Enter Valid Email address format like example@domain.com",
             "organizer-re-password": {
               required: "Please provide a password",
@@ -2017,27 +2018,27 @@ $(document).on("pagecreate", "#signUpForm", function(){
         });
 
 
-        
+
         formOptions.data = { form: "sign_up"};
 
         $("#registeration-form").ajaxForm({
-                    
-                    
+
+
                     type: "POST",
                     resetForm: false,
                     dataType: "JSON",
-                    data: { form: "sign_up"},          
-                    
-                    beforesubmit: function (formData, jqForm, options) { 
+                    data: { form: "sign_up"},
+
+                    beforesubmit: function (formData, jqForm, options) {
                        $.mobile.loading("show");
                     },
 
-                    success:    function (data, statusText, xhr, $form)  { 
-                         
+                    success:    function (data, statusText, xhr, $form)  {
+
                                        $.mobile.loading("hide");
-                           
+
                                        if(statusText === "success"){
-                                     
+
                                        if(data.success == "true"){
 
 
@@ -2055,71 +2056,71 @@ $(document).on("pagecreate", "#signUpForm", function(){
 
 
                                        } else if(statusText === "error"){
-                                       
-                                                                      
+
+
                                             $("#message-title").append("<h5 class='alert alert-danger'> Upload Completed </h5>");
                                             $("#message-body").append(responseText);
                                             $("#modal-message").modal("show");
                                        }
-                        
-                    }, 
-                    
-                    uploadProgress: function(event, position, total, persentage){ } 
-                    
+
+                    },
+
+                    uploadProgress: function(event, position, total, persentage){ }
+
 
                  });
-    
+
 });
 
 
 $(document).on("pagebeforecreate", "#homePage", function(event, data){
-      
+
       $.ajax(
               {
-                  
+
                   type:"GET",
                   dataType: "json",
                   data :{get : "trending_events"},
                   cache : false,
-                 
+
                     beforeSend: function() {
                                       //Show ajax spinner
-                                        $.mobile.loading("show"); 
+                                        $.mobile.loading("show");
                                       },
-              
-                  
+
+
                   success : function(data, status_code, jqXHR) {
-                        
+
                                 if(status_code == 'success') {
-             
+
                                     box = '';
-                                      
+
                                     display_events(data, "#trending-events-box");
-                    
+
                                 } else  {
                                           alert('Error While Loading Page Please Refresh Your Browser...');
                                 }
-                            
+
                             },
 
 
-                        
+
                         complete: function(jqXHR, status_code){
-                            //  alert(status_code +'   '+ jqXHR.responseJSON);  
-                         $.mobile.loading("hide"); 
+                            //  alert(status_code +'   '+ jqXHR.responseJSON);
+                         $.mobile.loading("hide");
                         }
               }
 
             );
 
-});  
+});
 
 $(document).on("click", ".show-detail", function(e){
 
         localStorage.selected_event = $(this).data("id");
-        
+
         $("body").pagecontainer("change", "#eventsDetail", {transition: "slide"} );
-        
+
 
 });
 
@@ -2127,7 +2128,7 @@ $(document).on("click", ".show-detail", function(e){
 
 // Update the contents of the toolbars
 $( document ).on( "pagebeforeshow", "[data-role='page']", function() {
-    
+
 
     var activePage = $.mobile.pageContainer.pagecontainer( "getActivePage" );
     $( "[data-role='header'] a.left-panel-button" ).remove();
@@ -2138,8 +2139,8 @@ $( document ).on( "pagebeforeshow", "[data-role='page']", function() {
     } else if($(activePage).hasClass('search-button')) {
       $( "[data-role='header']#main-header" ).prepend(SEARCH_BUTTON);
     } else if($(activePage).hasClass('back-button')) {
-      
-      
+
+
       $( "[data-role='header']#main-header" ).prepend(BACK_BUTTON);
 
     }
@@ -2158,7 +2159,7 @@ $( document ).on( "pagebeforeshow", "[data-role='page']", function() {
 
 
 $(document).on("click", "#event-creation-page-btn", function(e){
-  
+
 
 Url = "http://localhost/Egate/www/pages/eventCreationPage.html";
 
@@ -2167,25 +2168,25 @@ Url = "http://localhost/Egate/www/pages/eventCreationPage.html";
                   type: "GET",
                   data:{get: "is_logged"},
                   dataType: "json",
-                
-                 
+
+
                   success: function (data, statusText, jqXHR) {
 
                                 if(data.loged === "true") {
-                                  
+
                                  $( "body").pagecontainer( "change", Url , {transition : "flip"});
-                            
+
                                 } else {
                                     $("body").pagecontainer( "change", "#signUpForm", { transition: "slideup" });
                                 }
                          },
                   error: function (request,error, errorMessage) {
-                              
+
                     alert("error checking if loged in "+error+ "  "+ errorMessage);
                   }
               });
-                 
-});    
+
+});
 
 
 
@@ -2196,20 +2197,20 @@ function update_navigation_to(value) {
      admin_functions = "<li class='admin-panel'> <a href='http://localhost/Egate/www/pages/eventManagment.html'> Manage Events </a> </li> "+
                     "<li class='admin-panel'> <a href='http://localhost/Egate/www/pages/accountManagment.html'>  Manage Account </a>   </li>"+
                     "<li class='admin-panel'><a href='#' id='log-off-button'> Log Out </a></li>";
-    
+
                       $(".normal-panel").remove();
                       if($(".admin-panel").length == 0){
                           $("#menu").append(admin_functions);
                           $("#menu-button").text(localStorage.organizer_name);
                       }
                       $("#menu").listview("refresh");
-                      
-                   
-                      
-        
 
 
-                       
+
+
+
+
+
      } else if (value === 'normal') {
 
           normal_functions = "<li class='normal-panel' ><a href='#signUpForm' data-rel='dialog'> Sign Up </a></li>"+
@@ -2221,38 +2222,38 @@ function update_navigation_to(value) {
                           $("#menu").append(normal_functions);
                       }
                          $("#menu").listview("refresh");
-                      
+
 
      }
-  
+
 
 }
 
-$(document).on("pagecontainershow", function(event, data){ 
+$(document).on("pagecontainershow", function(event, data){
   // var sPageURL = window.location.search.substring(1);
 
          //   console.log(sPageURL);
-           
+
 
          //   var event = sPageURL.split('=');
-  
-    
- 
+
+
+
 
 
 
 
 });
 $(document).on("pagecontainerbeforecreate", function(event, data){ // When entering pagetwo
-   
+
 
 
 
 /*    var sURLVariables = sPageURL.split('&');
-    for (var i = 0; i < sURLVariables.length; i++) 
+    for (var i = 0; i < sURLVariables.length; i++)
     {
         var sParameterName = sURLVariables[i].split('=');
-        if (sParameterName[0] == sParam) 
+        if (sParameterName[0] == sParam)
         {
             return sParameterName[1];
         }
@@ -2263,17 +2264,17 @@ $(document).on("pagecontainerbeforecreate", function(event, data){ // When enter
           $( "[data-role='navbar']" ).navbar();
          $("[data-role=header]").toolbar({theme: "d"});
          $("[data-role=footer]").toolbar({theme:"d"});
-        
+
         $("#event-categ-panel, #menu-panel,  #account-managment-panel,  #event-managment-panel").enhanceWithin().panel();
-    $("#subscription-options-popup").enhanceWithin();  
+    $("#subscription-options-popup").enhanceWithin();
     //currentFile = document.location.pathname.match(/[^\/]+$/)[0];
     $("#subscription-options-popup").popup();
     $('#log-in-popup').popup();
 
           $("#log-in-form").enhanceWithin();
-        
 
-     
+
+
 $(function($) {
 
        $.ajax({
@@ -2281,15 +2282,15 @@ $(function($) {
                   type: 'GET',
                   data: {get: 'is_logged'},
                   dataType: 'json',
-                                 
+
                   success: function (data, statusText, jqXHR) {
 
                                 if(data.loged === 'true') {
                                   localStorage.organizer_id = data.organizer_id;
                                   localStorage.organizer_name = data.organizer_name;
-                                  
+
                                      update_navigation_to('admin');
-                            
+
                               } else {
                                 localStorage.organizer_id = null;
                                   update_navigation_to('normal');
@@ -2298,11 +2299,11 @@ $(function($) {
                           error : function(yey, uuu, xxx, yyy) {
                     alert('error Getting Log Detail'+ yey +' '+uuu + '  '+ xxx, +'  '+ yyy);
                   }
-                 
+
               });
 });
 
- 
+
 
 });
 
@@ -2331,13 +2332,13 @@ $(function() {
                                         type: "POST",
                                         data: {form : "log_in" },
                                         dataType: "JSON",
-                                        
-                                         beforesubmit: function showRequest(formData, jqForm, options) { 
+
+                                         beforesubmit: function showRequest(formData, jqForm, options) {
                                                   $.mobile.loading("show");
-                                            
+
                                             },
-                                        success:    function showResponse(response, statusText, xhr)  { 
-                                              $.mobile.loading("hide");        
+                                        success:    function showResponse(response, statusText, xhr)  {
+                                              $.mobile.loading("hide");
                                                       if(response.success =="true") {
                                                         $("#menu-panel").panel("close");
                                                           $("#log-in-modal").modal("hide");
@@ -2349,23 +2350,23 @@ $(function() {
                                                       } else {
                                                         $("#log-in-error").html("<div class='alert alert-danger' >User Name or Password Incorrect Please try again </div>");
                                                       }
-                                                
+
                                         },
                                            error : function(yey, uuu, xxx, yyy) {
                                                alert("error Login User "+ yey +" "+uuu + "  "+ xxx, +"  "+ yyy);
-                                       } 
+                                       }
                                   });
 
                 });
 
 
 
-  
+
 
 
 
 $(document).on("pagecreate","#eventsDetail", function() {
-        
+
          $("#share-buttons").sharepage();
 
           $('#comment-form').validate({
@@ -2374,26 +2375,26 @@ $(document).on("pagecreate","#eventsDetail", function() {
                                   "comment-content": "You should write Something  Minmum 20 characters"
                                 }
                             });
-         
+
 
          $("#comment-form").ajaxForm({
-                                   
+
                                     type: "POST",
                                     data: {form: "comment", event_id: localStorage.selected_event},
 
-                                    beforesubmit: function (formData, jqForm, options) { 
+                                    beforesubmit: function (formData, jqForm, options) {
                                        $.mobile.loading("show");
                                     },
-                            
-                                   success:    function (responseText, statusText, xhr, $form)  { 
+
+                                   success:    function (responseText, statusText, xhr, $form)  {
                                          $.mobile.loading("hide");
                                          if(statusText = "success"){
-                                             $("#comments-container").prepend(responseText).listview("refresh"); 
+                                             $("#comments-container").prepend(responseText).listview("refresh");
                                           } else {
-                                                
+
                                           }
                                     }
-                                    
+
                                   });
 
 });
@@ -2402,24 +2403,24 @@ $(document).on("pagecreate","#eventsDetail", function() {
 
 
 $(document).on("click", ".eventCategory", function(){
-        
+
         request =   $(this).attr("id");
               var activePage = $.mobile.pageContainer.pagecontainer( "getActivePage" );
-             
+
               page = activePage.attr("id");
 
 
 
 $("body").pagecontainer("change", "#eventsList");
 
-          
+
 var total_events = 0;
 $("#event-container").empty();
               $.ajax({
-                        
+
                         type: "GET",
                         dataType: "JSON",
-                       
+
                         data: {get: "event_category", category: request },
                         success : function(data, result, jqXHR){
                               $("#event-container").empty();
@@ -2427,74 +2428,74 @@ $("#event-container").empty();
                                   if(data != null) {
 
                                     display_events(data.event, "#event-container");
-                                 
+
                                    $("#browse-event-container").append($("<h2/>", { "text" : request }));
 
                                   } else {
-                                          
-                                          $("#browse-event-container").append("<h2 > Currently No Active Event Under This Category </h2> ");                              
-                                  } 
+
+                                          $("#browse-event-container").append("<h2 > Currently No Active Event Under This Category </h2> ");
+                                  }
                         }
               });
-      
+
 });
 
 
 
-$(document).on("pagebeforeshow", "#eventsDetail", function(e, data){     
-    
-              
-      
+$(document).on("pagebeforeshow", "#eventsDetail", function(e, data){
+
+
+
           $.ajax({
                   url: "includes/systemController.php",
                   type : "GET",
                   dataType: "json",
-                
-                
-                  data: {get: "event_detail", event_id : localStorage.selected_event},                  
+
+
+                  data: {get: "event_detail", event_id : localStorage.selected_event},
                   beforeSend: function() {
                                       //Show ajax spinner
-                                        $.mobile.loading("show"); 
+                                        $.mobile.loading("show");
 
                                      $("#event-name").text("loading ...");
 
                                       $("#event-locat").text("loading ...");
                                       $("#venue-name").text("loading ...");
 
-                                     
-                                      
+
+
                                       $("#organizer-name").text("loading ...");
                                       $("#organizer-bio").text("loading ...");
-                                      
+
                                       $("#eventDiscription").text("loading ...");
                                       $("#event-startdate").text("loading ...");
                                       $("#event-enddate").text("loading ...")
                                       $($("<div/>", {"class" : "loading-gif"})).appendTo("#event-image-container, #eventDiscription");
-                                      
+
                                       },
-                          
+
                           complete: function() {
                                       // hide ajax spinner
-                                      $.mobile.loading("hide"); 
+                                      $.mobile.loading("hide");
                                     },
 
                   success: getEventDetails
 
-                
+
           });
 
-         
-   
+
+
 });
 
 
 function display_tickets(data, statusText, jqXHR){
 console.log(data);
-  
+
       var tikets;
-        $("#order-container").empty();      
+        $("#order-container").empty();
         for(i = 0 ; i < data.ticket.length; i++) {
-       
+
 
           tikets = $("<tr/>");
 
@@ -2513,14 +2514,14 @@ console.log(data);
                   .append(ticketDiscription)
                   .append(ticketAvailablity)
                   .append(ticketPrice);
-          
+
         var ticketQuantity = $("<td/>");
           var ticketSelector = $("<td/>");
 
-          if(data.ticket[i].availableTicket != 0 ) {          
-            ticketQuantity.append($("<input/>" , { 
+          if(data.ticket[i].availableTicket != 0 ) {
+            ticketQuantity.append($("<input/>" , {
                                                     "type" : "number" ,
-                                                    "pattern" : "[0-9]*", 
+                                                    "pattern" : "[0-9]*",
                                                     "min" : '0',
                                                     "max" : data.ticket[i].availableTickets,
                                                     "data-clear-btn" : "true",
@@ -2532,20 +2533,20 @@ console.log(data);
                                                   }
                                     )
                                   );
-            ticketSelector.append($("<input/>" , { 
+            ticketSelector.append($("<input/>" , {
                                                     "type" : "checkbox" ,
-                                                    "value" : data.ticket[i].ticketId,                                                                                                       
+                                                    "value" : data.ticket[i].ticketId,
                                                     "data-role" : "flipswitch",
                                                     "class" : "selected-ticket",
                                                     "data-on-text" : "Get",
                                                     "data-off-text" : "Off",
-                                                    
+
                                                     "name" : "ticket-id[]"
-                                                    
+
                                                   }
-                                    )            
+                                    )
                                   );
-          
+
             tikets.append(ticketQuantity)
                   .append(ticketSelector);
 
@@ -2564,19 +2565,19 @@ console.log(data);
         }
 
         $("#order-container").append(tikets);
-        $("#ticket-list").enhanceWithin();   
+        $("#ticket-list").enhanceWithin();
            $("#ticket-list").table("refresh");
 }
 
 $(document).on("change", ".selected-ticket", function(){
 
-    
+
     if(this.checked == true){
       input = $(this).closest("tr").find(".order-quantity");
       $(input).textinput("enable");
 
     }else {
-      
+
       input.textinput("disable");
     }
 
@@ -2587,16 +2588,16 @@ $(document).on("pagebeforeshow", "#ticket-order-page", function(){
 
       var payment = $("#has-mobile-payment");
     // newsletter topics are optional, hide at first
-            $("#att-subscription").selectmenu("disable");     
+            $("#att-subscription").selectmenu("disable");
           payment.click(function(e) {
-        
+
            if(this.checked == true){
-            
+
                $("#att-subscription").selectmenu("enable");
            } else {
                 $("#att-subscription").selectmenu("disable");
            }
-       
+
 
 });
             $("#ticket-order-form").validate({
@@ -2623,38 +2624,38 @@ $(document).on("pagebeforeshow", "#ticket-order-page", function(){
 
                                     });
 
-            
-                
+
+
             $("#ticket-order-form").ajaxForm({
-                    
-                    
+
+
                     type: "POST",
                     resetForm: true,
                     target: "#order-result",
-                    data: { form: "order_form" ,event_id: localStorage.selected_event },          
-                    
-                    beforesubmit: function (formData, jqForm, options) { 
-                      
+                    data: { form: "order_form" ,event_id: localStorage.selected_event },
+
+                    beforesubmit: function (formData, jqForm, options) {
+
                        $.mobile.loading("show");
                     },
 
-                    success:    function (responseText, statusText, xhr, $form)  { 
-                         
+                    success:    function (responseText, statusText, xhr, $form)  {
+
                                        $.mobile.loading("hide");
-                                  
+
                                        if(statusText === "success"){
-                                    
+
                                            $("#order-result").fadeIn("slow", 1000);
                                         } else if(statusText === "error"){
-                                                                
+
                                             $("#message-title").append("<h5 class='alert alert-danger'> Upload Completed </h5>");
                                             $("#message-body").append(responseText);
                                             $("#modal-message").modal("show");
                                        }
-                        
-                    }, 
-                    
-                         
+
+                    },
+
+
 
                  });
 
@@ -2669,16 +2670,16 @@ $(document).on("pagebeforeshow", "#ticket-order-page", function(){
         alert("sorry some error occured please try Again!!!");
       } else {
                   $.ajax({
-              
+
                             type: "POST",
                             dataType: "JSON",
                             data: {get: "available_tickets", event_id : localStorage.selected_event },
                             success: display_tickets
-                  });   
+                  });
 
       }
 
-       
+
 });
 
 function create_reciept(data){
@@ -2688,9 +2689,9 @@ function create_reciept(data){
       for(i=0; i < data.reciept.length ; i++){
               reciept += "<li> ";
               if(data.reciept[i].eventImage) {
-                      
+
                       reciept += "<img src='uploads/eventImages/"+data.reciept[i].eventImage+"' > ";
-              
+
               } else {
                       reciept += "<img src='img/placeholder.jpg' > ";
               }
@@ -2701,25 +2702,25 @@ function create_reciept(data){
                   reciept += "<p> End Date : "+data.reciept[i].endDate+"    Time :  "+data.reciept[i].endTime+" </p>";
                   reciept += "<span class='ui-li-aside'> <strong> RECIEPT_No : </strong> "+data.reciept[i].recieptId+"</span>";
                   reciept += "</li>";
-                  
-              } 
+
+              }
 
           $("#ticket-container").empty();
           $("#ticket-container").append(reciept);
           $("#ticket-container").listview("refresh");
 
-          
-          
+
+
 }
 
 $(document).on("click", ".complete-order-btn", function(){
 
-  
+
           localStorage.reservation_ID =   $(this).attr("id");
 
           $("body").pagecontainer("change", "#order-completion-page" );
 
-            
+
 });
 
 
@@ -2727,29 +2728,29 @@ $(document).on("click", ".complete-order-btn", function(){
 
 $(document).on("click", "#download-pdf", function(){
 
-        
-          
+
+
           $.ajax({
-                        
+
                       data : {get: 'download_pdf', reservation_ID: localStorage.reservation_ID },
                       type: 'GET',
                       dataType: 'JSON',
 
                       success: function(data, statusText, jqxhr) {
                             $("#reservation-form").hide();
-          
+
                                 $.mobile.loading('hide');
                         }
               });
 
-            
 
-            
+
+
 });
 
 
 $(document).on("pagebeforeshow", "#order-completion-page", function(){
-    
+
         $("#reciept-actions").hide();
 
                     if(localStorage.reservation_ID) {
@@ -2766,12 +2767,12 @@ $(document).on("pagebeforeshow", "#order-completion-page", function(){
 
                               success: function(data, statusText, jqxhr) {
                                     $("#reservation-form").hide();
-                                    
+
                                     if(data.success === "true"){
                                       create_reciept(data.reciept);
-                                      
+
                                     }
-                                        
+
                               }
                     });
 
@@ -2779,34 +2780,34 @@ $(document).on("pagebeforeshow", "#order-completion-page", function(){
                       $("#reservation-form").show();
                     }
 
-          $("#booking-confirmation-form").ajaxForm({                                    
+          $("#booking-confirmation-form").ajaxForm({
                                                       type: "POST",
                                                       resetForm: false,
-                                                      data: "",          
-                                                      
-                                                      beforesubmit: function (formData, jqForm, options) { 
+                                                      data: "",
+
+                                                      beforesubmit: function (formData, jqForm, options) {
                                                          $.mobile.loading("show");
                                                       },
 
-                                                      success:    function (data, statusText, xhr, $form)  { 
-                                                           
+                                                      success:    function (data, statusText, xhr, $form)  {
+
                                                                          $.mobile.loading("hide");
-                                                           
+
                                                                          if(data.success === "true"){
-                                                                         
-                                                                         create_reciept(data);                                                                                
-                                                                         
-                                                                         } else if(data.success === "false"){                                                                         
+
+                                                                         create_reciept(data);
+
+                                                                         } else if(data.success === "false"){
 
                                                                               $("#message-title").append("<h5 class='alert alert-danger'> Upload Completed </h5>");
                                                                               $("#message-body").append(data.message);
                                                                               $("#modal-message").modal("show");
                                                                          }
-                                                          
-                                                      }, 
-                                                      
-                                                      uploadProgress: function(event, position, total, persentage){ } 
-                                                      
+
+                                                      },
+
+                                                      uploadProgress: function(event, position, total, persentage){ }
+
 
                                                    });
 });
@@ -2824,7 +2825,7 @@ $(document).on("pagebeforeshow", "#order-completion-page", function(){
 
 $(document).on("pagebeforecreate", "#contact-organizer-page", function() {
 
-       
+
               $("#contact-organizer-form").validate({
                                                         messages: {
                                                           "contact-org-firstname" : "Please Provide Your First Name",
@@ -2854,35 +2855,35 @@ $(document).on("pagebeforecreate","#event-creation-page", function(event) {
                                              },
                                              radius : 10,
                                               onchanged: function(currentLocation, radius, isMarkerDropped) {
-                                              //  alert("Location changed. New location (" + currentLocation.latitude + ", " + 
+                                              //  alert("Location changed. New location (" + currentLocation.latitude + ", " +
                                               // currentLocation.longitude +", "+ currentLocation.locationNameInput +" )");
                                               },
                                               oninitialized: function(component){
                                                    var addressComponents = $(component).locationpicker('map').location.addressComponents;
-                                                 
+
                                               }
                                           });
 
 */
-  
+
 
     $.ajax({
 
                   type: "GET",
                   data: {get: "is_logged"},
                   dataType: "JSON",
-                                 
+
                   success: function (data, statusText, jqXHR) {
 
                                 if(data.loged !== "true") {
                                     $.mobile.pagecontainer("change", "#signUpForm");
-                            
+
                               } else {
-                                        $.mobile.pagecontainer("change", "pages/eventCreationPage.html");    
+                                        $.mobile.pagecontainer("change", "pages/eventCreationPage.html");
                               }
                          }
 
-                
+
               });
 
 
@@ -2919,11 +2920,11 @@ $(document).on("pagebeforeshow","#event-creation-page", function() {
                                               }
                                           });
 
-   
+
             $("#event-creation-post").click(function(){
                   ajaxFormOptions.data = {form: "new_event", organizer_id: localStorage.organizer_id, option: "OPEN" };
                   ajaxFormOptions.context = $("#event-creation-form");
-                $("#event-creation-form").ajaxForm(ajaxFormOptions); 
+                $("#event-creation-form").ajaxForm(ajaxFormOptions);
             });
 
 
@@ -2931,12 +2932,12 @@ $(document).on("pagebeforeshow","#event-creation-page", function() {
               ajaxFormOptions.data = {form: "new_event", organizer_id: localStorage.organizer_id, option: "DRAFT" };
               ajaxFormOptions.context = $("#event-creation-form");
 
-            $("#event-creation-form").ajaxForm(ajaxFormOptions);  
-            })        
+            $("#event-creation-form").ajaxForm(ajaxFormOptions);
+            })
 
-                      $(".date_input").datetimepicker(dateOptions);                
+                      $(".date_input").datetimepicker(dateOptions);
 
-                      $(".time_input").datetimepicker(timeOptions);                
+                      $(".time_input").datetimepicker(timeOptions);
 
                       $(".date_input").datetimepicker(dateOptions);
 
@@ -2948,14 +2949,14 @@ $(document).on("pagebeforeshow","#event-creation-page", function() {
 
 
 $(document).on("click", ".addticket", function(){
-       
-       
+
+
          $("#ticket-box").append(new_ticket_slot(total_ticket));
          $("#ticket-creator").enhanceWithin();
          table = $("#ticket-box").closest("table");
-            table.table("refresh");           
-                         
-                                                    
+            table.table("refresh");
+
+
 });
 
 
@@ -2964,17 +2965,17 @@ $(document).on("pagebeforeshow", "#event-dashboard", function(){
 
 
                         $.ajax({
-               
+
                             dataType: "JSON",
                             data: {get: "event_statstics", organizer_id: localStorage.organizer_id, event_id : localStorage.selected_event},
                             cache: false,
                             type: "GET",
 
                             success: function(data, statusText, jqXHR){
-                                ticketStatus = "";    
-                                                                    
+                                ticketStatus = "";
+
                                           for(i = 0; i < data.length; i++){
-                                            
+
                                             ticketStatus = "<div class='progress'>";
                                             ticketStatus +=   "<div class='progress-bar progress-bar-success' role='progressbar' ";
                                             ticketStatus +=    "aria-valuenow='"+ data[i].confirmedBooking +"' aria-valuemin='0' aria-valuemax='"+data[i].quantity+"' style='width: "+ data[i].confirmedBooking +"%;' >";
@@ -2983,10 +2984,10 @@ $(document).on("pagebeforeshow", "#event-dashboard", function(){
                                             ticketStatus +=  "</div>";
 
                                           }
-                                          
-                                       
+
+
                                            $("#ticket-stat").empty();
-                                          $("#ticket-stat").append(ticketStatus);            
+                                          $("#ticket-stat").append(ticketStatus);
                             },
 
                             error: function(error, xxx, yyy, zzz){
@@ -2996,7 +2997,7 @@ $(document).on("pagebeforeshow", "#event-dashboard", function(){
                         });
 
 
-      
+
 
 
 
@@ -3014,17 +3015,17 @@ bookings +="last Checked In : "+data.lastCheckIn+" </p>";
  if(data.status == "IN" ){
 bookings +=    "<input type='checkbox' checked='checked' data-role='flipswitch' name='check-ins-flipswitch' id='"+data.recieptId+"'   data-on-text='IN' data-off-text='OUT' class='check-ins-flipswitch' >";
 } else {
- bookings +=    "<input type='checkbox'  data-role='flipswitch' name='check-ins-flipswitch' id='"+data.recieptId+"'   data-on-text='IN' data-off-text='OUT' class='check-ins-flipswitch' >"; 
+ bookings +=    "<input type='checkbox'  data-role='flipswitch' name='check-ins-flipswitch' id='"+data.recieptId+"'   data-on-text='IN' data-off-text='OUT' class='check-ins-flipswitch' >";
 }
 
 bookings += "</li>";
- 
+
               $("#check-ins").prepend(bookings);
 
                 $("#check-ins").enhanceWithin();
                 $("#check-ins").listview("refresh");
 
-                                   
+
 }
 
 $(document).on("change", ".ticket-type", function(){
@@ -3032,7 +3033,7 @@ $(document).on("change", ".ticket-type", function(){
 var   element = $(this);
 var price_input = null;
 
-      
+
       selected_type = element.val();
 
       if(selected_type == "free"){
@@ -3046,7 +3047,7 @@ var price_input = null;
         $(price_input).val("");
 
         $.ajax({
-                
+
                 data: {get : "has_billing_address", organizer_id : localStorage.organizer_id },
                 dataType: "JSON",
                 cache: false,
@@ -3057,16 +3058,16 @@ var price_input = null;
                         if(data.success === "true"  ) {
 
                             if(data.message === "true") {
-                       
+
                             } else {
-                       
+
                                   message = "<div class='alert alert-info' > You Should Provided Billing address in order to create PAID Events </div> ";
                                   $("#modal-body").empty();
                                   $("#modal-body").append(message);
                                   $("#modal-message").modal("show");
                                   $(price_input).textinput("disable");
                                   $(price_input).val("0.00");
-                           
+
                             }
                         } else {
                             alert("error");
@@ -3082,17 +3083,17 @@ $( document ).on( "change", ".check-ins-flipswitch",  function( event, ui ) {
 
   var ID = null;
          var act = null;
-         
+
           if($(this).prop("checked") == false){
             act = "check_out";
           } else {
             act = "check_in";
           }
-   
+
  ID = $(this).attr("id");
 
           $.ajax({
-                    
+
                     data: {get: "manage_check_in", request: act, organizer_id: localStorage.organizer_id, "reciept-id": ID, event_id : localStorage.selected_event },
                     type: "GET",
                     dataType: "JSON",
@@ -3101,17 +3102,17 @@ $( document ).on( "change", ".check-ins-flipswitch",  function( event, ui ) {
                       console.log(data);
                      $("#message-body").empty()
                     $("#message-body").append(data);
-                                     
-                      
+
+
                                      $("#modal-message").modal("show");
                     },error: function(error, xx,yy) {
                       $("#message-body").empty();
   console.log(error);
               $("#message-body").append(error);
-           
+
            $("#modal-message").modal("show");
                     }
-                
+
           });
 
 
@@ -3122,27 +3123,27 @@ $(document).on("pagebeforeshow" , "#check-in-page", function(){
 
 
                     $.ajax({
-                   
+
                             type: "GET",
                             data: {get: "check_ins" , organizer_id: localStorage.organizer_id , event_id: localStorage.selected_event },
                             dataType: "JSON",
                             cache:false,
 
-                    
+
                             success: function(data, statusText, jqxhr){
-                              
+
                                 $("#check-ins").empty();
                               for(i=0;i < data.length; i++){
                                 check_in(data[i]);
 
                               }
-                        
-                                
-                              
-                       
-                           
 
-                            }, 
+
+
+
+
+
+                            },
                             error: function(error, xxx,yyy,zzz){
                               alert(error +"  "+yyy);
                             }
@@ -3153,123 +3154,123 @@ $(document).on("pagebeforeshow" , "#check-in-page", function(){
 
 
           $("#attendee-check-in").ajaxForm({
-                    
-                    
+
+
                     type: "GET",
                     dataType: "JSON",
                     resetForm: false,
                     cache:false,
-                    data: {get: "check_in", organizer_id: localStorage.organizer_id, event_id: localStorage.selected_event },          
-                    
-                    beforesubmit: function (formData, jqForm, options) { 
+                    data: {get: "check_in", organizer_id: localStorage.organizer_id, event_id: localStorage.selected_event },
+
+                    beforesubmit: function (formData, jqForm, options) {
                        $.mobile.loading("show");
                     },
 
-                    success:    function (data, statusText, xhr, $form)  { 
+                    success:    function (data, statusText, xhr, $form)  {
                          console.log(data);
                                        $.mobile.loading("hide");
-                 
+
                                          check_in(data);
 
                                            $("#message-body").empty()
                       $("#message-body").append(data.message);
-                                                                  
-                                       
 
-                                      
-                        
-                    }, 
+
+
+
+
+                    },
                      error: function(error, xxx, yyy, zzz){
                               $("#message-body").empty()
                     $("#message-body").append(error);
                     $("#modal-message").modal("show");
                     alert('error');
                     console.log(error);
-                                     
+
                             },
-                    
-                    uploadProgress: function(event, position, total, persentage){ } 
-                    
+
+                    uploadProgress: function(event, position, total, persentage){ }
+
 
                  });
 
 });
 $(document).on("pagecreate" , "#events-managment-page", function(){
-        
-  
-  var open_event = "";            
+
+
+  var open_event = "";
   var active_event = "";
   var ended_event = "";
   var draft_event = "" ;
 
                 $.ajax({
-                          
+
                           data: {get: "organizer_events", organizer_id : localStorage.organizer_id },
                           dataType: "JSON",
                           type: "GET",
 
                           success: function(data, result, jqXHR) {
-                                      
+
 
                               for( i = 0; i < data.length ; i++) {
-                                  
+
                                   if(data.status = "ACTIVE" ) {
 
                                       active_event += "<li> <a href='#manage-event-page' class='update_event' id='"+ data[i].eventId +"'' >"+
                                                    "<img src='"+POSTER_LOCATION+""+data[i].eventImage +"' alt='image Not Found' />"+
-                                                   "<h4>"+data[i].eventName+"</h4>"+                                                                                                            
+                                                   "<h4>"+data[i].eventName+"</h4>"+
                                                   "</a> "+
                                                   "<a href='#' data-toggle='modal'     data-target='#myModal' class='delete_event' id='"+data[i].eventId+"' data-theme='e' data-icon='delete'>Delete</a> "+
                                               "</li> ";
-                                  
+
                                     }
-                              
-                            
+
+
                                   if(data.status = "DRAFT") {
-                               
+
                                   draft_event +=  "<li> <a href='#manage-event-page' class='update_event' id='"+ data[i].eventId +"'' >"+
                                                    "<img src='"+POSTER_LOCATION+""+data[i].eventImage +"' alt='image Not Found' />"+
-                                                   "<h4>"+data[i].eventName+"</h4>"+                                                                                                            
+                                                   "<h4>"+data[i].eventName+"</h4>"+
                                                   "</a> "+
                                                   "<a href='#' data-toggle='modal'     data-target='#myModal' class='delete_event' id='"+data[i].eventId+"' data-theme='e' data-icon='delete'>Delete</a> "+
                                               "</li> ";
-                                        
+
 
                                 }
-                              
-                              
+
+
 
                           if(data.status = "CLOSED") {
-                                                     
+
                                   ended_event +=  "<li> <a href='#manage-event-page' class='update_event' id='"+ data[i].eventId +"'' >"+
                                                    "<img src='"+POSTER_LOCATION+""+data[i].eventImage +"' alt='image Not Found' />"+
-                                                   "<h4>"+data[i].eventName+"</h4>"+                                                                                                            
+                                                   "<h4>"+data[i].eventName+"</h4>"+
                                                   "</a> "+
                                                   "<a href='#' data-toggle='modal'     data-target='#myModal' class='delete_event' id='"+data[i].eventId+"' data-theme='e' data-icon='delete'>Delete</a> "+
                                               "</li> ";
-  
+
                             }
 
                             if(data.status = "OPEN") {
-                                                     
+
                                   open_event +=  "<li> <a href='#manage-event-page' class='update_event' id='"+ data[i].eventId +"'' >"+
                                                    "<img src='"+POSTER_LOCATION+""+data[i].eventImage +"' alt='image Not Found' />"+
-                                                   "<h4>"+data[i].eventName+"</h4>"+                                                                                                            
+                                                   "<h4>"+data[i].eventName+"</h4>"+
                                                   "</a> "+
                                                   "<a href='#' data-toggle='modal'     data-target='#myModal' class='delete_event' id='"+data[i].eventId+"' data-theme='e' data-icon='delete'>Delete</a> "+
                                               "</li> ";
-                             }                           
-                              
+                             }
+
                             }
 
-                          
-  
+
+
                             $("#draft-events").append(draft_event).listview("refresh").tabs();
                             $("#active-events").append(active_event).listview("refresh").tabs();
                             $("#ended-events").append(ended_event).listview("refresh").tabs();
-                            //$("#active-events").append(open_event).listview("refresh").tabs();                          
-                          
-                          }  
+                            //$("#active-events").append(open_event).listview("refresh").tabs();
+
+                          }
 
 
 
@@ -3277,7 +3278,7 @@ $(document).on("pagecreate" , "#events-managment-page", function(){
 
                     });
                   $("#evente-managment-tab  li:eq(0) a").tab("show");
-  
+
   });
 
 
@@ -3287,25 +3288,25 @@ $(document).on("pagebeforeshow", "#social-setting-page", function(){
 
 
             $.ajax({
-  
+
                       data: {get: "social_addresses", organizer_id: localStorage.organizer_id },
-                      type : "GET", 
+                      type : "GET",
                       dataType: "JSON",
                       success : function(data, resultText, jqxhr ) {
                         alert(data);
                             console.log(data);
                               var socialMedia = $.parseJSON(data.social);
-                              $("#organization-id").val(data.organizationId);                                                                                                      
-                              $("#twitter-address").val(socialMedia.twitter);                                                                          
-                              $("#facebook-address").val(socialMedia.facebook);                          
+                              $("#organization-id").val(data.organizationId);
+                              $("#twitter-address").val(socialMedia.twitter);
+                              $("#facebook-address").val(socialMedia.facebook);
                               $("#youtube-address").val(socialMedia.youtube);
 
-                      }, 
+                      },
                       error(xxx, yyy, zzz){
                         console.log(xxx);
                       }
             });
-            
+
     ajaxFormOptions.data = { form: "update_social_media" , organizer_id: localStorage.organizer_id} ;
     $("#social-setting-form").ajaxForm(ajaxFormOptions);
 
@@ -3321,49 +3322,49 @@ $(document).on("pagebeforeshow", "#social-setting-page", function(){
 $(document).on("pagebeforeshow", "#update-contact-info", function(){
 
                   $("#organizer-pic-upload-btn").click(function(){
-                     
-                          $("#organizer-profile-pic").click();
-                      });        
 
-                      
+                          $("#organizer-profile-pic").click();
+                      });
+
+
                       $("#organizer-profile-pic").change(function(event){
 
                                   var inp = event.target;
 
                       var reader = new FileReader();
-                     
+
                         reader.onload = function(){
-                    
+
                             var dataURL = reader.result;
-                            
-                               
+
+
                             $("#profile-pic-placeholder").attr("src", dataURL);
-                             
+
                       };
                       reader.readAsDataURL(inp.files[0]);
-                   
-                         
+
+
                       });
 
                                 $("#UP-organizer-first-name").val("");
                                  $("#UP-organizer-last-name").val("");
                                  $("#edit-birthday").val("");
-                                 
-                                 
+
+
                                  $("#organizer-bio").val("");
                                  $("#organizer-position").val("");
-          
+
           $.ajax({
-                
+
                 data: {get: "organizer_info", organizer_id : localStorage.organizer_id },
                 dataType: "JSON",
                 type:'GET',
                 success: function(data, result, jqxhr){
                         console.log(data);
                             if(result === "success") {
-                        
+
                             if(data){
-                                
+
                                  $("#UP-organizer-first-name").val(data.firstName);
                                  $("#UP-organizer-last-name").val(data.lastName);
                                  $("#edit-birthday").val(data.birthdate);
@@ -3374,13 +3375,13 @@ $(document).on("pagebeforeshow", "#update-contact-info", function(){
                                  if(data.picture){
                                  $("#profile-pic-placeholder").attr("src","../uploads/organizerImages/"+data.organizerImage);
                                }
-                             
+
                            } else {
                             alert("some problem occured fetching your mail try again");
                            }
                    }
 
-                }       
+                }
 
           });
 
@@ -3401,35 +3402,35 @@ $(document).on("pagebeforeshow", "#update-contact-info", function(){
 
 $(document).on("pagebeforeshow", "#mail-change-page", function(){
 
-      
+
 
       $.ajax({
-            
+
                 data: {get: "organizer_mail" },
                 dataType: "JSON",
                 type:"GET",
                 success: function(data, result, jqxhr){
-                    
+
                         if(result === "success") {
-            
+
                           if(data){
-                            
+
                                   $("#current-address").text(data);
-          
+
                          } else {
-          
+
                                 alert("some problem occured fetching your mail try again");
-          
+
                           }
                         }
 
                 }
-           
+
       });
 
 
-      ajaxFormOptions.data = { form: "mail_change" , organizer_id: localStorage.organizer_id }; 
-      
+      ajaxFormOptions.data = { form: "mail_change" , organizer_id: localStorage.organizer_id };
+
       $("#email-change-form").ajaxForm(ajaxFormOptions);
 
 
@@ -3454,7 +3455,7 @@ $(document).on("pagebeforeshow", "#password-change-page", function(){
                                               "new-password-retype" : {
                                                 required: true,
                                                 equalTo : "#new-password"
-                                              } 
+                                              }
                                             }
                                           });
 
@@ -3462,7 +3463,7 @@ $(document).on("pagebeforeshow", "#password-change-page", function(){
 });
 
 $(document).on("pagebeforeshow", "#billing-address-setting-page", function(){
-    
+
     formOptions.data = { form: "billing_address_update" , organizer_id : localStorage.organizer_id };
     $("#billing-address-setting-form").ajaxForm(formOptions);
 
@@ -3479,51 +3480,51 @@ $(document).on("pagebeforeshow", "#organization-info-setting-page", function(){
                 $("#organization-office-number").val("");
                 $("#organization-mobile-number").val("");
                 $("#organization-post-no").val("");
-                
+
 
                 $('#organization-logo-upload-btn').click(function(){
-             
+
                   $("#organization-logo").click();
-              });        
-              
+              });
+
               $("#organization-logo").change(function(event){
 
                var inp = event.target;
 
                 var reader = new FileReader();
-             
+
                 reader.onload = function(){
-            
+
                     var dataURL = reader.result;
                     $("#logo-placeholder").attr('src', dataURL);
-                     
+
                 };
-            
+
                reader.readAsDataURL(inp.files[0]);
-           
-                 
+
+
               });
 
-                                    
+
                   $.ajax({
-                
+
                           data: {get: "organizer_info", organizer_id: localStorage.organizer_id },
                           dataType: "JSON",
                           type:"GET",
                           success: function(data, result, jqxhr){
-                              
+
                                   if(result === "success") {
-                                   
+
                                     if(data){
 
                                           if(data.organizationLogo){
-                                              
+
                                               $("#logo-placeholder").attr("src","../uploads/Organizations/"+data.organizationLogo);
-                                            
+
                                             }
 
                                            officePhone = $.parseJSON(data.officeNumber);
-                                           mobilePhone = $.parseJSON(data.mobileNumber); 
+                                           mobilePhone = $.parseJSON(data.mobileNumber);
                                            $("#organization-id").val(data.organizationId);
                                              $("#organization-name").val(data.organizationName);
                                              $("#organization-website").val(data.website);
@@ -3531,7 +3532,7 @@ $(document).on("pagebeforeshow", "#organization-info-setting-page", function(){
                                              $("#organization-office-number").val(officePhone[0]);
                                              $("#organization-mobile-number").val(mobilePhone[0]);
                                              $("#organization-post-no").val(data.po_num);
-                                                
+
                                          } else {
 
                                               alert("some problem occured fetching your mail try again");
@@ -3541,11 +3542,11 @@ $(document).on("pagebeforeshow", "#organization-info-setting-page", function(){
                                   }
 
                           }
-                     
+
                 });
 
 
- 
+
               $("#organization-info-setting-form").validate({
                                                               messages: {
                                                                     "#organization-website" : "Your website should be given in the valid format like http://www.something.com ",
@@ -3554,9 +3555,9 @@ $(document).on("pagebeforeshow", "#organization-info-setting-page", function(){
                                                               }
 
                                                             });
-            
+
          ajaxFormOptions.data = { form: "organization_info_change", organizer_id: localStorage.organizer_id },
-              
+
               $("#organization-info-setting-form").ajaxForm(ajaxFormOptions);
 
 
@@ -3567,32 +3568,32 @@ var eventLocation = {
                       location:  {latitude: 9.005401  , longitude:   38.763611},
                       enableAutocomplete: true,
        inputBinding: {
-                      
+
                       latitudeInput: $("#event-latitude-update"),
                       longitudeInput: $("#event-longitude-update")
-                      
+
                   },
                    radius: 10,
                 onchanged: function(currentLocation, radius, isMarkerDropped) {
                   var addressComponents = $(this).locationpicker("map").location.addressComponents;
                        $("#event-city-update").val(addressComponents.city);
                        $("#event-country-update").val(addressComponents.country);
-          
+
                     //  alert("Location changed. New location (" + currentLocation.latitude + ", " + currentLocation.longitude +", "+ currentLocation.locationNameInput +" )");
                   },
                 oninitialized: function (component) {
-                      
+
                     var addressComponents = $(component).locationpicker("map").location.addressComponents;
-                     
-          
+
+
 
                     }
               };
-         
+
   $(document).on("pagebeforeshow", "#event-basics-update-page", function(){
-     
+
                   $.ajax({
-                            
+
                             data: {"get": "event_basics", event_id: localStorage.selected_event },
                             type:"GET",
                             dataType: "JSON",
@@ -3600,14 +3601,14 @@ var eventLocation = {
 
                             success : function(data, result, jqXHR){
                               console.log(data);
-                        
+
 
                                   if(result === "success") {
-                                   
+
                                       if(data.eventImage){
-                                      
+
                                         $("#event-image-placeholder").attr("src", "../uploads/eventImages/"+ data.eventImage);
-                                      
+
                                       }
                                           $("#event-title-update").val(data.eventName);
                                           $("#venue-name-update").val(data.venue);
@@ -3616,25 +3617,25 @@ var eventLocation = {
                                           $("#event-city-update").val(data.city);
                                           $("#event-sub-city-update").val(data.subCity);
                                           $("#event-common-name-update").val(data.location);
-                                          
-                                                                                                  
+
+
                                       }
 
                             } ,
                              error: function(data, result, jqxhr){
-                                        
+
                                         alert(jqxhr);
-                          
+
                           }
-                    
+
                     });
-  
-             
-                      
-                   
-            
-  
-                      
+
+
+
+
+
+
+
 
 
              $("#event-image-update-btn").click(function(){
@@ -3657,7 +3658,7 @@ var eventLocation = {
                                           "event-type-update": "Please Specify The  Type like Music, art, etc...",
                                           "event-discription-update" : "Please Say Something about the event so that viewers know what its about"
                                         }
-               
+
 
             });
 
@@ -3665,7 +3666,7 @@ var eventLocation = {
 
           $("#event-basics-update-form").ajaxForm(ajaxFormOptions);
 
-});      
+});
 
 
 
@@ -3673,33 +3674,33 @@ var eventLocation = {
 $(document).on("pagebeforeshow", "#event-guest-update-page", function(){
 
                   $.ajax({
-                
+
                             data: {get: "event_guests", organizer_id: localStorage.organizer_id, event_id: localStorage.selected_event },
                             type:"GET",
                             dataType: "JSON",
-                            
+
                             success : function(data, result, jqXHR){
-                                        
+
                                   if(result === "success") {
-                             
+
                                      for(i = 0; i < data.length ; i++) {
-                
+
                                          initialize_guest_fields(data[i], i);
-                
+
                                    }
-                                                              
+
                                 }
-                            } 
+                            }
                     });
 
-         
+
             $("#event-guest-update-form").validate({
 
                                         messages: {
                                                     "guest-firstname-update": "Please Provide First Name",
                                                     "guest-lastname-update": "Please Provide Last Name ",
-                                                    
-                                                  } 
+
+                                                  }
                                       });
 
           ajaxFormOptions.data = {form: "guest_update" , organizer_id: localStorage.organizer_id, event_id: localStorage.selected_event };
@@ -3707,7 +3708,7 @@ $(document).on("pagebeforeshow", "#event-guest-update-page", function(){
             $("#guest-update-form").ajaxForm(ajaxFormOptions);
 
 
-  
+
 
   });
 
@@ -3718,97 +3719,97 @@ $(document).on("pagebeforeshow", "#event-guest-update-page", function(){
     var total_guest_field = 1;
 
 $(document).on("click", "#add-guest", function(e,data){
-       
+
        var guest_image_table = $("#guest-preview");
        var guest_image_table = $("#guest-preview");
-           
-          
+
+
         guest_field = get_guest_field(total_guest_field);
-        
+
               $(guest_field).appendTo(guest_image_table);
               $(guest_image_table).enhanceWithin();
-              $(guest_image_table).closest("table").table("refresh");      
-              
+              $(guest_image_table).closest("table").table("refresh");
+
         total_guest_field = total_guest_field + 1;
-      
+
 });
 
-      
+
 
 $(document).on("pagebeforeshow", "#sponsor-update-page", function(){
-                
+
                  $.ajax({
-                
+
                             data: {get: "event_sponsors", organizer_id: localStorage.organizer_id, event_id: localStorage.selected_event },
                             type:"GET",
                             dataType: "JSON",
-                            
+
                             success : function(data, result, jqXHR){
-                                        
+
                                   if(result === "success") {
                         console.log(data);
                                       for(i = 0; i < data.length ; i++) {
-                
+
                                          initialize_sponsor_fields(data[i], i);
                                    }
 
                                 }
-                
+
                             },  error: function(data, result, jqxhr){
-                                        
+
                                         alert(jqxhr);
-                          
+
                           }
                 });
 
         ajaxFormOptions.data = {form: "sponsor_update", organizer_id: localStorage.organizer_id, event_id: localStorage.selected_event };
 
                  $("#sponsor-update-form").ajaxForm(ajaxFormOptions);
-      
+
 });
 
   var  total_sponsors = 1;
-     
+
 
 
 $(document).on("click", "#add-sponsor", function(e,data) {
-                   sponsor_add_table = $("#sponsor-box");        
-                
+                   sponsor_add_table = $("#sponsor-box");
+
          sponsor_field = get_sponsor_field(total_sponsors);
-        $(sponsor_add_table).append(sponsor_field).enhanceWithin();  
-        total_sponsors = total_sponsors + 1;    
+        $(sponsor_add_table).append(sponsor_field).enhanceWithin();
+        total_sponsors = total_sponsors + 1;
         $(sponsor_add_table).closest("table").table("refresh");
-      
+
 });
 
 
 $(document).on("click", ".add-image", function() {
 
         var imageAnchor = $(this);
-        var fileInput = $(this).siblings("input[type='file']");         
+        var fileInput = $(this).siblings("input[type='file']");
         fileInput.click();
-      
+
 
        $(document).one("change", fileInput, function(event){
-                  
+
             var inp = event.target;
 
             var reader = new FileReader();
 
               reader.onload = function(){
-        
+
                         var dataURL = reader.result;
 
                         var previewImage = imageAnchor.children("img.image-preview");
-                   
+
                         $(previewImage).attr("src", dataURL);
-               
+
                  };
-            
+
             reader.readAsDataURL(inp.files[0]);
- 
+
         });
-               
+
 });
 
 
@@ -3816,36 +3817,36 @@ $(document).on("pagebeforeshow", "#event-schedule-update-page", function(){
 
 
             $.ajax({
-                      
+
                       data: {get: "event_schedule", event_id: localStorage.selected_event },
                       type:"GET",
                       dataType: "JSON",
                       cache: false,
 
                       success : function(event, result, jqXHR){
-                        
+
                             if(result === "success") {
-                         
+
                               $("#event-start-date-update").val(event.startDate);
                               $("#event-end-date-update").val(event.endDate);
                               $("#event-start-time-update").val(event.startTime);
                               $("#event-end-time-update").val(event.endTime);
-                              
+
                             }
                       },
                          error: function(data, result, jqxhr){
                       alert(result+"  "+jqxhr);
-                    } 
+                    }
             });
 
 
           $(".date_input").datetimepicker(dateOptions);
 
-           $(".time_input").datetimepicker(timeOptions);      
+           $(".time_input").datetimepicker(timeOptions);
 
 
 
-         
+
           $("#event-schedule-update-form").validate({
 
                messages: {
@@ -3853,9 +3854,9 @@ $(document).on("pagebeforeshow", "#event-schedule-update-page", function(){
                   "event-end-date-update": "Please Provide the date the event Is Ending",
                   "event-start-time-update": "Please Provide time the event is Start",
                   "event-end-time-update": "Please Provide time the event Is Ending",
-                  
+
                 },
-               
+
 
 
           });
@@ -3874,27 +3875,27 @@ $(document).on("pagebeforeshow", "#event-schedule-update-page", function(){
 
 $(document).on("pagebeforeshow", "#event-tickets-update-page", function(){
 
-      
-    
-        $(".date_input").datetimepicker(dateOptions);      
+
+
+        $(".date_input").datetimepicker(dateOptions);
 
             $.ajax({
-                      
+
                       data: {get: "event_tickets", event_id: localStorage.selected_event },
                       type:"GET",
                       dataType: "JSON",
                       cache: false,
 
                       success : function(data, result, jqXHR){
-                  
+
                                         if(result === "success") {
                                              $("#ticket-sales-start-update").val(data[0].saleStart);
                                           $("#ticket-sales-end-update").val(data[0].saleEnd);
-                                          
+
                                           initialize_ticket(data);
-                                     
+
                                          }
-                                                                                 
+
 
                     },
 
@@ -3903,8 +3904,8 @@ $(document).on("pagebeforeshow", "#event-tickets-update-page", function(){
                    }
 
           });
-         
-          
+
+
             $("#event-ticket-update-form").validate({
 
                                                    messages: {
@@ -3915,8 +3916,8 @@ $(document).on("pagebeforeshow", "#event-tickets-update-page", function(){
                                                     "ticket-discription-update": "Please say something about the ticket like its purpose and what it can do",
                                                     "ticket-sales-start-date-update": "Please Specify When the ticket should be available for sale",
                                                     "ticket-sales-end-date-update": "Please Specify Till when the ticket will be Available"
-                                                            
-                                                      
+
+
                                                     }
 
 
@@ -3924,21 +3925,21 @@ $(document).on("pagebeforeshow", "#event-tickets-update-page", function(){
 
 
         ajaxFormOptions.data = { form: "event_ticket_update", event_id: localStorage.selected_event, organizer_id : localStorage.organizer_id };
-          
+
           $("#event-ticket-update-form").ajaxForm(ajaxFormOptions);
 
-          
+
 
 });
 
 
 
 
- 
+
 
 $(document).one("pagecreate", "#account-managment", function () {
 
-           $.ajax({                        
+           $.ajax({
                     type: "GET",
                     data: {get: "organizer_info" , organizer_id : localStorage.organizer_id },
                     dataType: "JSON",
@@ -3946,109 +3947,109 @@ $(document).one("pagecreate", "#account-managment", function () {
                     success : function(data, result, jqxhr){
 
                           displayAccountDetails(data);
-                                                        
+
 
 
                         }
               });
 
-    
+
 
 });
 
 
 function displayAccountDetails(data) {
 
-        if(data.title) { $("#admin-name").text(data.title+" "+data.firstName+" "+data.lastName);  } 
+        if(data.title) { $("#admin-name").text(data.title+" "+data.firstName+" "+data.lastName);  }
         else { $("#admin-name").text(data.firstName+" "+data.lastName); }
-        
-        if(data.organizerPosition) {  $("#admin-position").text(data.organizerPosition);   } 
+
+        if(data.organizerPosition) {  $("#admin-position").text(data.organizerPosition);   }
         else {  $("#admin-position").text("");  }
 
            mobileNumber = $.parseJSON(data.mobileNumber);
-              
+
               if(mobileNumber[0]){ $("#admin-mobile-number").text(mobileNumber[0]);
               } else { $("#admin-mobile-number").text("");
-                        } 
+                        }
         if (data.aboutOrganizer) { $("#admin-bio").text(data.aboutOrganizer);   }
         else {$("#admin-bio").text(""); }
         if(data.organizationName) { $("#admin-organization-name").text(data.organizationName); }
         else { $("#admin-organization-name").text(""); }
         if(data.website) { $("#admin-website").text(data.website); }
         else {$("#admin-website").text("");}
-        if(data.email) { $("#admin-email").text(data.email); 
+        if(data.email) { $("#admin-email").text(data.email);
         } else { $("#admin-email").text(""); }
 
         social = $.parseJSON(data.social);
 
          if(social.facebook) { $("#admin-facebook").text(social.facebook); }
         else { $("#admin-facebook").text(""); }
-        if(social.twitter) { $("#admin-twitter").text(social.twitter); } 
+        if(social.twitter) { $("#admin-twitter").text(social.twitter); }
         else { $("#admin-twitter").text(""); }
          if (social.youtube) {$("#admin-youtube").text(social.youtube);  }
           else {$("#admin-youtube").text(""); }
 
-       
+
                    officeNumber = $.parseJSON(data.officeNumber);
-                      
-                      if(officeNumber[0]) { $("#admin-office-number").text(officeNumber[0]);  
+
+                      if(officeNumber[0]) { $("#admin-office-number").text(officeNumber[0]);
                       } else {$("#admin-office-number").text(""); }
-                                             
+
                       if (data.aboutOrganization) {  $("#admin-organization-info").text(data.aboutOrganization); }
                       else {  $("#admin-organization-info").text(""); }
-                      
+
                       if(data.gender) {  $("#admin-gender").text(data.gender);  }
                       else {  $("#admin-gender").text(""); }
-                      
+
                       if(data.birthdate) { $("#admin-birthday").text(data.birthdate);  }
                       else { $("#admin-birthday").text(""); }
-                                         
-                      if(data.registeredOn) { $("#admin-registered").text(data.registeredOn);   } 
+
+                      if(data.registeredOn) { $("#admin-registered").text(data.registeredOn);   }
                       else {  $("#admin-registered").text(""); }
-                  
-                      
+
+
                     if(data.postalAddress) {$("#admin-po_num").text(data.postalAddress); }
                     else {  $("#admin-po_num").text(""); }
-                    
-                      
+
+
                       if(data.organizerImage){ $("#admin-picture").attr("src", "../uploads/organizersImage/profilePictures/"+data.organizerImage); }
                       if(data.organizationLogo){ $("#admin-organization-logo").attr("src", "../uploads/organizersImage/companyLogos/"+data.organizationLogo); }
-                    
-                    
+
+
 
         }
 
 
 $(document).on("pagebeforeshow", "#manage-event-page", function () {
-               
+
               $.ajax({
-                        
+
                         type: "GET",
                         data: {get: "event_summary" , organizer_id : localStorage.organizer_id, event_id : localStorage.selected_event },
                         dataType: "JSON",
 
                         success : display_event_summary
-                     
 
-                                
 
-                        
+
+
+
               });
-      
+
 });
 
 
 $(document).on("click", ".update_event", function(e){
-     
+
                 localStorage.selected_event = $(this).attr("id");
-                                          
+
 });
 
 
 $(document).on("click", ".delete_event", function(e){
 
              selected = $(this).attr("id");
-                                         $.ajax({                                                  
+                                         $.ajax({
                                                   type: "POST",
                                                   data: {form: "delete_event", event_id: selected},
                                                   success: function(data, result, jqXHR){
@@ -4072,9 +4073,9 @@ $(document).on("click", "#add-address", function(){
 
 
  $(document).on("pagebeforeshow", "#organization-address-setting-page", function(){
-    
 
-                $.ajax({                        
+
+                $.ajax({
                         type: "GET",
                         data: {get: "organization_address" , organizer_id : localStorage.organizer_id },
                         dataType: "JSON",
@@ -4086,9 +4087,9 @@ $(document).on("click", "#add-address", function(){
                             }
                         }
 
-                                
 
-                        
+
+
               });
 
 
