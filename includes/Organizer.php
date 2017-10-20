@@ -2,7 +2,7 @@
 
 
 abstract class Organization implements Event_interface, Location_interface {
-			
+
 		protected $ORGANIZATION_ID;
 		protected $logo;
 		protected $name;
@@ -31,14 +31,14 @@ abstract class Organization implements Event_interface, Location_interface {
 			abstract function add_event(Event $event);
 			abstract function update_event(Event $event);
 			abstract function delete_event(Event $event);
-			
+
 			abstract function update_profile();
 			abstract function close_organization(Organizer $updated_organizer);
-			
+
 			abstract function add_event_guest(Event $guest);
 			abstract function delete_event_guest(Event $event);
 			abstract function update_event_guest(Event $guest);
-			
+
 			abstract function add_event_sponsor(Event $sponsor);
 			abstract function delete_event_sponsor(Event $sponsor);
 			abstract function update_event_sponsor(Event $sponsor);
@@ -46,11 +46,11 @@ abstract class Organization implements Event_interface, Location_interface {
 			abstract function add_event_ticket(Event $ticket);
 			abstract function delete_event_ticket(Event $ticket);
 			abstract function update_event_ticket(Event $ticket);
-			
-				
 
-	
-			
+
+
+
+
 			public function set_organization_id($new_id) {
 				return $this->ORGANIZATION_ID = $new_id;
 			}
@@ -68,7 +68,7 @@ abstract class Organization implements Event_interface, Location_interface {
 						if(move_uploaded_file($image["tmp_name"], self::get_organization_image_location($image))) {
 						return $this->logo = basename($image["name"]);
 						} else {
-							trigger_error(" Profile Picture Upload failed ", E_USER_ERROR );	
+							trigger_error(" Profile Picture Upload failed ", E_USER_ERROR );
 						}
 					} else {
 						trigger_error("invalid Profile picture Image Size, image size should be less than or equal to 5 mb  ", E_USER_ERROR );
@@ -76,7 +76,7 @@ abstract class Organization implements Event_interface, Location_interface {
 
 				} else {
 					trigger_error("Invalid Profile Picture", E_USER_ERROR);
-				}  
+				}
 			}
 
 			public function set_organization_name($value) {
@@ -114,7 +114,7 @@ abstract class Organization implements Event_interface, Location_interface {
 			return ($this->office_number = VALIDATOR::validate_phone_number($value)) ? $this->office_number :trigger_error("Invalid office phone number valid phone number should contain 10 or 13 digits and optional + prefix", E_USER_ERROR);
 			}
 
-			
+
 			public function get_organization_logo() {
 				return $this->logo;
 			}
@@ -156,11 +156,11 @@ abstract class Organization implements Event_interface, Location_interface {
 				public function get_status() {
 				return $this->status;
 			}
-			
+
 				public function get_billing_address(){
 
 		}
-		
+
 		public function set_service_provider($value){
 			$this->service_provider = $value;
 		}
@@ -192,8 +192,8 @@ abstract class Organization implements Event_interface, Location_interface {
 			return $this->ORGANIZATION_ID;
 		}
 
-	
-		
+
+
 
 
 		public function update_billing_address( $service_provider, $mobile_number){
@@ -228,7 +228,7 @@ abstract class Organization implements Event_interface, Location_interface {
 
 
 
-	
+
 
 		public function remove_billing_address($id){
 
@@ -239,7 +239,7 @@ abstract class Organization implements Event_interface, Location_interface {
 
 			$placeholder = array(
 									':id' => self::get_organization_id(),
-									
+
 								);
 
 			$statement = $this->DB_Driver->prepare_query($sql);
@@ -252,8 +252,8 @@ abstract class Organization implements Event_interface, Location_interface {
 				return false;
 			}
 		}
-			
-		
+
+
 			public function set_address(Address $address) {
 				$this->set_address_count(self::get_address_count() + 1);
 				 $this->ADDRESS[$this->get_address_count()] = $address;
@@ -271,7 +271,7 @@ abstract class Organization implements Event_interface, Location_interface {
 				return $this->addressCount;
 			}
 
-			
+
 
 			public function remove_address(Address $address) {
 
@@ -279,9 +279,9 @@ abstract class Organization implements Event_interface, Location_interface {
 				$sql .= "WHERE `ORG_ADD_ID` = :id ";
 
 				$placeholder = array(':id' => $address->get_id() );
-				
+
 				$statement = $this->DB_Driver->prepare_query($sql);
-					  
+
 					  $statement->execute( $placeholder );
 
 					  	if($statement->rowCount() == 1){
@@ -295,11 +295,11 @@ abstract class Organization implements Event_interface, Location_interface {
 
 
 
-			
-			
+
+
 }
-	
-	
+
+
 class Organizer extends Organization {
 
 		private $ORGANIZER_ID;
@@ -318,13 +318,13 @@ class Organizer extends Organization {
 
 
 				function __construct() {
-										
+
 						$this->set_event_count(0);
 						$this->set_address_count(0);
 						$this->DB_Driver = new DB_CONNECTION();
-						
 
-				
+
+
 				}
 
 
@@ -337,30 +337,30 @@ class Organizer extends Organization {
 							$address;
 				$count = 0;
 
-				
+
 				while($count < $this->get_address_count()) {
 
-					
-						if($this->get_address($count + 1)->get_status() == 'new' ) {	
-						
+
+						if($this->get_address($count + 1)->get_status() == 'new' ) {
+
 						if((!$address[$new]['country'] = $this->get_address($count + 1)->get_country()) && $error = 1)
 							trigger_error('REQUIRED Organization (country) not provided', E_USER_ERROR);
 						if((!$address[$new]['city'] = $this->get_address($count + 1)->get_city()) && $error = 1)
 							trigger_error('REQUIRED Organization (city) not provided', E_USER_ERROR);
 						if((!$address[$new]['subCity'] = $this->get_address($count + 1)->get_sub_city()) && $error = 1)
-							trigger_error('REQUIRED Organization (Sub-City) not provided', E_USER_ERROR);					
+							trigger_error('REQUIRED Organization (Sub-City) not provided', E_USER_ERROR);
 						if((!$address[$new]['location'] = $this->get_address($count + 1)->get_location()) && $error = 1)
-							trigger_error('REQUIRED Organization (Location) not provided', E_USER_ERROR);	
+							trigger_error('REQUIRED Organization (Location) not provided', E_USER_ERROR);
 						if((!$address[$new]['latitude'] = $this->get_address($count + 1)->get_latitude()))
-							trigger_error(' Organization (latitude) not provided', E_USER_WARNING);		
+							trigger_error(' Organization (latitude) not provided', E_USER_WARNING);
 						if((!$address[$new]['longitude'] = $this->get_address($count + 1)->get_longitude() ))
-							trigger_error(' Organization (longitude) not provided', E_USER_WARNING);									
+							trigger_error(' Organization (longitude) not provided', E_USER_WARNING);
 
 							$new++;
 						}
 
 						$count++;
-										
+
 				}
 
 					if($error == 0) {
@@ -375,13 +375,13 @@ class Organizer extends Organization {
 						}
 					}
 					return ($error == 0 ) ? true : false;
-			
+
 
 			}
 
 			public function update_address(){
-							 
-					
+
+
 						//$last_index = $this->set_address_count($this->get_address_count() + 1 );
 						//$this->ADDRESS[$last_index] = $address;
 				$error = 0;
@@ -389,11 +389,11 @@ class Organizer extends Organization {
 							$address;
 				$count = 0;
 
-				
+
 				while($count < $this->get_address_count()) {
 
-					
-						if($this->get_address($count + 1)->get_status() == 'updated' ) {	
+
+						if($this->get_address($count + 1)->get_status() == 'updated' ) {
 						if((!$address[$updated]['addressId'] = $this->get_address($count + 1)->get_id()) && $error = 1)
 							trigger_error('REQUIRED Organization (ID) not provided', E_USER_ERROR);
 						if((!$address[$updated]['country'] = $this->get_address($count + 1)->get_country()) && $error = 1)
@@ -401,22 +401,22 @@ class Organizer extends Organization {
 						if((!$address[$updated]['city'] = $this->get_address($count + 1)->get_city()) && $error = 1)
 							trigger_error('REQUIRED Organization (city) not provided', E_USER_ERROR);
 						if((!$address[$updated]['subCity'] = $this->get_address($count + 1)->get_sub_city()) && $error = 1)
-							trigger_error('REQUIRED Organization (Sub-City) not provided', E_USER_ERROR);					
+							trigger_error('REQUIRED Organization (Sub-City) not provided', E_USER_ERROR);
 						if((!$address[$updated]['location'] = $this->get_address($count + 1)->get_location()) && $error = 1)
-							trigger_error('REQUIRED Organization (Location) not provided', E_USER_ERROR);	
+							trigger_error('REQUIRED Organization (Location) not provided', E_USER_ERROR);
 						if((!$address[$updated]['latitude'] = $this->get_address($count + 1)->get_latitude()))
-							trigger_error(' Organization (latitude) not provided', E_USER_WARNING);		
+							trigger_error(' Organization (latitude) not provided', E_USER_WARNING);
 						if((!$address[$updated]['longitude'] = $this->get_address($count + 1)->get_longitude() ))
-							trigger_error(' Organization (longitude) not provided', E_USER_WARNING);									
+							trigger_error(' Organization (longitude) not provided', E_USER_WARNING);
 
 							$updated++;
 						}
 
 						$count++;
-										
+
 				}
 
-				
+
 
 					if($error == 0) {
 						try {
@@ -430,12 +430,12 @@ class Organizer extends Organization {
 						}
 					}
 					return ($error == 0 ) ? true : false;
-			
+
 			}
 
 				public function delete_address(){
-							 
-					
+
+
 						//$last_index = $this->set_address_count($this->get_address_count() + 1 );
 						//$this->ADDRESS[$last_index] = $address;
 				$error = 0;
@@ -443,22 +443,22 @@ class Organizer extends Organization {
 							$address;
 				$count = 0;
 
-				
+
 				while($count < $this->get_address_count()) {
 
-					
-						if($this->get_address($count + 1)->get_status() == 'deleted' ) {	
-						
+
+						if($this->get_address($count + 1)->get_status() == 'deleted' ) {
+
 							if((!$address[$deleted]['addressId'] = $this->get_address($count + 1)->get_id()) && $error = 1)
 								trigger_error('REQUIRED Organization (ID) not provided', E_USER_ERROR);
 									$deleted++;
 						}
 
 						$count++;
-										
+
 				}
 
-				
+
 
 					if($error == 0) {
 						try {
@@ -472,18 +472,18 @@ class Organizer extends Organization {
 						}
 					}
 					return ($error == 0 ) ? true : false;
-			
+
 			}
 					public function update_socialMedia_address(){
 
 					$error = 0;
 
 
-					$socialAddress = array('socialMedia' => 
+					$socialAddress = array('socialMedia' =>
 										array(
 											'facebook' => self::get_facebook(),
 											'twitter' => self::get_twitter(),
-											'youtube' => self::get_youtube(),											
+											'youtube' => self::get_youtube(),
 
 										)
 					 					);
@@ -501,13 +501,13 @@ class Organizer extends Organization {
 					}
 
 					return ($error == 0) ? true : false;
-							
-			
+
+
 			}
 
 		public function add_event_guest(Event $event){
 
-			
+
 			$last_Index = $this->set_event($event);
 
 			$count = 0;
@@ -516,10 +516,10 @@ class Organizer extends Organization {
 			$new = 0;
 			while($count < $this->get_event($last_Index)->get_guest_count() ){
 
-								
+
 				if( $this->get_event($last_Index)->get_guest($count + 1 )->get_status() == "new" ){
-				
-					
+
+
 					if((!$guest[$new]["firstName"] = $this->get_event($last_Index)->get_guest($count + 1)->get_first_name()) && $error = 1 )
 						trigger_error("REQUIRED value Event Special Guest (First Name) Missing !!!", E_USER_ERROR);
 					if((!$guest[$new]["lastName"] = $this->get_event($last_Index)->get_guest($count + 1)->get_last_name()) && $error = 1 )
@@ -534,18 +534,18 @@ class Organizer extends Organization {
 						trigger_error("(Image) Missing for Guest -- ", E_USER_WARNING);
 				$new++;
 				}
-						
+
 				$count++;
 			}
 
 				if($error != 0 ) {
 					return false;
 				} else {
-			
+
 						try {
 								$guests = json_encode($guest);
 								$sql = "CALL addEventGuest(".$this->get_event($last_Index)->get_id().",".json_encode($guests).")";
-								$statement = $this->DB_Driver->prepare_query($sql);	
+								$statement = $this->DB_Driver->prepare_query($sql);
 								$statement->execute();
 								return true;
 						} catch (Exception $e) {
@@ -553,7 +553,7 @@ class Organizer extends Organization {
 							return false;
 						}
 				}
-			
+
 
 		}
 
@@ -564,7 +564,7 @@ class Organizer extends Organization {
 
 			$count = 0;
 			$guest = null;
-			$error = 0;		
+			$error = 0;
 			$deleted = 0;
 			while($count < $this->get_event($lastIndex)->get_guest_count() ){
 
@@ -575,26 +575,26 @@ class Organizer extends Organization {
 					} else {
 						$deleted++;
 					}
-					
-					 
-					
+
+
+
 				}
 
 				$count++;
 			}
 
-			
+
 			if($error == 0) {
-				
+
 					try {
 
 					$guests = json_encode($guest);
 
 					$sql = "CALL deleteEventGuest(".$this->get_event($lastIndex)->get_id().",".json_encode($guests).")";
 
-							$statement = $this->DB_Driver->prepare_query($sql);	
+							$statement = $this->DB_Driver->prepare_query($sql);
 							$statement->execute();
-							
+
 					} catch (Exception $e) {
 						trigger_error($e->getMessage(), E_USER_ERROR);
 						$error = 1;
@@ -602,25 +602,25 @@ class Organizer extends Organization {
 			}
 
 			return ($error == 0 ) ? true : false;
-					
+
 		 }
 
 
 		public  function update_event_guest(Event  $event){
 
 		 	$last_index = $this->set_event($event);
-		 	
-		 
+
+
 
 			$count = 0;
 			$guest = null;
-			$error = 0;			
+			$error = 0;
 			$updated = 0;
 			while($count < $this->get_event($last_index)->get_guest_count() ){
 
 				if( $this->get_event($last_index)->get_guest($count + 1 )->get_status() == "updated" ){
 
-								
+
 					if((!$guest[$updated]["guestId"] = $this->get_event($last_index)->get_guest($count + 1)->get_id()) && $error = 1 )
 						trigger_error("REQUIRED, Event GUEST ID name not specified", E_USER_ERROR);
 					if(!$guest[$updated]["firstName"] = $this->get_event($last_index)->get_guest($count + 1)->get_first_name())
@@ -648,24 +648,24 @@ class Organizer extends Organization {
 
 					try {
 							$guests= json_encode($guest);
-							
+
 							$sql = "CALL updateEventGuest(". $this->get_event($last_index)->get_id().",".json_encode($guests).")";
 
-							$statement = $this->DB_Driver->prepare_query($sql);	
+							$statement = $this->DB_Driver->prepare_query($sql);
 							$statement->execute();
-							
+
 							return true;
 					} catch (Exception $e) {
-						
+
 						trigger_error($e->getMessage(), E_USER_ERROR);
 						return false;
 					}
-			
+
 			}
 
 
 		 }
-			
+
 		public function add_event_sponsor(Event  $event){
 
 
@@ -677,9 +677,9 @@ class Organizer extends Organization {
 
 			while($count < $this->get_event($last_index)->get_sponsor_count() ){
 
-							
+
 				if( $this->get_event($last_index)->get_sponsor($count + 1 )->get_status() == "new" ){
-				
+
 					if((!$sponsor[$new]["sponsorName"] = $this->get_event($last_index)->get_sponsor($count + 1)->get_name()) && $error = 1 )
 						trigger_error("REQUIRED value Sponsor (Name) Missing for Sponsor -- ". $this->get_event($last_index)->get_sponsor($count + 1)->get_name(), E_USER_ERROR);
 					if(!$sponsor[$new]["sponsorImage"] = $this->get_event($last_index)->get_sponsor($count + 1)->get_image())
@@ -689,26 +689,26 @@ class Organizer extends Organization {
 
 					$new++;
 				}
-				
+
 					$count++;
 			}
 
 			if($error != 0) {
 				return false;
 			} else {
-					
+
 					try {
 							$sponsors = json_encode($sponsor);
 							$sql = "CALL addEventSponsor(".$this->get_event($last_index)->get_id().",".json_encode($sponsors).")";
-							$statement = $this->DB_Driver->prepare_query($sql);	
+							$statement = $this->DB_Driver->prepare_query($sql);
 							$statement->execute();
 							return true;
 					} catch (Exception $e) {
 						trigger_error($e->getMessage(), E_USER_ERROR);
 						return false;
-					}			
+					}
 			}
-		
+
 		}
 
 
@@ -721,33 +721,33 @@ class Organizer extends Organization {
 
 			while($count < $this->get_event($lastIndex)->get_sponsor_count() ){
 
-							
+
 				if( $this->get_event($lastIndex)->get_sponsor($count + 1 )->get_status() == "deleted" ){
 
 					if($this->get_event($lastIndex)->get_sponsor($count + 1 )->get_id() == null && $error = 1 ) {
 						trigger_error('sponsor id not set , id is required for deleting sponsor ',E_USER_ERROR);
 						exit;
-					}					
-					$sponsor[$count]["sponsorId"] = $this->get_event($lastIndex)->get_sponsor($count + 1 )->get_id();							
-				}				
-				
+					}
+					$sponsor[$count]["sponsorId"] = $this->get_event($lastIndex)->get_sponsor($count + 1 )->get_id();
+				}
+
 				$count++;
 			}
-			
-			if($error == 0 ) {					
-					
+
+			if($error == 0 ) {
+
 				try {
 						$sponsors = json_encode($sponsor);
 
 						$sql = "CALL deleteEventSponsor(".$this->get_event($lastIndex)->get_id().",".json_encode($sponsors).")";
 
-				
-						$statement = $this->DB_Driver->prepare_query($sql);	
+
+						$statement = $this->DB_Driver->prepare_query($sql);
 						$statement->execute();
 					} catch (Exception $e) {
 						$error = 1;
 						trigger_error($e->getMessage(), E_USER_ERROR);
-					
+
 				}
 			}
 
@@ -777,7 +777,7 @@ class Organizer extends Organization {
 
 				}
 
-				return ($error == 0) ? true : false; 
+				return ($error == 0) ? true : false;
 		}
 
 		public function update_event_picture(Event $event) {
@@ -803,7 +803,7 @@ class Organizer extends Organization {
 
 				}
 
-				return ($error == 0) ? true : false; 
+				return ($error == 0) ? true : false;
 		}
 
 		public function update_event_sponsor(Event  $event){
@@ -811,52 +811,52 @@ class Organizer extends Organization {
 			$count = 0;
 			$sponsor = null;
 			$error = 0;
-		
+
 				 	$eventIndex = $this->set_event($event);
-			
+
 			$updated = 0;
 					while($count < $this->get_event($eventIndex)->get_sponsor_count() ){
-									
+
 						if( $this->get_event($eventIndex)->get_sponsor($count + 1)->get_status() == "updated" ){
 
 							if((!$sponsor[$updated]["sponsorId"] = $this->get_event($eventIndex)->get_sponsor($count + 1 )->get_id())&& $error = 1 ) {
 								trigger_error('Sponsor ID not set , id is required for update ',E_USER_ERROR);
 								exit;
 							}
-													
+
 							if(!$sponsor[$updated]["sponsorName"] = $this->get_event($eventIndex)->get_sponsor($count + 1)->get_name())
 								trigger_error("Sponsor Name not specified, the default value will be the one set before ", E_USER_WARNING);
 							if(!$sponsor[$updated]["sponsorImage"] = $this->get_event($eventIndex)->get_sponsor($count + 1)->get_image())
 								trigger_error("Sponsor Image not specified, the default value will be the one set before ", E_USER_WARNING);
 							if(!$sponsor[$updated]["aboutSponsor"] = $this->get_event($eventIndex)->get_sponsor($count + 1)->get_bio())
-								trigger_error("Sponsor Bio not specified, the default value will be the one set before ", E_USER_WARNING);	
-							$updated++;				
+								trigger_error("Sponsor Bio not specified, the default value will be the one set before ", E_USER_WARNING);
+							$updated++;
 						}
-						
+
 						$count++;
 					}
 
 
 					if($error == 0) {
-						
+
 
 						try{
 
 							$sponsors = json_encode($sponsor);
 							$sql = "CALL updateEventSponsor(".$this->get_event($eventIndex)->get_id().",".json_encode($sponsors).")";
-							
-							$statement = $this->DB_Driver->prepare_query($sql);	
+
+							$statement = $this->DB_Driver->prepare_query($sql);
 							$statement->execute();
-		
+
 						} catch (Exception $e) {
 						$error = 1;
 						trigger_error($e->getMessage(), E_USER_ERROR);
-						
+
 						}
 					}
 
 				return ($error == 0) ? true : false;
-		 
+
 		 }
 
 		public function add_event_ticket(Event  $event){
@@ -869,9 +869,9 @@ class Organizer extends Organization {
 			$new = 0;
 				while($count < $this->get_event($last_index)->get_ticket_count() ){
 
-								
+
 					if( $this->get_event($last_index)->get_ticket($count + 1 )->get_status() == "new" ){
-											
+
 						if((!$ticket[$new]["ticketName"] = $this->get_event($last_index)->get_ticket($count + 1)->get_name()) && $error = 1 )
 								trigger_error("REQUIRED value Ticket (Name) Missing !!!", E_USER_ERROR);
 						if((!$ticket[$new]["ticketType"] = $this->get_event($last_index)->get_ticket($count + 1)->get_type()) && $error = 1 )
@@ -889,7 +889,7 @@ class Organizer extends Organization {
 
 						$new++;
 					}
-							
+
 				$count++;
 				}
 
@@ -898,15 +898,15 @@ class Organizer extends Organization {
 
 							$tickets = json_encode($ticket);
 							$sql = "CALL addEventticket(".$this->get_event($last_index)->get_id().",".json_encode($tickets).")";
-				
-							$statement = $this->DB_Driver->prepare_query($sql);	
+
+							$statement = $this->DB_Driver->prepare_query($sql);
 							$statement->execute();
 
 							} catch (Exception $e) {
-					
+
 							$error = 1;
 							trigger_error($e->getMessage(), E_USER_ERROR);
-							
+
 						}
 				}
 
@@ -920,39 +920,39 @@ class Organizer extends Organization {
 		 	$error = 0;
 			$count = 0;
 			$ticket = null;
-	
+
 			while($count < $this->get_event($lastIndex)->get_ticket_count() ){
 
 
-							
+
 				if( $this->get_event($lastIndex)->get_ticket($count + 1 )->get_status() == "deleted" ){
-					
+
 					if($this->get_event($lastIndex)->get_ticket($count + 1 )->get_id() == null && $error = 1 ) {
 						trigger_error('ticket id not set , id is required for Deleting ticket', E_USER_ERROR);
 						exit;
 					}
 
 					$ticket[$count]["ticketId"] = $this->get_event($lastIndex)->get_ticket($count + 1 )->get_id();
-			
+
 				}
-				
+
 				$count++;
 			}
-		
+
 				if($error == 0 ) {
-					
+
 					try {
 							$tickets = json_encode($ticket);
 
 							$sql = "CALL deleteEventTicket(".$this->get_event($lastIndex)->get_id().",".json_encode($tickets).")";
 
-						
-							$statement = $this->DB_Driver->prepare_query($sql);	
+
+							$statement = $this->DB_Driver->prepare_query($sql);
 							$statement->execute();
 						} catch (Exception $e) {
 							$error = 1;
 							trigger_error($e->getMessage(), E_USER_ERROR);
-						
+
 					}
 				}
 
@@ -968,14 +968,14 @@ class Organizer extends Organization {
 				$count = 0;
 				$ticket = null;
 				$updated = 0;
-	
+
 				while($count < $this->get_event($last_index)->get_ticket_count() ){
-							
+
 					if( $this->get_event($last_index)->get_ticket($count + 1 )->get_status() == "updated" ){
-						
+
 						if((!$ticket[$updated]["ticketId"] = $this->get_event($last_index)->get_ticket($count + 1)->get_id()) && $error = 1 )
 								trigger_error("REQUIRED, Ticket ID not specified, the default value will be the one set before ", E_USER_ERROR);
-						
+
 							if((!$ticket[$updated]["ticketName"] = $this->get_event($last_index)->get_ticket($count + 1)->get_name()))
 								trigger_error("Ticket name not specified, the default value will be the one set before ", E_USER_WARNING);
 							if((!$ticket[$updated]["ticketType"] = $this->get_event($last_index)->get_ticket($count + 1)->get_type()))
@@ -992,25 +992,25 @@ class Organizer extends Organization {
 								trigger_error("Ticket Sale End date not specified, the default value will be the one set before ", E_USER_WARNING);
 						$updated++;
 					}
-					
+
 				$count++;
-				
+
 				}
 
 				if($error == 0 ) {
-					
+
 					try {
 							$tickets = json_encode($ticket);
 
 							$sql = "CALL updateEventTicket(".$this->get_event($last_index)->get_id().",".json_encode($tickets).")";
-						
-							$statement = $this->DB_Driver->prepare_query($sql);	
+
+							$statement = $this->DB_Driver->prepare_query($sql);
 							$statement->execute();
-																					
+
 					} catch (Exception $e) {
 						$error = 1;
 						trigger_error($e->getMessage(), E_USER_ERROR);
-						
+
 					}
 				}
 
@@ -1018,8 +1018,8 @@ class Organizer extends Organization {
 
 
 		 }
-			
-			
+
+
 
 			public function set_event_count($new_count) {
 				return (($this->eventCount = VALIDATOR::is_positive_int($new_count)) >= 0 ) ? $this->eventCount : trigger_error("INVALID event count value. valid count must be a positive integer");
@@ -1030,48 +1030,48 @@ class Organizer extends Organization {
 			}
 
 			public function get_event($index){
-					
-					
+
+
 						return $this->EVENTS[$index];
-					
+
 			}
 
 			public static function log_in($userMail, $password, SESSION $session) {
-        		
+
         		try {
-        				
-        			
+
+
 
         				$connection = new DB_CONNECTION();
-        				
+
         				$log["email"] = $userMail;
         	        	$log["password"] = $password;
-        				
+
 	       				$log = json_encode($log);
-     	         
+
         	         	$sql = "CALL logIn(".json_encode($log).")";
-        	  					
+
         	      		$statement = $connection->prepare_query( $sql );
             	    	$statement->execute();
-            	   
+
             	    	$result = $statement->fetch();
-            	    
+
 	            	    if($result["organizerId"] && $result["firstName"]) {
 	            	    		$session->set_session($result["organizerId"], $result["firstName"]);
 	            	    	return $result;
-	            	   
+
 	            	    } else {
 	            	    		$session->set_session(null, null);
 	            	   		return null;
 	            	    }
-            	    
+
 		        	} catch (Exception $e) {
         				trigger_error($e->getMessage(), E_USER_ERROR);
-        				return false;	
-        			}	
-		        
+        				return false;
+        			}
+
     		 }
-		
+
 			public  function set_event($value){
 				$this->set_event_count($this->get_event_count() + 1 );
 				$this->EVENTS[$this->get_event_count()] = $value;
@@ -1079,7 +1079,7 @@ class Organizer extends Organization {
 			}
 
 			public static function get_organizer($id){
-				
+
 				try {
 
 				$connection = new DB_CONNECTION();
@@ -1113,63 +1113,63 @@ class Organizer extends Organization {
 
 			    	 } catch (Exception $e) {
         				trigger_error($e->getMessage(), E_ERROR);
-        				return false;	
-        			}	 
+        				return false;
+        			}
 
 			}
 
 			public static function sign_up($fname, $lname, $mail, $password, $session){
 
 
-							$success = false;												
+							$success = false;
 								$newOrganizer["firstName"] = $fname;
 								$newOrganizer["lastName"] = $lname;
 								$newOrganizer["email"] = $mail;
 								$newOrganizer["password"] = $password;
-								  						
-							$result = null;	
-							$organizer[] = $newOrganizer;							 
-							$newOrganizer = json_encode($organizer) ; 
-						
+
+							$result = null;
+
+							$newOrganizer = json_encode($newOrganizer) ;
+
 						try {
-														
-																
+
+
 							$sql = "CALL createAccount(". json_encode($newOrganizer).") ";
 						 	$connection = new DB_CONNECTION();
 						 	$statement = $connection->prepare_query($sql);
-			 			 
+
 			 			 	$statement->execute();
 			 			 	if($row = $statement->fetch()) {
-         				 		$session->set_session($row['organizerId'], $row['organizerId']);
-         				 		$success = $row;			
+         				 		$session->set_session($row['organizerId'],ucfirst($fname));
+         				 		$success = $row;
 			 			 	} else {
 			 			 		$session->set_session(null, null);
-			 			 		$success = null;			
+			 			 		$success = null;
 			 			 	}
-			          
+
 			          } catch (Exception $e) {
 			          	trigger_error($e->getMessage(), E_ERROR);
-						$success = false;	
+						$success = false;
 
-					}				
+					}
 
-								
+
 					return $success;
 			}
 
-			
-			
+
+
 			public function add_event(Event $new_event){
-					
+
 					$last_index = $this->set_event_count($this->get_event_count() + 1);
 					$this->EVENTS[$last_index] = $new_event;
-					
+
 					$error = 0;
-					
+
 					$this->EVENTS[$this->get_event_count()] = $new_event;
 					$i = 1;
 					if((! $event["eventName"] = $this->get_event($last_index)->get_name() ) &&  $error = 1 )
-						trigger_error("Event Name is not Specified ", E_USER_ERROR);					
+						trigger_error("Event Name is not Specified ", E_USER_ERROR);
 
 					if((!$event["aboutEvent"] = $this->get_event($last_index)->get_discription() ) && $error = 1 )
 						trigger_error("REQUIRED, Event (Discription) is not specified!!!", E_USER_ERROR);
@@ -1186,30 +1186,30 @@ class Organizer extends Organization {
 					if((! $event["eventStatus"] = $this->get_event($last_index)->get_status() ) && $error = 1 )
 						trigger_error("REQUIRED, Event (Status) is not specified!!!", E_USER_ERROR);
 					if(!$event["eventImage"] = $this->get_event($last_index)->get_picture() )
-						trigger_error("Event doesnt have a Poster ", E_USER_WARNING);									
+						trigger_error("Event doesnt have a Poster ", E_USER_WARNING);
 					if((! $event["city"] = $this->get_event($last_index)->get_address(1)->get_city() ) && $error = 1 )
 						trigger_error("REQUIRED, Event (City) is not specified!!!", E_USER_ERROR);
 					if((!$event["subCity"] = $this->get_event($last_index)->get_address(1)->get_sub_city() ) && $error = 1 )
 							trigger_error("REQUIRED, Event (Sub-City) is not specified!!!", E_USER_ERROR);
-					
+
 					if((!$event["country"] = $this->get_event($last_index)->get_address(1)->get_country()) && $error = 1 )
 							trigger_error("REQUIRED, Event (Country) is not specified!!!", E_USER_ERROR);
 					if((!$event["location"] = $this->get_event($last_index)->get_address(1)->get_location()) && $error = 1 )
 							trigger_error("REQUIRED, Event (location) is not specified!!!", E_USER_ERROR);
 					if((!$event["venue"] = $this->get_event($last_index)->get_venue()) && $error = 1 )
 						trigger_error("REQUIRED, Event (Venue) is not specified!!!", E_USER_ERROR);
-					
+
 
 					if(!$event["longitude"] = $this->get_event($last_index)->get_address(1)->get_longitude() &&
-						!$event["latitude"] = $this->get_event($last_index)->get_address(1)->get_latitude() 
-					  ) 
+						!$event["latitude"] = $this->get_event($last_index)->get_address(1)->get_latitude()
+					  )
 						trigger_error("event longitude and latitude coordinates are not set required to show location of event on a map", E_USER_WARNING);
-					
-					
-				
+
+
+
 					$ticket = null;
 					$count = 0;
-					if($this->get_event($last_index)->get_ticket_count() > 0 ) { 
+					if($this->get_event($last_index)->get_ticket_count() > 0 ) {
 
 						while($count < $this->get_event($last_index)->get_ticket_count()) {
 
@@ -1233,17 +1233,17 @@ class Organizer extends Organization {
 
 						$event["tickets"] = $ticket;
 					} else {
-						$error = 1; 
+						$error = 1;
 						trigger_error("No Ticket Created!!!, Event created Should have atleast One ticket type Associated with it!!!", E_USER_ERROR);
 					}
 
-					
+
 
 						$guest = null;
 					$count = 0;
-					
+
 					if($this->get_event($last_index)->get_guest_count() > 0) {
-						
+
 							while($count < $this->get_event($last_index)->get_guest_count()) {
 
 								if((!$guest[$count]["firstName"] = $this->get_event($last_index)->get_guest($count + 1)->get_first_name()) && $error = 1 )
@@ -1258,13 +1258,13 @@ class Organizer extends Organization {
 									trigger_error("Notice: (Title) Missing for Guest -- ". $this->get_event($last_index)->get_guest($count + 1)->get_first_name(), E_USER_NOTICE);
 								if(!$guest[$count]["guestImage"] = $this->get_event($last_index)->get_guest($count + 1)->get_image())
 									trigger_error("(Image) Missing for Guest -- ". $this->get_event($last_index)->get_guest($count + 1)->get_first_name(), E_USER_WARNING);
-								
+
 
 								$count++;
 							}
-							
+
 						$event["guests"] = $guest;
-						
+
 					}
 
 
@@ -1272,7 +1272,7 @@ class Organizer extends Organization {
 					$count = 0;
 
 					if($this->get_event($last_index)->get_sponsor_count() > 0 ) {
-						
+
 						while($count < $this->get_event($last_index)->get_sponsor_count()) {
 
 							if((!$sponsor[$count]["sponsorName"] = $this->get_event($last_index)->get_sponsor($count + 1)->get_name()) && $error = 1 )
@@ -1283,17 +1283,17 @@ class Organizer extends Organization {
 							if(!$sponsor[$count]["aboutSponsor"] = $this->get_event($last_index)->get_sponsor($count + 1)->get_bio())
 								trigger_error("Sponsor (Discription) Not specified for Sponsor -- ". $this->get_event($last_index)->get_sponsor($count + 1)->get_name(), E_USER_WARNING);
 							$count++;
-								
+
 						}
 				$event["sponsors"] = $sponsor;
 
 					}
 
-					
+
 			$event = json_encode($event);
 
 			if($error == 0 ) {
-			
+
 				try {
 
 						$id = self::get_id();
@@ -1305,11 +1305,11 @@ class Organizer extends Organization {
 					$result = $statement->fetch();
 
 					$this->EVENTS[$this->get_event_count()]->set_id($result["eventId"]);
-						
+
 				} catch (Exception $e) {
 					$error = 1;
 					trigger_error($e->getMessage(), E_USER_ERROR);
-					
+
 				}
 			}
 
@@ -1337,11 +1337,11 @@ class Organizer extends Organization {
 			}
 
 
-			public function update_event(Event $updated_event){ 
+			public function update_event(Event $updated_event){
 
 					$eventIndex = self::set_event($updated_event);
 					$error = 0;
-									
+
 					if(!$event["eventId"] = $this->get_event($eventIndex)->get_id() && $error = 1 )
 						trigger_error("REQUIRED event Id name not specified", E_USER_ERROR);
 
@@ -1373,11 +1373,11 @@ class Organizer extends Organization {
 					if(!$event["venue"] = $this->get_event($eventIndex)->get_venue())
 						trigger_error("Event Venue not specified, the default value will be the one set before ", E_USER_WARNING);
 
-					
+
 					$ticket = null;
 					$count = 0;
 						while($count < $this->get_event($eventIndex)->get_ticket_count()) {
-							
+
 							if(!$ticket[$count]["ticketId"] = $this->get_event($eventIndex)->get_ticket($count + 1)->get_id() && $error = 1 )
 								trigger_error("REQUIRED, Ticket ID not specified, the default value will be the one set before ", E_USER_ERROR);
 							if(!$ticket[$count]["ticketName"] = $this->get_event($eventIndex)->get_ticket($count + 1)->get_name())
@@ -1439,34 +1439,34 @@ class Organizer extends Organization {
 									trigger_error("Sponsor Image not specified, the default value will be the one set before ", E_USER_WARNING);
 								if(!$sponsor[$count]["aboutSponsor"] = $this->get_event($eventIndex)->get_ssonsor($count + 1)->get_bio())
 									trigger_error("Sponsor Bio not specified, the default value will be the one set before ", E_USER_WARNING);
-				
+
 							$count++;
 
 						}
 
 
 						$event["sponsors"] = $sponsor;
-					
+
 						$event = json_encode($event);
 						if($error != 0 ) {
 							return false;
 						} else {
 
 								try {
-												
+
 									$sql = 'CALL updateEvent( '.self::get_id().','. json_encode($event).')';
 
 									$statement = $this->DB_Driver->prepare_query($sql);
-									
+
 									$statement->execute();
 									return true;
-									
+
 								}catch(Exception $e) {
 									trigger_error($e->getMessage(), E_USER_ERROR);
 									return false;
 								}
 						}
-					
+
 
 			}
 
@@ -1529,7 +1529,7 @@ class Organizer extends Organization {
 				$error = 0;
 					if(!$event->get_id() && $error = 1 )
 						trigger_error("REQUIRED, Event ID Not Set", E_USER_ERROR);
-					
+
 					if($error != 0 ) {
 							return false;
 
@@ -1541,7 +1541,7 @@ class Organizer extends Organization {
 									$statement->execute();
 
 								return true;
-						
+
 								} catch (Exception $e) {
 									trigger_error($e->getMessage(), E_USER_ERROR);
 									return false;
@@ -1556,15 +1556,15 @@ class Organizer extends Organization {
 			public function set_id($new_id) {
 				return (VALIDATOR::validate_integer($new_id) > 0 )? $this->ORGANIZER_ID = VALIDATOR::validate_integer($new_id) : trigger_error("INVALID organizer ID Value or trying to change an exsisting organizer id value. valid id value should be a positive integer", E_USER_ERROR);
 			}
-		
-		
-			
-			public function set_event_status($bool) { 
+
+
+
+			public function set_event_status($bool) {
 				$validated = VALIDATOR::is_valid_event_status($bool);
 				return ($validated) ? $this->active = $validated : trigger_error("INVALID boolean value", E_USER_ERROR);
-			
+
 			}
-			
+
 			public function get_image_upload_location($image) {
 				return $this->organizerPictureLocation.basename($image['name']);
 			}
@@ -1575,7 +1575,7 @@ class Organizer extends Organization {
 						if(move_uploaded_file($image["tmp_name"], self::get_image_upload_location($image))) {
 						return $this->picture = basename($image["name"]);
 						} else {
-							trigger_error(" Profile Picture Upload failed ", E_USER_ERROR );	
+							trigger_error(" Profile Picture Upload failed ", E_USER_ERROR );
 						}
 					} else {
 						trigger_error("invalid Profile picture Image Size, image size should be less than or equal to 5 mb  ", E_USER_ERROR );
@@ -1583,12 +1583,12 @@ class Organizer extends Organization {
 
 				} else {
 					trigger_error("Invalid Profile Picture", E_USER_ERROR);
-				}  
+				}
 
 			}
 
-			
-		
+
+
 			public function set_first_name($value) {
 				 return ($this->first_name = ucfirst( VALIDATOR::validate_name($value)))? $this->first_name : trigger_error("INVALID organizer first name. valid name should only contain alphabetic characters", E_USER_ERROR);
 			}
@@ -1640,7 +1640,7 @@ class Organizer extends Organization {
 			public function get_last_name() {
 				 return $this->last_name;
 			}
-			
+
 			public function get_gender() {
 				 return $this->gender;
 			}
@@ -1655,14 +1655,14 @@ class Organizer extends Organization {
 			public function get_birthdate() {
 				 return $this->birthdate;
 			}
-			
+
 			public function get_bio() {
 				 return $this->bio;
 			}
 
 			public function get_email() {
 				 return $this->e_mail;
-			}			
+			}
 			public function get_password() {
 				 return $this->password;
 			}
@@ -1675,13 +1675,13 @@ class Organizer extends Organization {
 				$eventIndex = $this->set_event($event);
 				$error = 0;
 				$schedule = null;
-				if((! $schedule['startDate'] = $this->get_event($eventIndex)->get_start_date()) && $error = 1 ) 
+				if((! $schedule['startDate'] = $this->get_event($eventIndex)->get_start_date()) && $error = 1 )
 					trigger_error("REQUIRED Event (Start date) can not be null", E_USER_ERROR);
-				if((! $schedule['startTime'] = $this->get_event($eventIndex)->get_start_time()) && $error = 1 ) 
-					trigger_error("REQUIRED Event (Start time) can not be null", E_USER_ERROR); 
-				if((! $schedule['endDate'] = $this->get_event($eventIndex)->get_end_date()) && $error = 1 ) 
+				if((! $schedule['startTime'] = $this->get_event($eventIndex)->get_start_time()) && $error = 1 )
+					trigger_error("REQUIRED Event (Start time) can not be null", E_USER_ERROR);
+				if((! $schedule['endDate'] = $this->get_event($eventIndex)->get_end_date()) && $error = 1 )
 					trigger_error("REQUIRED Event (End date) can not be null", E_USER_ERROR);
-				if((! $schedule['endTime'] =  $this->get_event($eventIndex)->get_end_time()) && $error = 1 ) 
+				if((! $schedule['endTime'] =  $this->get_event($eventIndex)->get_end_time()) && $error = 1 )
 					trigger_error("REQUIRED Event (End Time) can not be null", E_USER_ERROR);
 
 
@@ -1694,7 +1694,7 @@ class Organizer extends Organization {
 						} catch(Exception $e) {
 							$error = 1;
 							trigger_error($e->getMessage(), E_USER_ERROR);
-						
+
 						}
 					}
 
@@ -1705,12 +1705,12 @@ class Organizer extends Organization {
 
 			public function change_password($current_password, $new_password){
 
-				if(password_check($current_password , self::get_password() )  ) {                          
+				if(password_check($current_password , self::get_password() )  ) {
 					self::set_password($new_password);
 
 						$sql = "CALL changeAccountPassword(".self::get_id().",".self::get_password().")	";
-						
-						
+
+
 						$statement = $this->DB_Driver->prepare_query($sql);
 						$statement->execute();
 
@@ -1719,19 +1719,19 @@ class Organizer extends Organization {
 								} else {
 									return false;
 								}
-		 											
+
 		        		}else{
-		        			   return null;                          		        			
+		        			   return null;
 		        		}
 			}
 
 
 			public function update_picture($img) {
 					self::set_picture($img);
-					
-				
+
+
 						  $sql = " CALL updateOrganizerPicture(".self::get_id()."".self::get_picture().") ";
-						  				  
+
 
 						$statement = $this->DB_Driver->prepare_query($sql);
 					  	$statement->execute();
@@ -1752,18 +1752,18 @@ class Organizer extends Organization {
 						if($error == 0) {
 
 							try {
-							
+
 								 $sql = "CALL updateOrganizerEmail (".$this->get_id().", '". $this->get_email()."')";
-					  
+
 								  $statement = $this->DB_Driver->prepare_query($sql);
 								  $statement->execute();
 							} catch (Exception $e) {
 								$error= 1;
 								trigger_error($e->getMessage(), E_USER_ERROR);
-								
+
 							}
 						}
-					 
+
 							return ($error == 0) ? true : false;
 
 			}
@@ -1772,7 +1772,7 @@ class Organizer extends Organization {
 			public function update_profile() {
 				$profile = null;
 				$error = 0;
-					
+
 					if((!$profile["firstName"] = self::get_first_name()) && $error = 1)
 						trigger_error("Organizer (first name) Can not Be empty", E_USER_ERROR);
 					if((!$profile["lastName"] = self::get_last_name()) && $error = 1)
@@ -1800,19 +1800,19 @@ class Organizer extends Organization {
 							} catch (Exception $e) {
 								$error = 1;
 								trigger_error($e->getMessage(), E_USER_ERROR);
-								
-							}	
+
+							}
 					}
-					
+
 
 				  return ($error == 0) ? true : false;
-				  	
-				  
+
+
 			}
 
 			public function remove(){
 
-					
+
 			}
 
 
@@ -1824,7 +1824,7 @@ class Organizer extends Organization {
 			  	trigger_error("REQUIRED, Organizer Id not Profivded!! ", E_USER_ERROR);
 			  if((!$this->get_organization_id()) && $error = 1 )
 			  	trigger_error("REQUIRED, Organization Id not Profivded!! ", E_USER_ERROR);
-			 
+
 
 			  							$profile['organizationName'] = $this->get_organization_name();
 			  							$profile['officeNumber'] = [$this->get_office_number()];
@@ -1833,47 +1833,47 @@ class Organizer extends Organization {
 			  							$profile['postNumber'] = $this->get_po_num();
 			  							$profile['website'] = $this->get_website();
 			  							$profile['organizationLogo'] = $this->get_organization_logo();
-			  					
+
 			  							$profile = json_encode($profile);
 
 
 			  if($error == 0) {
 			  	try {
-			  		
+
 			  		$sql = "CALL updateOrganizationProfile(".$this->get_id().", ".$this->get_organization_id().",".json_encode($profile).")";
 						$statement = $this->DB_Driver->prepare_query($sql);
 			  	  		$statement->execute();
-		  			
+
 			  	} catch (Exception $e) {
 			  		$error = 1;
 			  		trigger_error($e->getMessage(), E_USER_ERROR);
 			  	}
 
 			  }
-			  
-			  return ($error == 0) ? true : false;		
+
+			  return ($error == 0) ? true : false;
 		}
-		
-			 
+
+
 			function close_organization(Organizer $updated_organizer) {
 
 				 		$sql = "CALL closeAccount(".self::get_id()."".self::get_password().") ";
-						
-						
+
+
 							$statement = $this->DB_driver->prepare_query($sql);
 							$statement->execute();
 
 				return ($statement->rowCount() == 1 ) ? true : false ;
-			 
+
 			}
 
 
-			
 
 
-			 
-  	
-  	}		
+
+
+
+  	}
 
 
 

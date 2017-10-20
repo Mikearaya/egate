@@ -1,13 +1,13 @@
 
-var POSTER_LOCATION = "http://localhost/Egate/www/uploads/eventImages/";
-var GUESTS_LOCATION = "http://localhost/Egate/www/uploads/eventImages/eventGuests/";
-var SPONSORS_LOCATION = "http://localhost/Egate/www/uploads/eventImages/eventSponsors/";
-var sponsorImagePlaceholder = "http://localhost/Egate/www/img/placeholder2.jpg";
-var imagePlaceholder = "http://localhost/Egate/www/img/placeholder2.jpg";
-var eventImagePlaceholder = "http://localhost/Egate/www/img/noImage.jpg";
-var EVENT_PICTURE_LOCATION = "http://localhost/Egate/www/uploads/eventImages/";
+var POSTER_LOCATION = "http://localhost/egate/uploads/eventImages/";
+var GUESTS_LOCATION = "http://localhost/egate/uploads/eventImages/eventGuests/";
+var SPONSORS_LOCATION = "http://localhost/egate/uploads/eventImages/eventSponsors/";
+var sponsorImagePlaceholder = "http://localhost/egate/img/placeholder2.jpg";
+var imagePlaceholder = "http://localhost/egate/img/placeholder2.jpg";
+var eventImagePlaceholder = "http://localhost/egate/img/noImage.jpg";
+var EVENT_PICTURE_LOCATION = "http://localhost/egate/uploads/eventImages/";
 var eventManagmentOption = "<a href='#event-managment-panel' data-role='button'  data-theme='b' class='ui-btn-left' data-icon='gear' data-iconpos='right'>Settings</a>";
-var accountManagmentOption = "<a href='http://localhost/Egate/www/pages/accountManagment.html' data-role='button'  data-theme='b' class='ui-btn-left' data-icon='gear' data-iconpos='right'>Settings</a>";
+var accountManagmentOption = "<a href='http://localhost/egate/pages/accountManagment.html' data-role='button'  data-theme='b' class='ui-btn-left' data-icon='gear' data-iconpos='right'>Settings</a>";
 var BACK_BUTTON = "<a href='#' data-rel='back' class='left-panel-button ui-btn ui-btn-left ui-alt-icon ui-nodisc-icon ui-corner-all ui-btn-icon-notext ui-icon-carat-l'>Back</a> ";
 var SEARCH_BUTTON = "<a href='#event-categ-panel'   data-theme='d' class='left-panel-button ui-btn ui-btn-left ui-alt-icon ui-nodisc-icon ui-corner-all  ui-icon-search'  data-iconpos='right'   > Search </a> ";
 
@@ -1810,10 +1810,9 @@ $( document ).ajaxComplete(function( event, request, settings ) {
 
 $.ajaxSetup({
 
-      url: "http://localhost/Egate/www/includes/systemController.php",
+      url: "http://localhost/egate/includes/systemController.php",
       cache: false,
-      ifModifid: true,
-
+      ifModifid: true
 });
 
 
@@ -1827,11 +1826,9 @@ $( document ).ajaxSend(function( event, jqxhr, settings ) {
 $( document ).ajaxError(function( error, request, settings ) {
 
          $("#message-body").empty();
-         console.log(error);
-        $("#message-body").text(request);
-        console.log(settings);
-
-          $("#modal-message").modal("show");
+        $("#message-body").text(request.responseText);
+        $("#modal-message").modal("show");
+        console.log(request);
 });
 
 $( document ).ajaxStart(function() {
@@ -2161,7 +2158,7 @@ $( document ).on( "pagebeforeshow", "[data-role='page']", function() {
 $(document).on("click", "#event-creation-page-btn", function(e){
 
 
-Url = "http://localhost/Egate/www/pages/eventCreationPage.html";
+Url = "http://localhost/egate/pages/eventCreationPage.html";
 
         $.ajax({
                   url: "logChecker.php",
@@ -2194,8 +2191,8 @@ Url = "http://localhost/Egate/www/pages/eventCreationPage.html";
 function update_navigation_to(value) {
 
   if(value === "admin") {
-     admin_functions = "<li class='admin-panel'> <a href='http://localhost/Egate/www/pages/eventManagment.html'> Manage Events </a> </li> "+
-                    "<li class='admin-panel'> <a href='http://localhost/Egate/www/pages/accountManagment.html'>  Manage Account </a>   </li>"+
+     admin_functions = "<li class='admin-panel'> <a href='http://localhost/egate/pages/eventManagment.html'> Manage Events </a> </li> "+
+                    "<li class='admin-panel'> <a href='http://localhost/egate/pages/accountManagment.html'>  Manage Account </a>   </li>"+
                     "<li class='admin-panel'><a href='#' id='log-off-button'> Log Out </a></li>";
 
                       $(".normal-panel").remove();

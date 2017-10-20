@@ -714,7 +714,7 @@ $password = null;
 
 
 
-    	if($ERROR_HANDLER->get_error_count() == 0 &&
+    	if(($ERROR_HANDLER->get_error_count() == 0 ) &&
     		 Organizer::sign_up($fname, $lname, $mail, $password, $SESSION) &&
     		 $SESSION->is_loged_in()) {
 
@@ -731,6 +731,7 @@ $password = null;
 		}
 
 		echo  json_encode($result);
+    
 		exit;
 
 
