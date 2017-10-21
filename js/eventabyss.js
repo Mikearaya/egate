@@ -120,7 +120,7 @@ var formOptions = {
 
 
                                      if(data.error.length == 0 ) {
-                                      $("#message-title").text('Success!!!');
+
                                       message += "<div class='alert alert-success' > <b> " + data.message + " </b> </div>";
                                       } else {
                                         $("#message-title").text('Error!!!');
@@ -154,9 +154,12 @@ var formOptions = {
                                         message += "</div>";
                                     }
 
+                                    $("#message-body").empty();
+                                        $("#message-body").append(message);
+
+                                                      $("#modal-message").modal("show");
 
 
-                                $(this).siblings("output").append(message);
 
                     } ,
                     error: function(data, error, errorCode){
@@ -2155,7 +2158,7 @@ $( document ).on( "pagebeforeshow", "[data-role='page']", function() {
 
 
 
-$(document).on("click", "#event-creation-page-btn", function(e){
+$(document).on("click", "#event-creation-page-btn", function(){
 
 
 Url = "http://localhost/egate/pages/eventCreationPage.html";
@@ -2878,7 +2881,12 @@ $(document).on("pagebeforecreate","#event-creation-page", function(event) {
                               } else {
                                         $.mobile.pagecontainer("change", "pages/eventCreationPage.html");
                               }
-                         }
+                         },
+                  error: function (data, statusText, jqXHR) {
+                      alert(statusText.responseText);
+                      console.log(statusText);
+
+                  }
 
 
               });

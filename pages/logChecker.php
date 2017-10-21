@@ -1,13 +1,13 @@
 <?php
 
 
-include('../includes/SESSION.php');
+include('../includes/session.php');
 
 $SESSION = new SESSION();
-		
+
 		$result = new stdclass();
 
-		
+
 if(isset($_GET['get']) && $_GET['get'] === 'is_logged' ){
 
 		if($SESSION->is_loged_in() === true ){
@@ -27,15 +27,15 @@ if(isset($_GET['get']) && $_GET['get'] === 'is_logged' ){
 
 if(isset($_GET['get']) && $_GET['get'] === 'log_out'){
 
-		$SESSION->reset_session();	
+		$SESSION->reset_session();
 
 		if(!$SESSION->is_loged_in()){
 
 			$result->success = 'true';
-			
+
 		} else {
 				$result->sucess = 'false';
-	
+
 		}
 	echo json_encode($result);
 }
