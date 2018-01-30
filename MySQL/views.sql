@@ -1,4 +1,5 @@
-use egate;
+
+USE `egate_db`;
 
 DROP VIEW IF EXISTS `bookingdetails`;
 CREATE 

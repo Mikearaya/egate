@@ -1,6 +1,8 @@
 
-USE `egate`;
+USE `egate_db`;
 
+
+DROP PROCEDURE IF EXISTS `addComment`;
 DELIMITER $$
 CREATE  PROCEDURE `addComment`(IN `in_eventId` INT, IN `in_comment` JSON)
     MODIFIES SQL DATA
@@ -55,6 +57,9 @@ BEGIN
 END $$
 DELIMITER ;
 
+
+
+DROP PROCEDURE IF EXISTS `addEvent`;
 DELIMITER $$
 CREATE  PROCEDURE `addEvent`(IN `in_organizerId` INT, IN `in_event` JSON)
     MODIFIES SQL DATA
@@ -153,6 +158,8 @@ END $$
 DELIMITER ;
 
 
+
+DROP PROCEDURE IF EXISTS `addEventAttendee`;
 DELIMITER $$
 CREATE  PROCEDURE `addEventAttendee`(IN `in_eventId` INT, IN `in_attendee` JSON, OUT `out_newAttendeeId` INT)
     MODIFIES SQL DATA
@@ -230,6 +237,8 @@ END $$
 DELIMITER ;
 
 
+
+DROP PROCEDURE IF EXISTS `addEventBooking`;
 DELIMITER $$
 CREATE  PROCEDURE `addEventBooking`(IN `in_reservationId` INT, IN `in_ticket` JSON)
     MODIFIES SQL DATA
@@ -303,6 +312,7 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `addEventCategory`;
 DELIMITER $$
 CREATE  PROCEDURE `addEventCategory`(IN `in_category` JSON)
     MODIFIES SQL DATA
@@ -358,6 +368,8 @@ END $$
 DELIMITER ;
 
 
+
+DROP PROCEDURE IF EXISTS `addEventGuest`;
 DELIMITER $$
 CREATE  PROCEDURE `addEventGuest`(IN `in_eventID` INT, IN `in_guest` JSON)
     MODIFIES SQL DATA
@@ -423,6 +435,7 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `addEventSponsor`;
 DELIMITER $$
 CREATE  PROCEDURE `addEventSponsor`(IN `in_eventID` INT, IN `in_sponsor` JSON)
     MODIFIES SQL DATA
@@ -487,6 +500,9 @@ BEGIN
 END $$
 DELIMITER ;
 
+
+
+DROP PROCEDURE IF EXISTS `addEventTicket`;
 DELIMITER $$
 CREATE  PROCEDURE `addEventTicket`(IN `in_eventId` INT, IN `in_ticket` JSON)
     MODIFIES SQL DATA
@@ -549,6 +565,7 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `addOrganizationAddress`;
 DELIMITER $$
 CREATE  PROCEDURE `addOrganizationAddress`(IN `in_organizerId` INT, IN `in_address` JSON)
     MODIFIES SQL DATA
@@ -609,6 +626,7 @@ BEGIN
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `addSubscription`;
 DELIMITER $$
 CREATE  PROCEDURE `addSubscription`(IN `in_subscription` JSON, OUT `out_subscriptionId` INT)
     MODIFIES SQL DATA
@@ -676,6 +694,8 @@ END $$
 DELIMITER ;
 
 
+
+DROP PROCEDURE IF EXISTS `attendeeCheckIn`;
 DELIMITER $$
 CREATE  PROCEDURE `attendeeCheckIn`(IN `in_eventId` INT, IN `in_recieptId` INT)
     MODIFIES SQL DATA
@@ -736,6 +756,7 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `attendeeCheckOut`;
 DELIMITER $$
 CREATE  PROCEDURE `attendeeCheckOut`(IN `in_eventId` INT, IN `in_recieptId` INT)
     MODIFIES SQL DATA
@@ -797,6 +818,8 @@ END $$
 DELIMITER ;
 
 
+
+DROP PROCEDURE IF EXISTS `bookEvent`;
 DELIMITER $$
 CREATE  PROCEDURE `bookEvent`(IN `in_eventId` INT, IN `in_attendee` JSON, IN `in_ticket` JSON)
     MODIFIES SQL DATA
@@ -861,6 +884,9 @@ END $$
 DELIMITER ;
 
 
+
+
+DROP PROCEDURE IF EXISTS `cancelSubscription`;
 DELIMITER $$
 CREATE  PROCEDURE `cancelSubscription`(IN `in_subscription` JSON, OUT `out_result` BOOLEAN)
     MODIFIES SQL DATA
@@ -915,6 +941,8 @@ END $$
 DELIMITER ;
 
 
+
+DROP PROCEDURE IF EXISTS `changeEventStatus`;
 DELIMITER $$
 CREATE  PROCEDURE `changeEventStatus`(IN `in_eventId` INT, IN `in_status` VARCHAR(30))
     MODIFIES SQL DATA
@@ -957,6 +985,8 @@ END $$
 DELIMITER ;
 
 
+
+DROP PROCEDURE IF EXISTS `changeSubscriptionMail`;
 DELIMITER $$
 CREATE  PROCEDURE `changeSubscriptionMail`(IN `in_subscription` JSON, OUT `out_result` BOOLEAN)
     MODIFIES SQL DATA
@@ -1012,6 +1042,8 @@ END $$
 DELIMITER ;
 
 
+
+DROP PROCEDURE IF EXISTS `createAccount`;
 DELIMITER $$
 CREATE  PROCEDURE `createAccount`(IN `in_organizer` JSON)
     MODIFIES SQL DATA
@@ -1070,6 +1102,10 @@ BEGIN
 END $$
 DELIMITER ;
 
+
+
+
+DROP PROCEDURE IF EXISTS `deleteBillingAddress`;
 DELIMITER $$
 CREATE  PROCEDURE `deleteBillingAddress`(IN `in_organizerId` INT, IN `in_accountInfo` JSON)
     MODIFIES SQL DATA
@@ -1121,6 +1157,7 @@ BEGIN
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `deleteComment`;
 DELIMITER $$
 CREATE  PROCEDURE `deleteComment`(IN `in_eventId` INT, IN `in_commentId` JSON)
     MODIFIES SQL DATA
@@ -1175,6 +1212,7 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `deleteEvent`;
 DELIMITER $$
 CREATE  PROCEDURE `deleteEvent`(IN `in_organizerId` INT, IN `in_eventId` INT)
     MODIFIES SQL DATA
@@ -1228,6 +1266,7 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `deleteEventAttendee`;
 DELIMITER $$
 CREATE  PROCEDURE `deleteEventAttendee`(IN `in_attendee` JSON, OUT `out_result` INT)
     MODIFIES SQL DATA
@@ -1284,6 +1323,7 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `deleteEventBooking`;
 DELIMITER $$
 CREATE  PROCEDURE `deleteEventBooking`(IN `in_reservationId` INT, IN `in_bookingId` JSON)
     MODIFIES SQL DATA
@@ -1339,6 +1379,8 @@ END $$
 DELIMITER ;
 
 
+
+DROP PROCEDURE IF EXISTS `deleteEventCategory`;
 DELIMITER $$
 CREATE  PROCEDURE `deleteEventCategory`(IN `in_category` JSON)
     MODIFIES SQL DATA
@@ -1396,6 +1438,8 @@ END $$
 DELIMITER ;
 
 
+
+DROP PROCEDURE IF EXISTS `deleteEventGuest`;
 DELIMITER $$
 CREATE  PROCEDURE `deleteEventGuest`(IN `in_eventId` INT, IN `in_guest` JSON)
     MODIFIES SQL DATA
@@ -1461,6 +1505,8 @@ END $$
 DELIMITER ;
 
 
+
+DROP PROCEDURE IF EXISTS `deleteEventSponsor`;
 DELIMITER $$
 CREATE  PROCEDURE `deleteEventSponsor`(IN `in_eventId` INT, IN `in_sponsor` JSON)
     MODIFIES SQL DATA
@@ -1521,6 +1567,8 @@ END $$
 DELIMITER ;
 
 
+
+DROP PROCEDURE IF EXISTS `deleteEventTicket`;
 DELIMITER $$
 CREATE  PROCEDURE `deleteEventTicket`(IN `in_organizerId` INT, IN `in_eventId` INT, IN `in_ticketId` JSON)
     MODIFIES SQL DATA
@@ -1584,6 +1632,7 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `deleteOrganization`;
 DELIMITER $$
 CREATE  PROCEDURE `deleteOrganization`(IN `in_organization` JSON)
     MODIFIES SQL DATA
@@ -1644,6 +1693,7 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `deleteOrganizationAddress`;
 DELIMITER $$
 CREATE  PROCEDURE `deleteOrganizationAddress`(IN `in_organizerId` INT, IN `in_address` JSON)
     MODIFIES SQL DATA
@@ -1699,6 +1749,8 @@ BEGIN
 DELIMITER ;
 
 
+
+DROP PROCEDURE IF EXISTS `deleteSubscription`;
 DELIMITER $$
 CREATE  PROCEDURE `deleteSubscription`(IN `in_subscription` JSON, OUT `out_subscriptionId` INT)
     MODIFIES SQL DATA
@@ -1754,6 +1806,7 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `getActiveEvents`;
 DELIMITER $$
 CREATE  PROCEDURE `getActiveEvents`(IN `in_limit` INT)
     MODIFIES SQL DATA
@@ -1780,6 +1833,8 @@ END $$
 DELIMITER ;
 
 
+
+DROP PROCEDURE IF EXISTS `getAttendeeReservation`;
 DELIMITER $$
 CREATE  PROCEDURE `getAttendeeReservation`(IN `in_reservationId` INT)
     READS SQL DATA
@@ -1803,6 +1858,7 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `getCheckIn`;
 DELIMITER $$
 CREATE  PROCEDURE `getCheckIn`(IN `in_eventId` INT, IN `in_recieptId` INT)
     READS SQL DATA
@@ -1814,6 +1870,7 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `getClosedEvents`;
 DELIMITER $$
 CREATE  PROCEDURE `getClosedEvents`(IN `in_limit` INT)
     MODIFIES SQL DATA
@@ -1841,6 +1898,7 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `getComment`;
 DELIMITER $$
 CREATE  PROCEDURE `getComment`(IN `in_commentId` INT)
     READS SQL DATA
@@ -1860,7 +1918,7 @@ END $$
 DELIMITER ;
 
 
-
+DROP PROCEDURE IF EXISTS `getDraftEvents`;
 DELIMITER $$
 CREATE  PROCEDURE `getDraftEvents`(IN `in_limit` INT)
     MODIFIES SQL DATA
@@ -1887,6 +1945,7 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `getEventBookings`;
 DELIMITER $$
 CREATE  PROCEDURE `getEventBookings`(IN `in_eventId` INT)
     READS SQL DATA
@@ -1913,6 +1972,7 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `getEventBookingStat`;
 DELIMITER $$
 CREATE  PROCEDURE `getEventBookingStat`(IN `in_organizerId` INT, IN `in_eventId` INT)
 BEGIN
@@ -1923,6 +1983,7 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `getEventCategory`;
 DELIMITER $$
 CREATE  PROCEDURE `getEventCategory`(`in_category` INT, `in_limit` INT)
     READS SQL DATA
@@ -1942,6 +2003,7 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `getEventCheckIns`;
 DELIMITER $$
 CREATE  PROCEDURE `getEventCheckIns`(IN `in_eventId` INT)
     READS SQL DATA
@@ -1952,6 +2014,8 @@ BEGIN
 END $$
 DELIMITER ;
 
+
+DROP PROCEDURE IF EXISTS `getEventComments`;
 DELIMITER $$
 CREATE  PROCEDURE `getEventComments`(IN `in_eventId` INT)
     READS SQL DATA
@@ -1970,6 +2034,8 @@ BEGIN
 END $$
 DELIMITER ;
 
+
+DROP PROCEDURE IF EXISTS `getEventDetail`;
 DELIMITER $$
 CREATE  PROCEDURE `getEventDetail`(IN `in_eventId` INT)
     READS SQL DATA
@@ -2025,6 +2091,7 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `getEventEndDateTime`;
 DELIMITER $$
 CREATE  PROCEDURE `getEventEndDateTime`(IN `in_eventId` INT)
     READS SQL DATA
@@ -2043,6 +2110,7 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `getEventGeneralInfo`;
 DELIMITER $$
 CREATE  PROCEDURE `getEventGeneralInfo`(IN `in_eventId` INT)
 BEGIN		
@@ -2060,6 +2128,7 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `getEventGuest`;
 DELIMITER $$
 CREATE  PROCEDURE `getEventGuest`(IN `in_eventId` INT)
     READS SQL DATA
@@ -2080,6 +2149,7 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `getEventOrganizerId`;
 DELIMITER $$
 CREATE  PROCEDURE `getEventOrganizerId`(IN `in_eventId` INT)
     READS SQL DATA
@@ -2098,6 +2168,7 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `getEventsBasic`;
 DELIMITER $$
 CREATE  PROCEDURE `getEventsBasic`(IN `in_limit` INT)
     READS SQL DATA
@@ -2119,6 +2190,7 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `getEventSchedule`;
 DELIMITER $$
 CREATE  PROCEDURE `getEventSchedule`(IN `in_eventId` INT)
     READS SQL DATA
@@ -2137,6 +2209,7 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `getEventSponsor`;
 DELIMITER $$
 CREATE  PROCEDURE `getEventSponsor`(IN `in_eventId` INT)
     READS SQL DATA
@@ -2156,6 +2229,7 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `getEventStartDateTime`;
 DELIMITER $$
 CREATE  PROCEDURE `getEventStartDateTime`(IN `in_eventId` INT)
     READS SQL DATA
@@ -2174,6 +2248,7 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `getEventTicket`;
 DELIMITER $$
 CREATE  PROCEDURE `getEventTicket`(IN `in_eventId` INT)
     READS SQL DATA
@@ -2195,6 +2270,7 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `getEventTime`;
 DELIMITER $$
 CREATE  PROCEDURE `getEventTime`(IN `in_eventId` INT, OUT `out_startDate` DATE, OUT `out_startTime` TIME, OUT `out_endDate` DATE, OUT `out_endTime` TIME)
     READS SQL DATA
@@ -2208,6 +2284,8 @@ END $$
 DELIMITER ;
 
 
+
+DROP PROCEDURE IF EXISTS `getGuest`;
 DELIMITER $$
 CREATE  PROCEDURE `getGuest`(IN `in_guestId` INT)
     READS SQL DATA
@@ -2228,6 +2306,7 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `getOrganizationAddress`;
 DELIMITER $$
 CREATE  PROCEDURE `getOrganizationAddress`(IN `in_organizerId` INT)
     MODIFIES SQL DATA
@@ -2248,6 +2327,8 @@ END $$
 DELIMITER ;
 
 
+
+DROP PROCEDURE IF EXISTS `getOrganizationSocials`;
 DELIMITER $$
 CREATE  PROCEDURE `getOrganizationSocials`(IN `in_organizerId` INT)
     READS SQL DATA
@@ -2263,6 +2344,7 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `getOrganizer`;
 DELIMITER $$
 CREATE  PROCEDURE `getOrganizer`(IN `in_organizerId` INT)
     READS SQL DATA
@@ -2286,6 +2368,7 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `getOrganizerAddress`;
 DELIMITER $$
 CREATE  PROCEDURE `getOrganizerAddress`(IN `in_organizationId` INT)
     MODIFIES SQL DATA
@@ -2305,6 +2388,7 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `getOrganizerEvent`;
 DELIMITER $$
 CREATE  PROCEDURE `getOrganizerEvent`(IN `in_eventId` INT, IN `in_organizerId` INT)
 BEGIN		
@@ -2322,6 +2406,7 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `getOrganizerEvents`;
 DELIMITER $$
 CREATE  PROCEDURE `getOrganizerEvents`(IN `in_organizerId` INT)
 BEGIN		
@@ -2339,6 +2424,7 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `getOrganizerInformation`;
 DELIMITER $$
 CREATE  PROCEDURE `getOrganizerInformation`(IN `in_organizerId` INT)
     READS SQL DATA
@@ -2366,6 +2452,7 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `getReciept`;
 DELIMITER $$
 CREATE  PROCEDURE `getReciept`(IN `in_reservationId` INT)
     READS SQL DATA
@@ -2385,6 +2472,7 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `getSponsor`;
 DELIMITER $$
 CREATE  PROCEDURE `getSponsor`(IN `in_sponsorId` INT)
     READS SQL DATA
@@ -2404,6 +2492,7 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `getSubscription`;
 DELIMITER $$
 CREATE  PROCEDURE `getSubscription`(IN `in_subscriber` JSON)
     MODIFIES SQL DATA
@@ -2429,6 +2518,7 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `getTicket`;
 DELIMITER $$
 CREATE  PROCEDURE `getTicket`(IN `in_ticketId` INT)
     READS SQL DATA
@@ -2450,6 +2540,7 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `logIn`;
 DELIMITER $$
 CREATE  PROCEDURE `logIn`(IN `in_organizer` JSON)
     READS SQL DATA
@@ -2486,6 +2577,7 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `ticketStatusAndType`;
 DELIMITER $$
 CREATE  PROCEDURE `ticketStatusAndType`(IN `in_ticketId` INT, OUT `out_status` VARCHAR(15), OUT `out_type` VARCHAR(15))
     READS SQL DATA
@@ -2497,6 +2589,7 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `updateBillingAddress`;
 DELIMITER $$
 CREATE  PROCEDURE `updateBillingAddress`(IN `in_organizerId` INT, IN `in_accountInfo` JSON)
     MODIFIES SQL DATA
@@ -2558,6 +2651,7 @@ BEGIN
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `updateComment`;
 DELIMITER $$
 CREATE  PROCEDURE `updateComment`(IN `in_eventId` INT, IN `in_comment` JSON)
     MODIFIES SQL DATA
@@ -2616,6 +2710,8 @@ END $$
 DELIMITER ;
 
 
+
+DROP PROCEDURE IF EXISTS `updateEvent`;
 DELIMITER $$
 CREATE  PROCEDURE `updateEvent`(IN `in_organizerId` INT, IN `in_event` JSON)
     MODIFIES SQL DATA
@@ -2677,6 +2773,7 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `updateEventAddress`;
 DELIMITER $$
 CREATE  PROCEDURE `updateEventAddress`(IN `in_organizerId` INT, IN `in_eventAddress` JSON)
     MODIFIES SQL DATA
@@ -2727,6 +2824,8 @@ END $$
 DELIMITER ;
 
 
+
+DROP PROCEDURE IF EXISTS `updateEventAttendee`;
 DELIMITER $$
 CREATE  PROCEDURE `updateEventAttendee`(IN `in_attendee` JSON, OUT `out_result` INT)
     MODIFIES SQL DATA
@@ -2790,6 +2889,8 @@ END $$
 DELIMITER ;
 
 
+
+DROP PROCEDURE IF EXISTS `updateEventCategory`;
 DELIMITER $$
 CREATE  PROCEDURE `updateEventCategory`(IN `in_category` JSON)
     MODIFIES SQL DATA
@@ -2847,6 +2948,8 @@ END $$
 DELIMITER ;
 
 
+
+DROP PROCEDURE IF EXISTS `updateEventGuest`;
 DELIMITER $$
 CREATE  PROCEDURE `updateEventGuest`(IN `in_eventID` INT, IN `in_guest` JSON)
     MODIFIES SQL DATA
@@ -2930,6 +3033,8 @@ END $$
 DELIMITER ;
 
 
+
+DROP PROCEDURE IF EXISTS `updateEventInfo`;
 DELIMITER $$
 CREATE  PROCEDURE `updateEventInfo`(IN `in_organizerId` INT, IN `in_event` JSON)
     MODIFIES SQL DATA
@@ -2986,6 +3091,8 @@ END $$
 DELIMITER ;
 
 
+
+DROP PROCEDURE IF EXISTS `updateEventPicture`;
 DELIMITER $$
 CREATE  PROCEDURE `updateEventPicture`(IN `in_eventId` INT, IN `in_picture` VARCHAR(50))
     MODIFIES SQL DATA
@@ -3028,6 +3135,8 @@ END $$
 DELIMITER ;
 
 
+
+DROP PROCEDURE IF EXISTS `updateEventSponsor`;
 DELIMITER $$
 CREATE  PROCEDURE `updateEventSponsor`(IN `in_eventID` INT, IN `in_sponsor` JSON)
     MODIFIES SQL DATA
@@ -3099,6 +3208,8 @@ END $$
 DELIMITER ;
 
 
+
+DROP PROCEDURE IF EXISTS `updateEventStatus`;
 DELIMITER $$
 CREATE  PROCEDURE `updateEventStatus`(IN `in_organizerId` INT, IN `in_eventId` INT, IN `in_eventStatus` VARCHAR(20), OUT `out_result` BOOLEAN)
     MODIFIES SQL DATA
@@ -3150,6 +3261,8 @@ BEGIN
 END $$
 DELIMITER ;
 
+
+DROP PROCEDURE IF EXISTS `updateEventTicket`;
 DELIMITER $$
 CREATE  PROCEDURE `updateEventTicket`(IN `in_eventId` INT, IN `in_ticket` JSON)
     MODIFIES SQL DATA
@@ -3220,6 +3333,8 @@ END $$
 DELIMITER ;
 
 
+
+DROP PROCEDURE IF EXISTS `updateEventTime`;
 DELIMITER $$
 CREATE  PROCEDURE `updateEventTime`(IN `in_organizerId` INT, IN `in_eventTime` JSON)
     MODIFIES SQL DATA
@@ -3267,6 +3382,7 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `updateOrganization`;
 DELIMITER $$
 CREATE  PROCEDURE `updateOrganization`(IN `in_organization` JSON)
     MODIFIES SQL DATA
@@ -3337,6 +3453,8 @@ END $$
 DELIMITER ;
 
 
+
+DROP PROCEDURE IF EXISTS `updateOrganizationAddress`;
 DELIMITER $$
 CREATE  PROCEDURE `updateOrganizationAddress`(IN `in_organizerId` INT, IN `in_address` JSON)
     MODIFIES SQL DATA
@@ -3398,6 +3516,7 @@ BEGIN
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `updateOrganizationProfile`;
 DELIMITER $$
 CREATE  PROCEDURE `updateOrganizationProfile`(IN `in_organizerId` INT, IN `in_organizationId` INT, IN `in_organizationInfo` JSON)
     MODIFIES SQL DATA
@@ -3460,6 +3579,8 @@ END $$
 DELIMITER ;
 
 
+
+DROP PROCEDURE IF EXISTS `updateOrganizationSocialAddress`;
 DELIMITER $$
 CREATE  PROCEDURE `updateOrganizationSocialAddress`(IN `in_organizerId` INT, IN `in_socialAddress` JSON)
     MODIFIES SQL DATA
@@ -3506,6 +3627,7 @@ BEGIN
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS `updateOrganizer`;
 DELIMITER $$
 CREATE  PROCEDURE `updateOrganizer`(IN `in_organizerId` INT, IN `in_newEmail` VARCHAR(50))
     MODIFIES SQL DATA
@@ -3560,6 +3682,8 @@ END $$
 DELIMITER ;
 
 
+
+DROP PROCEDURE IF EXISTS `updateOrganizerEmail`;
 DELIMITER $$
 CREATE  PROCEDURE `updateOrganizerEmail`(IN `in_organizerId` INT, IN `in_newEmail` VARCHAR(50))
     MODIFIES SQL DATA
@@ -3615,6 +3739,8 @@ END $$
 DELIMITER ;
 
 
+
+DROP PROCEDURE IF EXISTS `updateOrganizerPassword`;
 DELIMITER $$
 CREATE  PROCEDURE `updateOrganizerPassword`(IN `in_organizerId` INT, IN `in_oldPassword` VARCHAR(100), IN `in_newPassword` VARCHAR(100))
     MODIFIES SQL DATA
@@ -3663,6 +3789,8 @@ END $$
 DELIMITER ;
 
 
+
+DROP PROCEDURE IF EXISTS `updateOrganizerProfile`;
 DELIMITER $$
 CREATE  PROCEDURE `updateOrganizerProfile`(IN `in_organizerId` INT, IN `in_profileInfo` JSON)
     MODIFIES SQL DATA
@@ -3715,6 +3843,8 @@ END $$
 DELIMITER ;
 
 
+
+DROP PROCEDURE IF EXISTS `updateSubscription`;
 DELIMITER $$
 CREATE  PROCEDURE `updateSubscription`(IN `in_subscription` JSON, OUT `out_subscriptionId` INT)
     MODIFIES SQL DATA

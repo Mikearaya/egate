@@ -1,6 +1,6 @@
-USE egate;
+USE `egate_db`;
 
-
+DROP TRIGGER IF EXISTS `AI_checkIn_validator`;
 DELIMITER $$
 CREATE TRIGGER `AI_checkIn_validator` AFTER INSERT ON `checkins` FOR EACH ROW BEGIN
 
@@ -9,7 +9,7 @@ CREATE TRIGGER `AI_checkIn_validator` AFTER INSERT ON `checkins` FOR EACH ROW BE
 END $$
 DELIMITER ;
 
-
+DROP TRIGGER IF EXISTS `BU_checkIn_validator`;
 DELIMITER $$
 CREATE TRIGGER `BU_checkIn_validator` BEFORE UPDATE ON `checkins` FOR EACH ROW BEGIN
 
@@ -30,7 +30,7 @@ CREATE TRIGGER `BU_checkIn_validator` BEFORE UPDATE ON `checkins` FOR EACH ROW B
 END $$
 DELIMITER ;
 
-
+DROP TRIGGER IF EXISTS `BI_eventValidator`;
 DELIMITER $$
 
 CREATE TRIGGER `BI_eventValidator` BEFORE INSERT ON `event` FOR EACH ROW BEGIN
@@ -84,6 +84,7 @@ CREATE TRIGGER `BI_eventValidator` BEFORE INSERT ON `event` FOR EACH ROW BEGIN
 DELIMITER ;
 
 
+DROP TRIGGER IF EXISTS `BU_eventValidator`;
 DELIMITER $$
 CREATE TRIGGER `BU_eventValidator` BEFORE UPDATE ON `event` FOR EACH ROW BEGIN
 
@@ -145,8 +146,8 @@ END $$
 DELIMITER ;
 
 
+DROP TRIGGER IF EXISTS `BI_eventAttendeeValidator`;
 DELIMITER $$
-
 CREATE TRIGGER `BI_eventAttendeeValidator` BEFORE INSERT ON `event_attendees` FOR EACH ROW BEGIN
 
             IF isValidName(NEW.first_name) = false THEN
@@ -176,8 +177,8 @@ CREATE TRIGGER `BI_eventAttendeeValidator` BEFORE INSERT ON `event_attendees` FO
  END $$
 DELIMITER ;
 
+DROP TRIGGER IF EXISTS `BU_eventAttendeeValidator`;
 DELIMITER $$
-
 CREATE TRIGGER `BU_eventAttendeeValidator` BEFORE UPDATE ON `event_attendees` FOR EACH ROW BEGIN
 
             IF isValidName(NEW.first_name) = false THEN
@@ -214,7 +215,7 @@ CREATE TRIGGER `BU_eventAttendeeValidator` BEFORE UPDATE ON `event_attendees` FO
 DELIMITER ;
 
 
-
+DROP TRIGGER IF EXISTS `BI_bookingValidator`;
 DELIMITER $$
 CREATE TRIGGER `BI_bookingValidator` BEFORE INSERT ON `event_bookings` FOR EACH ROW BEGIN
 
@@ -237,6 +238,8 @@ CREATE TRIGGER `BI_bookingValidator` BEFORE INSERT ON `event_bookings` FOR EACH 
  END $$
 DELIMITER ;
 
+
+DROP TRIGGER IF EXISTS `AI_bookingValidator`;
 DELIMITER $$
 CREATE TRIGGER `AI_bookingValidator` AFTER INSERT ON `event_bookings` FOR EACH ROW BEGIN
 
@@ -252,6 +255,7 @@ CREATE TRIGGER `AI_bookingValidator` AFTER INSERT ON `event_bookings` FOR EACH R
 DELIMITER ;
 
 
+DROP TRIGGER IF EXISTS `BI_guestValidator` ;
 DELIMITER $$
 CREATE TRIGGER `BI_guestValidator` BEFORE INSERT ON `event_guests` FOR EACH ROW BEGIN
 
@@ -267,6 +271,7 @@ CREATE TRIGGER `BI_guestValidator` BEFORE INSERT ON `event_guests` FOR EACH ROW 
 END $$
 DELIMITER ;
 
+DROP TRIGGER IF EXISTS `BU_guestValidator` ;
 DELIMITER $$
 CREATE TRIGGER `BU_guestValidator` BEFORE UPDATE ON `event_guests` FOR EACH ROW BEGIN
 
@@ -278,7 +283,7 @@ CREATE TRIGGER `BU_guestValidator` BEFORE UPDATE ON `event_guests` FOR EACH ROW 
 END $$
 DELIMITER ;
 
-
+DROP TRIGGER IF EXISTS `BI_sponsorValidator`;
 DELIMITER $$
 CREATE TRIGGER `BI_sponsorValidator` BEFORE INSERT ON `event_sponsors` FOR EACH ROW BEGIN
 			IF (ISNULL(NEW.name) OR LENGTH(TRIM(NEW.name) ) = 0) THEN
@@ -292,7 +297,7 @@ CREATE TRIGGER `BI_sponsorValidator` BEFORE INSERT ON `event_sponsors` FOR EACH 
 END $$
 DELIMITER ;
 
-
+DROP TRIGGER IF EXISTS `BU_sponsorValidator`;
 DELIMITER $$
 CREATE TRIGGER `BU_sponsorValidator` BEFORE UPDATE ON `event_sponsors` FOR EACH ROW BEGIN
 
@@ -302,7 +307,7 @@ CREATE TRIGGER `BU_sponsorValidator` BEFORE UPDATE ON `event_sponsors` FOR EACH 
 END $$
 DELIMITER ;
 
-
+DROP TRIGGER IF EXISTS `BI_ticketValidator`;
 DELIMITER $$
 CREATE TRIGGER `BI_ticketValidator` BEFORE INSERT ON `event_tickets` FOR EACH ROW BEGIN
 
@@ -388,7 +393,7 @@ END $$
 DELIMITER ;
 
 
-
+DROP TRIGGER IF EXISTS `BU_ticketValidator`;
 DELIMITER $$
 CREATE TRIGGER `BU_ticketValidator` BEFORE UPDATE ON `event_tickets` FOR EACH ROW BEGIN
 
@@ -462,7 +467,7 @@ CREATE TRIGGER `BU_ticketValidator` BEFORE UPDATE ON `event_tickets` FOR EACH RO
 END $$
 DELIMITER ;
 
-
+DROP TRIGGER IF EXISTS `BU_organizerAddress_trigger`;
 DELIMITER $$
 CREATE TRIGGER `BU_organizerAddress_trigger` BEFORE UPDATE ON `organization_address` FOR EACH ROW BEGIN
 		IF ISNULL(NEW.country)THEN
@@ -484,7 +489,7 @@ END $$
 DELIMITER ;
 
 
-
+DROP TRIGGER IF EXISTS `BI_organizerValidator`;
 DELIMITER $$
 CREATE TRIGGER `BI_organizerValidator` BEFORE INSERT ON `organizer` FOR EACH ROW BEGIN
 
@@ -531,6 +536,7 @@ CREATE TRIGGER `BI_organizerValidator` BEFORE INSERT ON `organizer` FOR EACH ROW
  END $$
 DELIMITER ;
 
+DROP TRIGGER IF EXISTS `BU_organizerValidator`;
 DELIMITER $$
 CREATE TRIGGER `BU_organizerValidator` BEFORE UPDATE ON `organizer` FOR EACH ROW BEGIN
 

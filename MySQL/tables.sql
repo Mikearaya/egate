@@ -1,5 +1,7 @@
 DROP DATABASE IF EXISTS `egate_db`;
-CREATE DATABASE `egate_db`
+
+CREATE DATABASE `egate_db`;
+
 USE `egate_db`;
 
 
