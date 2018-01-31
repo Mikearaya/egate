@@ -1185,8 +1185,11 @@ class Organizer extends Organization {
 						trigger_error("REQUIRED, Event (Ending Date) is not specified!!!", E_USER_ERROR);
 					if((! $event["eventStatus"] = $this->get_event($last_index)->get_status() ) && $error = 1 )
 						trigger_error("REQUIRED, Event (Status) is not specified!!!", E_USER_ERROR);
-					if(!$event["eventImage"] = $this->get_event($last_index)->get_picture() )
+					if(!$this->get_event($last_index)->get_picture() ){
 						trigger_error("Event doesnt have a Poster ", E_USER_WARNING);
+					}	else {
+						$event["eventImage"] = $this->get_event($last_index)->get_picture();
+					}
 					if((! $event["city"] = $this->get_event($last_index)->get_address(1)->get_city() ) && $error = 1 )
 						trigger_error("REQUIRED, Event (City) is not specified!!!", E_USER_ERROR);
 					if((!$event["subCity"] = $this->get_event($last_index)->get_address(1)->get_sub_city() ) && $error = 1 )
@@ -1874,7 +1877,6 @@ class Organizer extends Organization {
 
 
   	}
-
 
 
 ?>

@@ -4,6 +4,7 @@
 
 
 
+
 include('session.php');
 include('classes.php');
 include_once('errorHandler.php');
@@ -17,6 +18,7 @@ $result = new stdclass();
 $get_request = null;
 $submitted_form = null;
 $result->message = '';
+
 
 
  function generate_message($message){
@@ -731,7 +733,7 @@ $password = null;
 		}
 
 		echo  json_encode($result);
-    
+
 		exit;
 
 
