@@ -221,7 +221,7 @@ CREATE TRIGGER `BI_bookingValidator` BEFORE INSERT ON `event_bookings` FOR EACH 
 
 
 			IF isValidInt(NEW.TICKET_ID) AND ticketStatus(NEW.TICKET_ID) = 'ACTIVE' THEN
-				UPDATE `eventTicket` SET `available` = `available` - 1
+				UPDATE `event_tickets` SET `available` = `available` - 1
                 WHERE `TICKET_ID` = NEW.TICKET_ID;
 
             ELSE

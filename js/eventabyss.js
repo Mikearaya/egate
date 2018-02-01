@@ -165,7 +165,7 @@ var formOptions = {
                     error: function(data, error, errorCode){
 
                    $("#message-body").empty();
-                       $("#message-body").append(data.responseText);
+                       $("#message-body").append(error.responseText);
 
                                      $("#modal-message").modal("show");
                   }
@@ -2644,13 +2644,14 @@ $(document).on("pagebeforeshow", "#ticket-order-page", function(){
                                        $.mobile.loading("hide");
 
                                        if(statusText === "success"){
-
+                                         
                                            $("#order-result").fadeIn("slow", 1000);
                                         } else if(statusText === "error"){
 
                                             $("#message-title").append("<h5 class='alert alert-danger'> Upload Completed </h5>");
                                             $("#message-body").append(responseText);
                                             $("#modal-message").modal("show");
+
                                        }
 
                     },

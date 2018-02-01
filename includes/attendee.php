@@ -2,7 +2,6 @@
 
 
 
-//include_once('DB_CONNECTION.php');
 
 
 
@@ -45,39 +44,38 @@ abstract class Client {
 
 class Attendee extends Client{
 		private $BOOKINGS = array();
-		private $ATTENDEE_ID; 
+		private $ATTENDEE_ID;
 		private $EVNT_ID;
 		private $total_booking;
 		private $registered_on;
 		private $service_provider;
 		private $phone;
-	
-		
+
+
 
 
 			 function __construct($evnt_id = null, $fname = null, $lname = null, $phone = null, $subscriber = null) {
-					
+
 					$this->DB_Driver = new DB_CONNECTION();
-			
+
 
 					$this->set_first_name($fname);
 					$this->set_last_name($lname);
-					self::set_phone($phone);
-					self::set_event_id($evnt_id);
-					self::set_service_provider($subscriber);
-					self::set_booking_count(0);
-			
-			 
+					$this->set_phone($phone);
+					$this->set_event_id($evnt_id);
+					$this->set_service_provider($subscriber);
+					$this->set_booking_count(0);
+
 			}
 
 			public static function get_attendee($id){
 				$connection = new DB_CONNECTION();
 
 				$sql = "CALL getAttendee(".$id.") ";
-								
+
 
 				$statement = $connection->set_query($sql);
-				
+
 
 				if($attendee = $statement->fetch()) {
 					return true;
@@ -110,7 +108,7 @@ class Attendee extends Client{
 				return $this->EVNT_ID;
 			}
 
-		
+
 			public function get_service_provider() {
 				return $this->service_provider ;
 			}
@@ -121,8 +119,8 @@ class Attendee extends Client{
 
 			public function has_payment_provide(){
 				return (isset($this->service_provider)) ? true : false;
-				
-			}		
+
+			}
 			public function set_booking(Booking $new_booked){
 				self::set_booking_count(self::get_booking_count() + 1);
 				$this->BOOKINGS[self::get_booking_count()] = $new_booked ;
@@ -132,44 +130,44 @@ class Attendee extends Client{
 			public function get_booking($index){
 				return ($index <= self::get_booking_count()) ? $this->BOOKINGS[$index] : null;
 			}
-			
+
 			function set_booking_count($value){
 				return $this->total_booking = $value;
 			}
 
 			function get_booking_count(){
 				return $this->total_booking;
-			}			
+			}
 
-			
+
 			public function book_event(){
-				
+
 				try {
-					
+
 				if(self::get_event_id() == null) {
 					throw new Exception("trying to book without seting event id", 1);
-					
+
 				} else {
 
-				
-						
-					
-					$attendeeInfo["firstName"] =  self::get_first_name();
-					$attendeeInfo["lastName"] 	= self::get_last_name();
-					$attendeeInfo["phoneNumber"] = self::get_phone();
-						
-											
+
+
+
+					$attendeeInfo["firstName"] =  $this->get_first_name();
+					$attendeeInfo["lastName"] 	= $this->get_last_name();
+					$attendeeInfo["phoneNumber"] = $this->get_phone();
+
+
 					$attendeeInfo = json_encode($attendeeInfo);
 
 
 					$ticketInfo;
 					$count = 0;
 					while ($count < self::get_booking_count() ) {
-													
+
 							$ticketInfo[$count]["ticketId"] =  self::get_booking($count + 1)->get_ticket_id();
 							$ticketInfo[$count]["ticketQuantity"] = self::get_booking($count + 1)->get_quantity();
-						
-											
+
+
 							$count++;
 					}
 
@@ -180,20 +178,20 @@ class Attendee extends Client{
 					$statement->execute();
 
 					if($row = $statement->fetch()) {
-						self::set_id( $row["reservationId"]);
+						self::set_id( $row["reservationId"]);					
 						return true;
 					} else {
-						return false;
+							return false;
 					}
 
-					
+
 				}
 
 								} catch (Exception $e) {
-					echo $e->getMessage();	
+					echo $e->getMessage();
 				}
 
-				
+
 				}
 
 				public  function get_reciept(){
@@ -213,8 +211,8 @@ class Attendee extends Client{
 									return false;
 								}
 
-						
-					
+
+
 
 
 					} catch (Exception $e) {
@@ -239,8 +237,8 @@ class Attendee extends Client{
 									return false;
 								}
 
-						
-					
+
+
 
 
 					} catch (Exception $e) {
@@ -263,30 +261,30 @@ class Attendee extends Client{
 
 					return $result;
 				}
-							
+
 
 }
 
 
 class Viewer extends Client {
 
-	
+
 	private	$ORGANIZER_ID;
 	private	$VIEWER_ID;
 	private	$subject;
 	private	$mail;
-		
+
 
 	 function __construct() {
 
 	 	$this->DB_Driver = new DB_CONNECTION();
-	 
-	 } 
+
+	 }
 
 
 		public function set_id($value){
 			if(isset($this->VIEWER_ID)) {
-				return false;	
+				return false;
 			} else {
 				$this->VIEWER_ID = $value;
 			}
@@ -322,13 +320,13 @@ class Viewer extends Client {
 
 			$placeholder = array (
 									":fname" => $this->get_first_name(),
-									":lname" => $this->get_last_name(), 
+									":lname" => $this->get_last_name(),
 									":email" => $this->get_mail_address(),
 									":mail" => self::get_mail(),
 									":subject" => self::get_subject(),
 									":id" => $recipent->get_id()
 								);
-		
+
 				$statement = $this->DB_Driver->prepare_query($sql);
 				$statement->execute($placeholder);
 
@@ -343,8 +341,6 @@ class Viewer extends Client {
 		}
 
 }
-	
-
 
 
 

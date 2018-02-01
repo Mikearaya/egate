@@ -10,8 +10,6 @@ include('classes.php');
 include_once('errorHandler.php');
 
 
-
-
 $SESSION = new SESSION();
 
 $result = new stdclass();
@@ -120,6 +118,8 @@ $event_id = $_POST['event_id'];
       				$book = new Booking($_POST['ticket-id'][$i], $_POST['orderQuantity'][$i]);
 
       					$attendee->set_booking($book);
+
+
 					}
 
       				$i++;
@@ -128,7 +128,7 @@ $event_id = $_POST['event_id'];
       			if($ERROR_HANDLER->get_error_count() == 0 ) {
 
       			$result->success = $attendee->book_event();
-
+              
       			} else {
       				echo "hello";
       			}

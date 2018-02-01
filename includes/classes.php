@@ -19,7 +19,7 @@ include_once('checkIn.php');
 
 
 
-include_once('Attendee.php');
+include_once('attendee.php');
 
 
 
@@ -31,7 +31,7 @@ include_once('Attendee.php');
 */
 include_once('Address.php');
 include_once('Event.php');
-	
+
 
 include_once('Organizer.php');
 
