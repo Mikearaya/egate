@@ -86,9 +86,6 @@ var formOptions = {
                  };
 
 
-
-
-
  var ajaxFormOptions =  {
 
               url: "../includes/systemController.php",
@@ -98,69 +95,57 @@ var formOptions = {
               data: '',
               context : '',
 
-
               beforesubmit: function (formData, jqForm, options) {
                  $.mobile.loading('show');
-
-
               },
               beforeSend : function(formData, jqxhr,options) {
-
-                  $.mobile.loading('show');
-
-
+                            $.mobile.loading('show');
               },
+              success:  function (data, statusText, xhr, $form)  {
 
-              success:    function (data, statusText, xhr, $form)  {
+                          $.mobile.loading('hide');
+                          var message = '';
+                          $("#message-title").text('');
 
-                                 $.mobile.loading('hide');
-                       var message = '';
+                           if(data.error.length == 0 ) {
 
-                                        $("#message-title").text('');
+                            message += "<div class='alert alert-success' > <b> " + data.message + " </b> </div>";
+                            } else {
+                              $("#message-title").text('Error!!!');
+                              message += "<div class='alert alert-danger' >  <b> "+ data.message + "  </b> <br/>";
 
+                             for(i = 0 ; i < data.error.length ; i++) {
+                              message +=  data.error[i] + "<br/>";
+                             }
 
-                                     if(data.error.length == 0 ) {
+                            message += "</div>";
+                            }
 
-                                      message += "<div class='alert alert-success' > <b> " + data.message + " </b> </div>";
-                                      } else {
-                                        $("#message-title").text('Error!!!');
-                                        message += "<div class='alert alert-danger' >  <b> "+ data.message + "  </b> <br/>";
+                            if(data.warning.length) {
+                              message += "<div class='alert alert-warning' > <b>  WARNING!!! </b> <br/>";
+                            for(i = 0 ; i < data.warning.length ; i++) {
+                              message +=  data.warning[i] + "<br/>";
 
-                                       for(i = 0 ; i < data.error.length ; i++) {
-                                        message +=  data.error[i] + "<br/>";
-                                       }
+                              if(i+1 == data.warning.length) {
 
-                                      message += "</div>";
-                                      }
+                              }
 
-                                      if(data.warning.length) {
-                                        message += "<div class='alert alert-warning' > <b>  WARNING!!! </b> <br/>";
-                                      for(i = 0 ; i < data.warning.length ; i++) {
-                                        message +=  data.warning[i] + "<br/>";
+                            }
+                                message += "</div>";
+                          }
+                          if(data.notice.length) {
+                              message += "<div class='alert alert-info' > <b> NOTICE !!! </b> <br/>";
 
-                                        if(i+1 == data.warning.length) {
+                                  for(i = 0 ; i < data.notice.length ; i++) {
+                                    message +=  data.notice[i] + "<br/>";
+                                  }
+                              message += "</div>";
+                          }
 
-                                        }
+                          $("#message-body").empty();
+                              $("#message-body").append(message);
 
-                                      }
-                                          message += "</div>";
-                                    }
-                                    if(data.notice.length) {
-                                        message += "<div class='alert alert-info' > <b> NOTICE !!! </b> <br/>";
-
-                                            for(i = 0 ; i < data.notice.length ; i++) {
-                                              message +=  data.notice[i] + "<br/>";
-                                            }
-                                        message += "</div>";
-                                    }
-
-                                    $("#message-body").empty();
-                                        $("#message-body").append(message);
-
-                                                      $("#modal-message").modal("show");
-
-
-
+                                            $("#modal-message").modal("show");
                     } ,
                     error: function(data, error, errorCode){
 
@@ -182,17 +167,12 @@ $(document).on("click",".ticket-info", function(){
 });
 
 function getEventDetails(data) {
-console.log(data);
 
     var organizer =  (data.organizationName) ? data.organizationName : data.organizerName;
 
         $("#event-name").text(data.eventName);
-
         $("#event-locat").text(data.location);
         $("#venue-name").text(data.venue);
-
-
-
         $("#organizer-name").text(organizer);
         $("#organizer-bio").text(data.aboutOrganizer);
 
@@ -392,6 +372,40 @@ console.log(data);
                      });
 
 }
+
+$(document).on("ready", function(){
+
+
+
+});
+
+
+function get_event_category(category){
+
+  $.ajax({
+    type: "get",
+    dataType : "JSON",
+    data : {"get" : "event_category" , "category" : category },
+    success : function(data, result, jqXHR) {
+        $("#event-container").empty();
+        $("#browse-event-container").empty();
+          if(data != null) {
+
+            display_events(data.event, "#event-container");
+           $("#browse-event-container").append($("<h2/>", { "text" : "Current Event" }));
+
+          } else {
+              $("#browse-event-container").append("<h2 > Currently No Active Event Under This Category </h2> ");
+          }
+
+    }
+  });
+}
+$(document).on("click", "#eventsList-btn", function(){
+
+  get_event_category("ALL");
+
+});
 
 
 function display_events(events, container) {
@@ -2644,7 +2658,7 @@ $(document).on("pagebeforeshow", "#ticket-order-page", function(){
                                        $.mobile.loading("hide");
 
                                        if(statusText === "success"){
-                                         
+
                                            $("#order-result").fadeIn("slow", 1000);
                                         } else if(statusText === "error"){
 

@@ -339,7 +339,7 @@ BEGIN
 				SET @counter = 0;
 
                 PREPARE add_category_prepare FROM
-                'INSERT INTO `egat_db`.`event_category`(`category_name`) VALUES(?)';
+                'INSERT INTO `egate_db`.`event_category`(`category_name`) VALUES(?)';
 
                 WHILE @counter < JSON_LENGTH(in_category) DO
 
@@ -3897,4 +3897,14 @@ BEGIN
 
 
 END $$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS eventCategories;
+DELIMITER $$
+CREATE PROCEDURE eventCategories()
+    READS SQL DATA
+BEGIN
+		SELECT `CATEGORY_ID` AS 'categoryId', upper(`category_name`) AS 'categoryName'
+        FROM `event_category`;
+END$$
 DELIMITER ;

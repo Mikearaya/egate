@@ -60,16 +60,30 @@ class DB_CONNECTION	{
 			}
 			public static function get_event_category($request){
 
-
-				$sql = "CALL getEventCategory(1, 12)";
+				if( strtoupper($request) == "ALL") {
+					$request = 0;
+				}
+				$sql = "CALL getEventCategory($request, 12)";
 
 					$connection = new DB_CONNECTION();
 					$statement = $connection->set_query($sql);
 
-				return ($events["event"] = $statement->fetchAll() >= 1 ) ? $events : null;
+					$events["event"] = $statement->fetchAll();
+
+				return $events;
 
 			}
 
+			public static function get_event_categories() {
+
+								$sql = "CALL eventCategories()";
+
+									$connection = new DB_CONNECTION();
+									$statement = $connection->set_query($sql);
+
+								return ($events["event"] = $statement->fetchAll() >= 1 ) ? $events : null;
+
+			}
 
 			public static function get_event_booking_stat($organizer_id, $eventId){
 				$connection = new DB_CONNECTION();

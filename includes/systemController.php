@@ -44,7 +44,12 @@ if(isset($_GET['get'])){
 
 
 
+if($get_request == "eventCategory" ) {
 
+  $list["data"] = DB_CONNECTION::get_event_categories();
+
+  echo json_encode($list);
+}
 
 
 
@@ -128,7 +133,7 @@ $event_id = $_POST['event_id'];
       			if($ERROR_HANDLER->get_error_count() == 0 ) {
 
       			$result->success = $attendee->book_event();
-              
+
       			} else {
       				echo "hello";
       			}

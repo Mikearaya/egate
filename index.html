@@ -72,7 +72,7 @@
     <script type="text/javascript" src="js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
 <script async src="https://buttons.github.io/buttons.js"></script>
 
-
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 
     <noscript>
       Sorry... You Should Enable Javascript on your Browser to Continue!!!
@@ -113,7 +113,7 @@
      <nav data-role='navbar' id="main-navbar"  data-iconpos="top" >
       <ul>
       <li  ><a  href='#homePage' class="ui-btn-active" data-icon='grid'  > Home </a> </li>
-    <li  ><a  href='#eventsList'   data-icon='grid'   > Events </a> </li>
+    <li  ><a  href='#eventsList' id="eventsList-btn"  data-icon='grid'   > Events </a> </li>
 
       <li> <a href="#" id='event-creation-page-btn' data-icon='edit'> Create Event </a></li>
       </ul>
@@ -196,19 +196,15 @@
 
             <input id="categ-filter-input" data-type="search">
             </form>
-                 <ul data-role="listview" data-filter="true" id="category-menu" data-theme="b" data-input="#categ-filter-input">
+            <div data-ng-app="event-category-list" data-nd-controller="categoryList" >
+                 <ul data-ng-repeat="category in categories" data-role="listview" data-filter="true" id="category-menu" data-theme="b" data-input="#categ-filter-input">
                          <li data-theme="e"> <a href="#" data-rel="close" > Close Sidebar </a></li>
                   <li data-role="divider" data-theme="c"> Select Event Category </li>
-                  <li ><a href="includes/toPDF.php" data-ajax="false" id="charity"   > charity </a></li>
-                  <li><a href="#" id="charity" class="eventCategory"  > charity </a></li>
-                    <li><a href="#" id="concerts" class="eventCategory"  > Concerts </a></li>
-                    <li><a href="#" id="food & drink" class="eventCategory" > Food &amp; Drinks </a></li>
-                    <li><a href="#" id="art" class="eventCategory" > Art </a></li>
-                    <li><a href="#" id="exibition" class="eventCategory" > Exibitions </a></li>
-                    <li><a href="#" id="social group" class="eventCategory" > Social Groups </a></li>
-                    <li><a href="#" id="tour" class="eventCategory" > Tour &amp; Travel </a></li>
+
+                  <li><a href="#" id="{{category.categoryId}}" class="eventCategory"  > {{category.categoryName}} </a></li>
 
                </ul>
+            </div>
         </div>
 
 <div data-role="panel"   data-display="push" id="event-managment-panel" data-theme="b"  data-position="left">
@@ -559,49 +555,8 @@ font-size: 3em;
 
                 <div class="container">
                   <div class="row">
-                    <div class="col-sm-12">
-             <div class="section-title text-center" id="browse-event-container"></div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-sm-3">
-                <aside class="affix" data-spy="affix" style="z-index: 9; margin-bottom: 20px;" >
 
-                    <div class="col-sm-12">
-                      <input type="search" name="" placeholder="Search Event">
-                    </div>
-                     <div class="col-sm-12">
-                  <div data-role="collapsible" data-mini="true" data-corners="false">
-                      <h2 class="text-center">More Filter</h2>
-                    <div data-role="collapsible" data-mini="true" data-corners="false">
-                      <h2 class="text-center">Category</h2>
-                      <select data-role="listview" >
-                        <option > Art</option>
-                      </select>
-                    </div>
-
-
-                    <div data-role="collapsible" >
-                      <h2 class="text-center">location</h2>
-                      <select data-role="listview">
-                        <option>Location</option>
-                      </select>
-                    </div>
-
-
-                    <div data-role="collapsible">
-                      <h2 class="text-center">Date</h2>
-                      <select data-role="listview">
-                        <option>This Week</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-
-
-                </aside>
-              </div>
-                <div class="col-sm-8 col-sm-offset-1" style="background-color: black;">
+                <div class="col-sm-11 col-sm-offset-1" style="background-color: black;">
                   <ul data-role="listview" id="event-container"  data-input="#search-box"   data-filter="true"  >
 
                   </ul>
