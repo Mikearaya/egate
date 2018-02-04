@@ -381,7 +381,7 @@ $(document).on("ready", function(){
 
 
 function get_event_category(category){
-
+$("#event-container").empty();
   $.ajax({
     type: "get",
     dataType : "JSON",
@@ -2418,39 +2418,17 @@ $(document).on("pagecreate","#eventsDetail", function() {
 
 $(document).on("click", ".eventCategory", function(){
 
-        request =   $(this).attr("id");
+        requested_category =   $(this).attr("id");
               var activePage = $.mobile.pageContainer.pagecontainer( "getActivePage" );
 
               page = activePage.attr("id");
 
 
 
-$("body").pagecontainer("change", "#eventsList");
+                $("body").pagecontainer("change", "#eventsList");
+      var total_events = 0;
+        get_event_category($requested_category);
 
-
-var total_events = 0;
-$("#event-container").empty();
-              $.ajax({
-
-                        type: "GET",
-                        dataType: "JSON",
-
-                        data: {get: "event_category", category: request },
-                        success : function(data, result, jqXHR){
-                              $("#event-container").empty();
-                                $("#browse-event-container").empty();
-                                  if(data != null) {
-
-                                    display_events(data.event, "#event-container");
-
-                                   $("#browse-event-container").append($("<h2/>", { "text" : request }));
-
-                                  } else {
-
-                                          $("#browse-event-container").append("<h2 > Currently No Active Event Under This Category </h2> ");
-                                  }
-                        }
-              });
 
 });
 
