@@ -1,7 +1,7 @@
 
   .hide_area{
     display: none;
-  } 
+  }
 label.error {
     color: red;
     font-size: 16px;
@@ -139,7 +139,7 @@ label.error {
 /*box size */
 /*box size */
 .loading-gif {
-  
+
     position: absolute;
     display: block;
     left: 0;
@@ -156,7 +156,7 @@ label.error {
 
   .events-list .ui-listview li {
       float: left;
-      width: 100%; 
+      width: 100%;
       height: 7.5em; /* 232p */
       margin: 1em 1.4%;
 }
@@ -180,7 +180,7 @@ label.error {
   }
   /* Event title Text position */
   .events-list .ui-listview h2 {
-    font-size: 1em; 
+    font-size: 1em;
     margin: 0;
     padding: .125em 1em;
     bottom: 50%;
@@ -257,7 +257,7 @@ label.error {
     -moz-box-shadow: 0px 0px 9px #111;
     -webkit-box-shadow: 0px 0px 9px #111;
     box-shadow: 10px 10px 10px;
-  } 
+  }
 
 
 /* First breakpoint is 48em (768px) for TABLET  2 column layout margin at the breakpoint. */
@@ -273,7 +273,7 @@ label.error {
     margin: 1em 1.4%;
     border: 1px solid lightblue;
   }
-  
+
   /* Hide the default list icon */
   .events-list .ui-listview .ui-btn-icon-right:after {
     display: none;
@@ -283,25 +283,25 @@ label.error {
   /* Event title Text position */
 
   /* shadow on event poster and different position if there is a thumb */
-  
+
   /* if event has poster */
 
   /* price tag of event  */
 
-  
+
 
 }
 
 /* Second breakpoint is 63.75em (1020px) for Desktop  */
 @media ( min-width: 63.75em ) {
- 
+
 
   .events-list .ui-listview {
     max-width: 100%; /* 1000px */
     margin: 0 auto ;
   }
-  
-  /*box size */ 
+
+  /*box size */
   .events-list .ui-listview li {
     width: 30.33%;
     height: 230px;
@@ -350,7 +350,7 @@ label.error {
   float: left;
 }
 .heading {
-    background-color: lightblue; 
+    background-color: lightblue;
     color: white;
     font-weight: bolder;
     font-size: larger;
@@ -377,26 +377,72 @@ label.error {
 label.control-label {
   color: blue;
 }
-.section-title{
 
-text-align:center;
-margin-top: 1em;
-background-color: #ecf0f1;
-padding: .5em 0;
-border-radius: .3em
-}
-.service {
-  text-align: center ;
-  padding: 3em 2em 1em 2em;
-  color: white;
-  background-color: #34495e;
-  border-radius: .3em;
-  
-}
 
-.service .glyphicon{
-font-size: 3em;
+  @media only screen and (min-width: 768px) {
+
+  #about-event {
+    width: 100%;
+    height: 100%;
+
+    text-align: left;
+     box-sizing: border-box;
+     vertical-align: center;
+       border-left: 1px solid grey;
+    border-right: 1px solid grey;
+  }
+
+  #about-event dl {
+    list-style-type: none;
+    width: 100%;
+    margin-left: 10px;
+    margin-right: 10px;
+
   }
 
 
+  #about-event dl dd#event-name{
+    width: 100%;
+    font-weight: bold;
+    font-size: normal;
+  }
 
+  #about-event dl dt.label {
+      color : black;
+    font-size: normal;
+    font-weight: normal;
+  }
+
+  #about-event dl .value {
+     width: 100%;
+   font-weight: bold;
+    font-size: normal;
+    border-bottom: 1px solid black;
+  }
+
+  }
+  .section-title{
+
+  text-align:center;
+  margin-top: 1em;
+  background-color: #ecf0f1;
+  padding: .5em 0;
+  border-radius: .3em
+  }
+  .service {
+    text-align: center ;
+    padding: 0em 2em 0em 2em;
+    color: white;
+background-color: inherit;
+    border-radius: .3em;
+    color: black;
+
+  }
+
+  .service .glyphicon{
+  font-size: 3em;
+    }
+
+  #guest-area {
+    text-align: center;
+  }

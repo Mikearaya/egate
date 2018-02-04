@@ -379,7 +379,6 @@ $(document).on("ready", function(){
 
 });
 
-
 function get_event_category(category){
 
   $.ajax({
@@ -389,7 +388,7 @@ function get_event_category(category){
     success : function(data, result, jqXHR) {
         $("#event-container").empty();
         $("#browse-event-container").empty();
-        
+
           if(data != null || data.event.length == 0) {
 
             display_events(data.event, "#event-container");
@@ -4094,4 +4093,26 @@ $(document).on("click", "#add-address", function(){
 
 ajaxFormOptions.data = {form: "organization_address", organizer_id: localStorage.organizer_id };
     $("#address-update-form").ajaxForm(ajaxFormOptions);
+ });
+
+
+ $(function(){
+
+
+ var app = angular.module('eventCategoryList', []);
+ app.controller('categoryList', function($scope, $http ) {
+
+    $http({
+      method : "get",
+      url : "includes/systemController.php?get=eventCatagory"
+
+    })
+    .then(function(response){
+      $scope.catagories = response.data;
+
+
+    });
+
+ });
+
  });

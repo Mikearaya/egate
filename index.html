@@ -250,126 +250,6 @@
 
 <?php } ?>
 
-<style type="text/css"  >
-.affix {
-  top: 2;
-  position: fixed;
-}
-
-
-  #front-view {
-    display: block;
-    margin-top: 0;
-    margin-bottom: 15px;
-    position: relative;
-    width: 100%;
-    height: 200px;
-    padding: 10px;
-    text-align: center;
-    background-color: lightblue;
-     box-sizing: border-box;
-
-  }
-
-  #front-view-text {
-      font-size : large;
-      color: white;
-      top: 10%;
-
-      text-align: center;
-      box-sizing: border-box;
-      background-color: inherit;
-
-
-  }
-
- .ui-btn.front-view-btn {
-
-  height: auto;
-    width: 70%;
-    color: white;
-    display: inline;
-    background: lightblue;
-   box-sizing: border-box;
-
-
-  }
-
-.ui-btn.front-view-btn:hover {
-  background-color: red;
-}
-
-
-
-@media only screen and (min-width: 768px) {
-
-#about-event {
-  width: 100%;
-  height: 100%;
-
-  text-align: left;
-   box-sizing: border-box;
-   vertical-align: center;
-     border-left: 1px solid grey;
-  border-right: 1px solid grey;
-}
-
-#about-event dl {
-  list-style-type: none;
-  width: 100%;
-  margin-left: 10px;
-  margin-right: 10px;
-
-}
-
-
-#about-event dl dd#event-name{
-  width: 100%;
-  font-weight: bold;
-  font-size: normal;
-}
-
-#about-event dl dt.label {
-    color : black;
-  font-size: normal;
-  font-weight: normal;
-}
-
-#about-event dl .value {
-   width: 100%;
- font-weight: bold;
-  font-size: normal;
-  border-bottom: 1px solid black;
-}
-
-}
-.section-title{
-
-text-align:center;
-margin-top: 1em;
-/*background-color: #ecf0f1; */
-padding: .5em 0;
-border-radius: .3em
-}
-.service {
-  text-align: center ;
-  padding: 0em 2em 0em 2em;
-  color: white;
- background-color: inherit;
-  border-radius: .3em;
-  color: black;
-
-}
-
-.service .glyphicon{
-font-size: 3em;
-  }
-
-#guest-area {
-  text-align: center;
-}
-
-</style>
 
 
       <section  data-role="page" id="homePage" data-title="Home" class="search-button" class="ui-responsive-panel"  >
@@ -378,25 +258,7 @@ font-size: 3em;
           <div class="ui-content   events-list " role="main" style="padding: 0; margin:0;" >
 
 
-            <script>
 
-            var app = angular.module('eventCategoryList', []);
-            app.controller('categoryList', function($scope, $http ) {
-
-               $http({
-                 method : "get",
-                 url : "includes/systemController.php?get=eventCatagory"
-
-               })
-               .then(function(response){
-                 $scope.catagories = response.data;
-
-
-               });
-
-            });
-
-            </script>
           <section  class="container">
 
             <h4 class="section-title"> Services </h4>
@@ -545,7 +407,7 @@ font-size: 3em;
                   <ul data-role="listview" id="event-container"  data-input="#search-box"   data-filter="true"  >
 
                   </ul>
-                
+
               </div>
               </div>
             </div>
