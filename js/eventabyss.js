@@ -381,7 +381,7 @@ $(document).on("ready", function(){
 
 
 function get_event_category(category){
-$("#event-container").empty();
+
   $.ajax({
     type: "get",
     dataType : "JSON",
@@ -389,7 +389,8 @@ $("#event-container").empty();
     success : function(data, result, jqXHR) {
         $("#event-container").empty();
         $("#browse-event-container").empty();
-          if(data != null) {
+        
+          if(data != null || data.event.length == 0) {
 
             display_events(data.event, "#event-container");
            $("#browse-event-container").append($("<h2/>", { "text" : "Current Event" }));
@@ -2418,7 +2419,7 @@ $(document).on("pagecreate","#eventsDetail", function() {
 
 $(document).on("click", ".eventCategory", function(){
 
-        requested_category =   $(this).attr("id");
+        requested_category =   $(this).data("catagory");
               var activePage = $.mobile.pageContainer.pagecontainer( "getActivePage" );
 
               page = activePage.attr("id");
@@ -2427,7 +2428,7 @@ $(document).on("click", ".eventCategory", function(){
 
                 $("body").pagecontainer("change", "#eventsList");
       var total_events = 0;
-        get_event_category($requested_category);
+        get_event_category(requested_category);
 
 
 });

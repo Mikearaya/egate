@@ -44,9 +44,9 @@ if(isset($_GET['get'])){
 
 
 
-if($get_request == "eventCategory" ) {
+if($get_request == "eventCatagory" ) {
 
-  $list["data"] = DB_CONNECTION::get_event_categories();
+  $list = DB_CONNECTION::get_event_categories();
 
   echo json_encode($list);
 }

@@ -81,7 +81,7 @@ class DB_CONNECTION	{
 									$connection = new DB_CONNECTION();
 									$statement = $connection->set_query($sql);
 
-								return ($events["event"] = $statement->fetchAll() >= 1 ) ? $events : null;
+								return $statement->fetchAll();
 
 			}
 
